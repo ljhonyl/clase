@@ -1,9 +1,8 @@
-﻿Imports System.Data.OleDb
-Imports System.Windows
+﻿Imports System.Data.SQLite
 
 Module ClaseBBDD
     Dim Url As String = "C:Users\diurno\Clase.db"
-    Public AdaptadorDatosAlum As OleDbDataAdapter
+    Public AdaptadorDatosAlum As SQLiteDataAdapter
     Public DatosConjuntoAlum As DataSet
     Public fila As DataRow
 
@@ -16,8 +15,8 @@ Module ClaseBBDD
     'Conn.Close()
     'End Sub
 
-    Private Function ConectarBD() As OleDbConnection
-        Dim Conn As New OleDbConnection("Provider=SQLite;Data Source=Clase.db;Version=3")
+    Private Function ConectarBD() As SQLiteConnection
+        Dim Conn As New SQLiteConnection("Provider=SQLite;Data Source=Clase.db;Version=3")
         Try
             Conn.Open()
             MsgBox("Conectado")
@@ -30,7 +29,7 @@ Module ClaseBBDD
     Private Sub RellenarDatosConjuntoAlumnos()
         Dim Query As String = "Select * From Alumnos"
         Dim Conexion = ConectarBD()
-        AdaptadorDatosAlum = New OleDbDataAdapter(Query, Conexion)
+        AdaptadorDatosAlum = New SQLiteDataAdapter(Query, Conexion)
         DatosConjuntoAlum = New DataSet
         AdaptadorDatosAlum.Fill(DatosConjuntoAlum, "Alumnos")
         Conexion.Close()
@@ -57,7 +56,7 @@ Module ClaseBBDD
 
     Sub Insertar(Alumno As Alumno)
         Dim CadenaInsertarReg As String = "insert into Alumnos (Nombre, Apellidos, Direccion, Localidad,Movil,Email,FechaNacimiento,Nacionalidad) values (@Nom, @Ape, @Dir, @Loc, @Mov, @Ema, @Fec, @Nac)"
-        Dim Comando As New OleDbCommand(CadenaInsertarReg, ConectarBD())
+        Dim Comando As New SQLiteCommand(CadenaInsertarReg, ConectarBD())
         AdaptadorDatosAlum.InsertCommand = Comando
 
         Comando.Parameters.AddWithValue("@Nom", Alumno.Nombre)
