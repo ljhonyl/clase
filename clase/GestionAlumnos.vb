@@ -5,6 +5,7 @@ Public Class GestionAlumnos
         For Each TextBox As Windows.Forms.TextBox In Me.Controls.OfType(Of Windows.Forms.TextBox)
             TextBox.ReadOnly = True
         Next
+        BtnAdd.Hide()
         ListViewAlumnos.View = View.Details
         ListViewAlumnos.Columns.Add("ID", 50)
         ListViewAlumnos.Columns.Add("Nombre", 120)
@@ -100,5 +101,26 @@ Public Class GestionAlumnos
             TextBox.ReadOnly = False
         Next
         TbId.ReadOnly = True
+
+        For Each Button As Windows.Forms.Button In Me.Controls.OfType(Of Windows.Forms.Button)
+            Button.Hide()
+        Next
+        BtnAdd.Show()
+    End Sub
+
+    Private Sub BtnAdd_Click(sender As Object, e As EventArgs) Handles BtnAdd.Click
+        Dim Alumno As New ModuloAlumno.Alumno
+        Alumno.Nombre = TbNombre.Text
+        Alumno.Apellidos = TbApellido.Text
+        Alumno.Direccion = TbDireccion.Text
+        Alumno.Localidad = TbLocalidad.Text
+        Alumno.Movil = TbMovil.Text
+        Alumno.Email = TbEmail.Text
+        Alumno.FechaNacimiento = TbFechaNacimiento.Text
+        Alumno.Nacionalidad = TbNacionalidad.Text
+    End Sub
+
+    Private Sub ListadoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ListadoToolStripMenuItem.Click
+        GestionAlumnos_Load(sender, e)
     End Sub
 End Class

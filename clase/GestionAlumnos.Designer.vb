@@ -51,6 +51,7 @@ Partial Class GestionAlumnos
         TbEmail = New TextBox()
         TbNacionalidad = New TextBox()
         TbFechaNacimiento = New TextBox()
+        BtnAdd = New Button()
         MenuStrip1.SuspendLayout()
         SuspendLayout()
         ' 
@@ -283,11 +284,21 @@ Partial Class GestionAlumnos
         TbFechaNacimiento.Size = New Size(100, 23)
         TbFechaNacimiento.TabIndex = 23
         ' 
+        ' BtnAdd
+        ' 
+        BtnAdd.Location = New Point(351, 169)
+        BtnAdd.Name = "BtnAdd"
+        BtnAdd.Size = New Size(96, 23)
+        BtnAdd.TabIndex = 24
+        BtnAdd.Text = "Añadir Alumno"
+        BtnAdd.UseVisualStyleBackColor = True
+        ' 
         ' GestionAlumnos
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         ClientSize = New Size(800, 450)
+        Controls.Add(BtnAdd)
         Controls.Add(TbFechaNacimiento)
         Controls.Add(TbNacionalidad)
         Controls.Add(TbEmail)
@@ -350,4 +361,5 @@ Partial Class GestionAlumnos
     Friend WithEvents ToolStripMenuItem1 As ToolStripMenuItem
     Friend WithEvents EditarToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents EliminarToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents BtnAdd As Button
 End Class
