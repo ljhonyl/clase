@@ -1,4 +1,5 @@
-﻿Imports System.Windows.Forms.VisualStyles.VisualStyleElement
+﻿Imports System.Globalization
+Imports System.Windows.Forms.VisualStyles.VisualStyleElement
 
 Public Class GestionAlumnos
     Private Sub GestionAlumnos_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -16,7 +17,7 @@ Public Class GestionAlumnos
         ListViewAlumnos.Columns.Add("Email", 80)
         ListViewAlumnos.Columns.Add("Fecha Nacimiento", 120)
         ListViewAlumnos.Columns.Add("Nacionalidad", 120)
-        ClaseBBDD.ActualizarListado()
+        ClaseBBDD.ActualizarListado(ListViewAlumnos)
     End Sub
 
     Private Sub BtnAnterior_Click(sender As Object, e As EventArgs) Handles BtnAnterior.Click
@@ -109,15 +110,35 @@ Public Class GestionAlumnos
     End Sub
 
     Private Sub BtnAdd_Click(sender As Object, e As EventArgs) Handles BtnAdd.Click
-        Dim Alumno As New ModuloAlumno.Alumno
-        Alumno.Nombre = TbNombre.Text
-        Alumno.Apellidos = TbApellido.Text
-        Alumno.Direccion = TbDireccion.Text
-        Alumno.Localidad = TbLocalidad.Text
-        Alumno.Movil = TbMovil.Text
-        Alumno.Email = TbEmail.Text
-        Alumno.FechaNacimiento = TbFechaNacimiento.Text
-        Alumno.Nacionalidad = TbNacionalidad.Text
+        If String.IsNullOrEmpty(TbNombre.Text) Or String.IsNullOrEmpty(TbApellido.Text) Then
+            MsgBox("Los campos nombre y apellidos no pueden estar vacíos")
+        Else
+            Dim Fecha As DateTime
+            If DateTime.TryParseExact(TbFechaNacimiento.Text, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, Fecha) Then
+                ' Si la conversión fue exitosa, ahora puedes formatear la fecha en el nuevo formato
+                Dim FechaFormateada As String = Fecha.ToString("yyyy-MM-dd")
+
+                Dim Alumno As New ModuloAlumno.Alumno
+                Alumno.Nombre = TbNombre.Text
+                Alumno.Apellidos = TbApellido.Text
+                Alumno.Direccion = TbDireccion.Text
+                Alumno.Localidad = TbLocalidad.Text
+                Alumno.Movil = TbMovil.Text
+                Alumno.Email = TbEmail.Text
+                Alumno.FechaNacimiento = FechaFormateada
+                Alumno.Nacionalidad = TbNacionalidad.Text
+
+                ClaseBBDD.Insertar(Alumno, ListViewAlumnos)
+
+                For Each TextBox As Windows.Forms.TextBox In Me.Controls.OfType(Of Windows.Forms.TextBox)
+                    TextBox.Clear()
+                Next
+            Else
+                MsgBox("Ocurrio un error con la fecha intentelo con este formato yyyy-mm-dd")
+            End If
+        End If
+
+
     End Sub
 
     Private Sub ListadoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ListadoToolStripMenuItem.Click

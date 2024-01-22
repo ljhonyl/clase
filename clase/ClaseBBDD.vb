@@ -35,26 +35,25 @@ Module ClaseBBDD
         Conexion.Close()
     End Sub
 
-    Sub ActualizarListado()
+    Sub ActualizarListado(ListView As Windows.Forms.ListView)
         RellenarDatosConjuntoAlumnos()
         Dim ElementoList As ListViewItem
-        GestionAlumnos.ListViewAlumnos.Items.Clear()
+        ListView.Items.Clear()
 
         For pos As Integer = 0 To DatosConjuntoAlum.Tables(0).Rows.Count - 1
-            ElementoList = GestionAlumnos.ListViewAlumnos.Items.Add(DatosConjuntoAlum.Tables(0).Rows(pos).Item(0))
-
-            ElementoList.SubItems.Add(DatosConjuntoAlum.Tables(0).Rows(pos).Item(1))
-            ElementoList.SubItems.Add(DatosConjuntoAlum.Tables(0).Rows(pos).Item(2))
-            ElementoList.SubItems.Add(DatosConjuntoAlum.Tables(0).Rows(pos).Item(3))
-            ElementoList.SubItems.Add(DatosConjuntoAlum.Tables(0).Rows(pos).Item(4))
-            ElementoList.SubItems.Add(DatosConjuntoAlum.Tables(0).Rows(pos).Item(5))
-            ElementoList.SubItems.Add(DatosConjuntoAlum.Tables(0).Rows(pos).Item(6))
-            ElementoList.SubItems.Add(DatosConjuntoAlum.Tables(0).Rows(pos).Item(7))
-            ElementoList.SubItems.Add(DatosConjuntoAlum.Tables(0).Rows(pos).Item(8))
+            ElementoList = ListView.Items.Add(DatosConjuntoAlum.Tables(0).Rows(pos).Item(0))
+            For i As Integer = 1 To 8
+                Dim EsNulo As String = DatosConjuntoAlum.Tables(0).Rows(pos).Item(i).ToString()
+                If Not String.IsNullOrEmpty(EsNulo) AndAlso Not String.Equals(EsNulo, "null", StringComparison.OrdinalIgnoreCase) Then
+                    ElementoList.SubItems.Add(DatosConjuntoAlum.Tables(0).Rows(pos).Item(i))
+                Else
+                    ElementoList.SubItems.Add("")
+                End If
+            Next
         Next
     End Sub
 
-    Sub Insertar(Alumno As Alumno)
+    Sub Insertar(Alumno As Alumno, ListView As Windows.Forms.ListView)
         Dim CadenaInsertarReg As String = "insert into Alumnos (Nombre, Apellidos, Direccion, Localidad,Movil,Email,FechaNacimiento,Nacionalidad) values (@Nom, @Ape, @Dir, @Loc, @Mov, @Ema, @Fec, @Nac)"
         Dim Comando As New SQLiteCommand(CadenaInsertarReg, ConectarBD())
         AdaptadorDatosAlum.InsertCommand = Comando
@@ -69,19 +68,19 @@ Module ClaseBBDD
         Comando.Parameters.AddWithValue("@Nac", Alumno.Nacionalidad)
 
         fila = DatosConjuntoAlum.Tables(0).NewRow
-        fila.Item(0) = Alumno.Nombre
-        fila.Item(1) = Alumno.Apellidos
-        fila.Item(2) = Alumno.Direccion
-        fila.Item(3) = Alumno.Localidad
-        fila.Item(4) = Alumno.Movil
-        fila.Item(5) = Alumno.Email
-        fila.Item(6) = Alumno.FechaNacimiento
-        fila.Item(7) = Alumno.Nacionalidad
+        fila.Item(1) = Alumno.Nombre
+        fila.Item(2) = Alumno.Apellidos
+        fila.Item(3) = Alumno.Direccion
+        fila.Item(4) = Alumno.Localidad
+        fila.Item(5) = Alumno.Movil
+        fila.Item(6) = Alumno.Email
+        fila.Item(7) = Alumno.FechaNacimiento
+        fila.Item(8) = Alumno.Nacionalidad
         DatosConjuntoAlum.Tables(0).Rows.Add(fila)
 
-        Comando.Cancel()
+        Comando.ExecuteNonQuery()
 
-        ActualizarListado()
+        ActualizarListado(ListView)
 
     End Sub
 End Module
