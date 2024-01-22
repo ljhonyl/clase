@@ -6,6 +6,7 @@ Public Class GestionAlumnos
         For Each TextBox As Windows.Forms.TextBox In Me.Controls.OfType(Of Windows.Forms.TextBox)
             TextBox.ReadOnly = True
         Next
+        EditarToolStripMenuItem.Enabled = False
         BtnAdd.Hide()
         ListViewAlumnos.View = View.Details
         ListViewAlumnos.Columns.Add("ID", 50)
@@ -38,7 +39,9 @@ Public Class GestionAlumnos
 
     Private Sub ListViewAlumnos_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ListViewAlumnos.SelectedIndexChanged
         If ListViewAlumnos.SelectedItems.Count > 0 Then
-            ' Se obtiene el índice de la película seleccionada
+
+            EditarToolStripMenuItem.Enabled = True
+
             Dim indiceSeleccionado As Integer = ListViewAlumnos.SelectedIndices(0)
             Dim itemSeleccionado = ListViewAlumnos.Items.Item(indiceSeleccionado)
             TbId.Text = itemSeleccionado.SubItems(0).Text
@@ -115,7 +118,6 @@ Public Class GestionAlumnos
         Else
             Dim Fecha As DateTime
             If DateTime.TryParseExact(TbFechaNacimiento.Text, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, Fecha) Then
-                ' Si la conversión fue exitosa, ahora puedes formatear la fecha en el nuevo formato
                 Dim FechaFormateada As String = Fecha.ToString("yyyy-MM-dd")
 
                 Dim Alumno As New ModuloAlumno.Alumno
@@ -137,11 +139,19 @@ Public Class GestionAlumnos
                 MsgBox("Ocurrio un error con la fecha intentelo con este formato yyyy-mm-dd")
             End If
         End If
-
-
     End Sub
 
     Private Sub ListadoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ListadoToolStripMenuItem.Click
         GestionAlumnos_Load(sender, e)
+    End Sub
+
+    Private Sub EditarToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles EditarToolStripMenuItem.Click
+        For Each TextBox As Windows.Forms.TextBox In Me.Controls.OfType(Of Windows.Forms.TextBox)
+            TextBox.Clear()
+            TextBox.ReadOnly = False
+        Next
+        TbId.ReadOnly = True
+        BtnAdd.Text = "Guardar"
+        BtnAdd.Show()
     End Sub
 End Class
