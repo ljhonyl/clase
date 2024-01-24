@@ -1,4 +1,5 @@
 ﻿Imports System.Data.SQLite
+Imports System.Windows
 
 Module ClaseBBDD
     Dim Url As String = "C:Users\diurno\Clase.db"
@@ -82,5 +83,17 @@ Module ClaseBBDD
 
         ActualizarListado(ListView)
 
+    End Sub
+
+    Public Sub Eliminar(Id As Integer, Listview As Windows.Forms.ListView)
+        Dim CadenaEliminarReg As String = "delete from Alumnos where id=@id"
+        Dim Comando As New SQLiteCommand(CadenaEliminarReg, ConectarBD())
+        AdaptadorDatosAlum.DeleteCommand = Comando
+
+        Comando.Parameters.AddWithValue("@id", Id)
+        DatosConjuntoAlum.Tables(0).Rows(0).Delete()
+
+        Comando.ExecuteNonQuery()
+        ActualizarListado(Listview)
     End Sub
 End Module

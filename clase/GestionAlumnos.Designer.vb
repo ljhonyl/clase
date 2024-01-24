@@ -275,20 +275,21 @@ Partial Class GestionAlumnos
         TbNacionalidad.Location = New Point(646, 115)
         TbNacionalidad.Name = "TbNacionalidad"
         TbNacionalidad.Size = New Size(100, 23)
-        TbNacionalidad.TabIndex = 22
+        TbNacionalidad.TabIndex = 23
         ' 
         ' TbFechaNacimiento
         ' 
         TbFechaNacimiento.Location = New Point(379, 115)
         TbFechaNacimiento.Name = "TbFechaNacimiento"
+        TbFechaNacimiento.PlaceholderText = "2000-01-01"
         TbFechaNacimiento.Size = New Size(100, 23)
-        TbFechaNacimiento.TabIndex = 23
+        TbFechaNacimiento.TabIndex = 22
         ' 
         ' BtnAdd
         ' 
         BtnAdd.Location = New Point(351, 169)
         BtnAdd.Name = "BtnAdd"
-        BtnAdd.Size = New Size(96, 23)
+        BtnAdd.Size = New Size(110, 23)
         BtnAdd.TabIndex = 24
         BtnAdd.Text = "Añadir Alumno"
         BtnAdd.UseVisualStyleBackColor = True

@@ -1,7 +1,10 @@
-﻿Imports System.Globalization
+﻿Imports System.ComponentModel
+Imports System.Globalization
 Imports System.Windows.Forms.VisualStyles.VisualStyleElement
 
 Public Class GestionAlumnos
+
+    Private Opcion As Integer
     Private Sub GestionAlumnos_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         For Each TextBox As Windows.Forms.TextBox In Me.Controls.OfType(Of Windows.Forms.TextBox)
             TextBox.ReadOnly = True
@@ -38,12 +41,15 @@ Public Class GestionAlumnos
     End Sub
 
     Private Sub ListViewAlumnos_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ListViewAlumnos.SelectedIndexChanged
+        Dim i As Integer = 0
         If ListViewAlumnos.SelectedItems.Count > 0 Then
 
             EditarToolStripMenuItem.Enabled = True
 
             Dim indiceSeleccionado As Integer = ListViewAlumnos.SelectedIndices(0)
             Dim itemSeleccionado = ListViewAlumnos.Items.Item(indiceSeleccionado)
+
+
             TbId.Text = itemSeleccionado.SubItems(0).Text
             TbNombre.Text = itemSeleccionado.SubItems(1).Text
             TbApellido.Text = itemSeleccionado.SubItems(2).Text
@@ -99,19 +105,6 @@ Public Class GestionAlumnos
         End If
     End Sub
 
-    Private Sub InsertarToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles InsertarToolStripMenuItem.Click
-        For Each TextBox As Windows.Forms.TextBox In Me.Controls.OfType(Of Windows.Forms.TextBox)
-            TextBox.Clear()
-            TextBox.ReadOnly = False
-        Next
-        TbId.ReadOnly = True
-
-        For Each Button As Windows.Forms.Button In Me.Controls.OfType(Of Windows.Forms.Button)
-            Button.Hide()
-        Next
-        BtnAdd.Show()
-    End Sub
-
     Private Sub BtnAdd_Click(sender As Object, e As EventArgs) Handles BtnAdd.Click
         If String.IsNullOrEmpty(TbNombre.Text) Or String.IsNullOrEmpty(TbApellido.Text) Then
             MsgBox("Los campos nombre y apellidos no pueden estar vacíos")
@@ -130,28 +123,86 @@ Public Class GestionAlumnos
                 Alumno.FechaNacimiento = FechaFormateada
                 Alumno.Nacionalidad = TbNacionalidad.Text
 
-                ClaseBBDD.Insertar(Alumno, ListViewAlumnos)
+                If Opcion = 1 Then
+                    ClaseBBDD.Insertar(Alumno, ListViewAlumnos)
+                    For Each TextBox As Windows.Forms.TextBox In Me.Controls.OfType(Of Windows.Forms.TextBox)
+                        TextBox.Clear()
+                    Next
+                ElseIf Opcion = 2 Then
+                    MsgBox("Editaste el alumno")
+                    CambiarAListado()
+                ElseIf Opcion = 3 Then
+                    Dim id As Integer = TbId.Text
+                    ClaseBBDD.Eliminar(id, ListViewAlumnos)
+                End If
 
-                For Each TextBox As Windows.Forms.TextBox In Me.Controls.OfType(Of Windows.Forms.TextBox)
-                    TextBox.Clear()
-                Next
             Else
                 MsgBox("Ocurrio un error con la fecha intentelo con este formato yyyy-mm-dd")
             End If
         End If
     End Sub
 
-    Private Sub ListadoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ListadoToolStripMenuItem.Click
-        GestionAlumnos_Load(sender, e)
+    Private Sub MenuStrip1_ItemClicked(sender As Object, e As ToolStripItemClickedEventArgs) Handles MenuStrip1.ItemClicked
+        If e.ClickedItem.Text = "Listado" Then
+            Opcion = 0
+            For Each TextBox As Windows.Forms.TextBox In Me.Controls.OfType(Of Windows.Forms.TextBox)
+                TextBox.ReadOnly = True
+            Next
+            For Each Button As Windows.Forms.Button In Me.Controls.OfType(Of Windows.Forms.Button)
+                Button.Show()
+            Next
+            BtnAdd.Hide()
+            ListViewAlumnos.Enabled = True
+        ElseIf e.ClickedItem.Text = "Insertar" Then
+            Opcion = 1
+            For Each TextBox As Windows.Forms.TextBox In Me.Controls.OfType(Of Windows.Forms.TextBox)
+                TextBox.Clear()
+                TextBox.ReadOnly = False
+            Next
+            TbId.ReadOnly = True
+
+            For Each Button As Windows.Forms.Button In Me.Controls.OfType(Of Windows.Forms.Button)
+                Button.Hide()
+            Next
+            BtnAdd.Text = "Añadir alumno"
+            BtnAdd.Show()
+            ListViewAlumnos.Enabled = False
+        ElseIf e.ClickedItem.Text = "Editar" Then
+            Opcion = 2
+            For Each TextBox As Windows.Forms.TextBox In Me.Controls.OfType(Of Windows.Forms.TextBox)
+                TextBox.ReadOnly = False
+            Next
+            TbId.ReadOnly = True
+            For Each Button As Windows.Forms.Button In Me.Controls.OfType(Of Windows.Forms.Button)
+                Button.Hide()
+            Next
+            BtnAdd.Text = "Guardar"
+            BtnAdd.Show()
+            ListViewAlumnos.Enabled = False
+        ElseIf e.ClickedItem.Text = "Eliminar" Then
+            Opcion = 3
+            For Each TextBox As Windows.Forms.TextBox In Me.Controls.OfType(Of Windows.Forms.TextBox)
+                TextBox.ReadOnly = True
+            Next
+            For Each Button As Windows.Forms.Button In Me.Controls.OfType(Of Windows.Forms.Button)
+                Button.Hide()
+            Next
+            BtnAdd.Text = "Eliminar alumno"
+            BtnAdd.Show()
+        End If
     End Sub
 
-    Private Sub EditarToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles EditarToolStripMenuItem.Click
-        For Each TextBox As Windows.Forms.TextBox In Me.Controls.OfType(Of Windows.Forms.TextBox)
-            TextBox.Clear()
-            TextBox.ReadOnly = False
+    Private Sub CambiarAListado()
+        For Each item As ToolStripItem In MenuStrip1.Items
+            If item.Text = "Listado" Then
+                item.PerformClick()
+                Exit For
+            End If
         Next
-        TbId.ReadOnly = True
-        BtnAdd.Text = "Guardar"
-        BtnAdd.Show()
     End Sub
+
+    Private Sub GestionAlumnos_Closing(sender As Object, e As CancelEventArgs) Handles MyBase.Closing
+        Application.Exit()
+    End Sub
+
 End Class
