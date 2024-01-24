@@ -10,6 +10,7 @@ Public Class GestionAlumnos
             TextBox.ReadOnly = True
         Next
         EditarToolStripMenuItem.Enabled = False
+        EliminarToolStripMenuItem.Enabled = False
         BtnAdd.Hide()
         ListViewAlumnos.View = View.Details
         ListViewAlumnos.Columns.Add("ID", 50)
@@ -27,85 +28,38 @@ Public Class GestionAlumnos
     Private Sub BtnAnterior_Click(sender As Object, e As EventArgs) Handles BtnAnterior.Click
         Dim indice = Integer.Parse(TbId.Text) - 2
         If indice >= 0 Then
-            Dim item = ListViewAlumnos.Items(indice)
-            TbId.Text = item.SubItems(0).Text
-            TbNombre.Text = item.SubItems(1).Text
-            TbApellido.Text = item.SubItems(2).Text
-            TbDireccion.Text = item.SubItems(3).Text
-            TbLocalidad.Text = item.SubItems(4).Text
-            TbMovil.Text = item.SubItems(5).Text
-            TbEmail.Text = item.SubItems(6).Text
-            TbFechaNacimiento.Text = item.SubItems(7).Text
-            TbNacionalidad.Text = item.SubItems(8).Text
+            MostrarItemEnTextBox(indice)
         End If
     End Sub
 
     Private Sub ListViewAlumnos_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ListViewAlumnos.SelectedIndexChanged
-        Dim i As Integer = 0
         If ListViewAlumnos.SelectedItems.Count > 0 Then
-
+            'Activamos las opciones editar y eliminar del menú
             EditarToolStripMenuItem.Enabled = True
-
-            Dim indiceSeleccionado As Integer = ListViewAlumnos.SelectedIndices(0)
-            Dim itemSeleccionado = ListViewAlumnos.Items.Item(indiceSeleccionado)
-
-
-            TbId.Text = itemSeleccionado.SubItems(0).Text
-            TbNombre.Text = itemSeleccionado.SubItems(1).Text
-            TbApellido.Text = itemSeleccionado.SubItems(2).Text
-            TbDireccion.Text = itemSeleccionado.SubItems(3).Text
-            TbLocalidad.Text = itemSeleccionado.SubItems(4).Text
-            TbMovil.Text = itemSeleccionado.SubItems(5).Text
-            TbEmail.Text = itemSeleccionado.SubItems(6).Text
-            TbFechaNacimiento.Text = itemSeleccionado.SubItems(7).Text
-            TbNacionalidad.Text = itemSeleccionado.SubItems(8).Text
+            EliminarToolStripMenuItem.Enabled = True
+            Dim Indice As Integer = ListViewAlumnos.SelectedIndices(0)
+            MostrarItemEnTextBox(Indice)
         End If
 
     End Sub
 
     Private Sub BtnPrimero_Click(sender As Object, e As EventArgs) Handles BtnPrimero.Click
-        Dim item = ListViewAlumnos.Items(0)
-        TbId.Text = item.SubItems(0).Text
-        TbNombre.Text = item.SubItems(1).Text
-        TbApellido.Text = item.SubItems(2).Text
-        TbDireccion.Text = item.SubItems(3).Text
-        TbLocalidad.Text = item.SubItems(4).Text
-        TbMovil.Text = item.SubItems(5).Text
-        TbEmail.Text = item.SubItems(6).Text
-        TbFechaNacimiento.Text = item.SubItems(7).Text
-        TbNacionalidad.Text = item.SubItems(8).Text
+        MostrarItemEnTextBox(0)
     End Sub
 
     Private Sub BtnFin_Click(sender As Object, e As EventArgs) Handles BtnFin.Click
-        Dim item = ListViewAlumnos.Items(ListViewAlumnos.Items.Count - 1)
-        TbId.Text = item.SubItems(0).Text
-        TbNombre.Text = item.SubItems(1).Text
-        TbApellido.Text = item.SubItems(2).Text
-        TbDireccion.Text = item.SubItems(3).Text
-        TbLocalidad.Text = item.SubItems(4).Text
-        TbMovil.Text = item.SubItems(5).Text
-        TbEmail.Text = item.SubItems(6).Text
-        TbFechaNacimiento.Text = item.SubItems(7).Text
-        TbNacionalidad.Text = item.SubItems(8).Text
+        MostrarItemEnTextBox(ListViewAlumnos.Items.Count - 1)
     End Sub
 
     Private Sub BtnSiguiente_Click(sender As Object, e As EventArgs) Handles BtnSiguiente.Click
         Dim indice = Integer.Parse(TbId.Text)
         If indice <= ListViewAlumnos.Items.Count - 1 Then
-            Dim item = ListViewAlumnos.Items(indice)
-            TbId.Text = item.SubItems(0).Text
-            TbNombre.Text = item.SubItems(1).Text
-            TbApellido.Text = item.SubItems(2).Text
-            TbDireccion.Text = item.SubItems(3).Text
-            TbLocalidad.Text = item.SubItems(4).Text
-            TbMovil.Text = item.SubItems(5).Text
-            TbEmail.Text = item.SubItems(6).Text
-            TbFechaNacimiento.Text = item.SubItems(7).Text
-            TbNacionalidad.Text = item.SubItems(8).Text
+            MostrarItemEnTextBox(indice)
         End If
     End Sub
 
     Private Sub BtnAdd_Click(sender As Object, e As EventArgs) Handles BtnAdd.Click
+        Dim id As Integer = TbId.Text
         If String.IsNullOrEmpty(TbNombre.Text) Or String.IsNullOrEmpty(TbApellido.Text) Then
             MsgBox("Los campos nombre y apellidos no pueden estar vacíos")
         Else
@@ -129,10 +83,9 @@ Public Class GestionAlumnos
                         TextBox.Clear()
                     Next
                 ElseIf Opcion = 2 Then
-                    MsgBox("Editaste el alumno")
+                    ClaseBBDD.Modificar(id, Alumno, ListViewAlumnos)
                     CambiarAListado()
                 ElseIf Opcion = 3 Then
-                    Dim id As Integer = TbId.Text
                     ClaseBBDD.Eliminar(id, ListViewAlumnos)
                 End If
 
@@ -144,51 +97,13 @@ Public Class GestionAlumnos
 
     Private Sub MenuStrip1_ItemClicked(sender As Object, e As ToolStripItemClickedEventArgs) Handles MenuStrip1.ItemClicked
         If e.ClickedItem.Text = "Listado" Then
-            Opcion = 0
-            For Each TextBox As Windows.Forms.TextBox In Me.Controls.OfType(Of Windows.Forms.TextBox)
-                TextBox.ReadOnly = True
-            Next
-            For Each Button As Windows.Forms.Button In Me.Controls.OfType(Of Windows.Forms.Button)
-                Button.Show()
-            Next
-            BtnAdd.Hide()
-            ListViewAlumnos.Enabled = True
+            SetOpcionListado()
         ElseIf e.ClickedItem.Text = "Insertar" Then
-            Opcion = 1
-            For Each TextBox As Windows.Forms.TextBox In Me.Controls.OfType(Of Windows.Forms.TextBox)
-                TextBox.Clear()
-                TextBox.ReadOnly = False
-            Next
-            TbId.ReadOnly = True
-
-            For Each Button As Windows.Forms.Button In Me.Controls.OfType(Of Windows.Forms.Button)
-                Button.Hide()
-            Next
-            BtnAdd.Text = "Añadir alumno"
-            BtnAdd.Show()
-            ListViewAlumnos.Enabled = False
+            SetOpcionInsertar()
         ElseIf e.ClickedItem.Text = "Editar" Then
-            Opcion = 2
-            For Each TextBox As Windows.Forms.TextBox In Me.Controls.OfType(Of Windows.Forms.TextBox)
-                TextBox.ReadOnly = False
-            Next
-            TbId.ReadOnly = True
-            For Each Button As Windows.Forms.Button In Me.Controls.OfType(Of Windows.Forms.Button)
-                Button.Hide()
-            Next
-            BtnAdd.Text = "Guardar"
-            BtnAdd.Show()
-            ListViewAlumnos.Enabled = False
+            SetOpcionEditar()
         ElseIf e.ClickedItem.Text = "Eliminar" Then
-            Opcion = 3
-            For Each TextBox As Windows.Forms.TextBox In Me.Controls.OfType(Of Windows.Forms.TextBox)
-                TextBox.ReadOnly = True
-            Next
-            For Each Button As Windows.Forms.Button In Me.Controls.OfType(Of Windows.Forms.Button)
-                Button.Hide()
-            Next
-            BtnAdd.Text = "Eliminar alumno"
-            BtnAdd.Show()
+            SetOpcionEliminar()
         End If
     End Sub
 
@@ -199,6 +114,82 @@ Public Class GestionAlumnos
                 Exit For
             End If
         Next
+    End Sub
+
+    Private Sub SetOpcionListado()
+        Opcion = 0
+        ManejarTextBox(True, False)
+        MostrarBotones(False)
+        BtnAdd.Hide()
+        ListViewAlumnos.Enabled = True
+    End Sub
+
+    Private Sub MostrarBotones(Mostrable As Boolean)
+        For Each Button As Windows.Forms.Button In Me.Controls.OfType(Of Windows.Forms.Button)
+            If (Mostrable) Then
+                Button.Show()
+            Else
+                Button.Hide()
+            End If
+        Next
+    End Sub
+
+    Private Sub ManejarTextBox(SoloLectura As Boolean, Limpiable As Boolean)
+        For Each TextBox As Windows.Forms.TextBox In Me.Controls.OfType(Of Windows.Forms.TextBox)
+            If SoloLectura Then
+                TextBox.ReadOnly = True
+            Else
+                TextBox.ReadOnly = False
+            End If
+        Next
+        If Limpiable Then
+            For Each TextBox As Windows.Forms.TextBox In Me.Controls.OfType(Of Windows.Forms.TextBox)
+                TextBox.Clear()
+            Next
+        End If
+    End Sub
+
+    Private Sub SetOpcionInsertar()
+        Opcion = 1
+        ManejarTextBox(False, True)
+        TbId.ReadOnly = True
+        MostrarBotones(False)
+        BtnAdd.Text = "Añadir alumno"
+        BtnAdd.Show()
+        ListViewAlumnos.Enabled = False
+    End Sub
+
+    Private Sub SetOpcionEditar()
+        Opcion = 2
+        ManejarTextBox(False, False)
+        TbId.ReadOnly = True
+        MostrarBotones(False)
+        BtnAdd.Text = "Guardar"
+        BtnAdd.Show()
+        ListViewAlumnos.Enabled = False
+    End Sub
+
+    Private Sub SetOpcionEliminar()
+        Opcion = 3
+        ManejarTextBox(True, False)
+        MostrarBotones(False)
+        BtnAdd.Text = "Eliminar alumno"
+        BtnAdd.Show()
+    End Sub
+
+
+
+    Private Sub MostrarItemEnTextBox(indice As Integer)
+        Dim item = ListViewAlumnos.Items(indice)
+        TbId.Text = item.SubItems(0).Text
+        TbNombre.Text = item.SubItems(1).Text
+        TbApellido.Text = item.SubItems(2).Text
+        TbDireccion.Text = item.SubItems(3).Text
+        TbLocalidad.Text = item.SubItems(4).Text
+        TbMovil.Text = item.SubItems(5).Text
+        TbEmail.Text = item.SubItems(6).Text
+        TbFechaNacimiento.Text = item.SubItems(7).Text
+        TbNacionalidad.Text = item.SubItems(8).Text
     End Sub
 
     Private Sub GestionAlumnos_Closing(sender As Object, e As CancelEventArgs) Handles MyBase.Closing
