@@ -13,10 +13,10 @@ Public Class GestionAlumnos
         EliminarToolStripMenuItem.Enabled = False
         BtnAdd.Hide()
         ListViewAlumnos.View = View.Details
-        ListViewAlumnos.Columns.Add("ID", 50)
-        ListViewAlumnos.Columns.Add("Nombre", 120)
-        ListViewAlumnos.Columns.Add("Apellidos", 120)
-        ListViewAlumnos.Columns.Add("Dirección", 120)
+        ListViewAlumnos.Columns.Add("ID", 50, HorizontalAlignment.Center)
+        ListViewAlumnos.Columns.Add("Nombre", 120, HorizontalAlignment.Center)
+        ListViewAlumnos.Columns.Add("Apellidos", 180, HorizontalAlignment.Center)
+        ListViewAlumnos.Columns.Add("Dirección", 180, HorizontalAlignment.Center)
         ListViewAlumnos.Columns.Add("Locaidad", 120)
         ListViewAlumnos.Columns.Add("Movil", 100)
         ListViewAlumnos.Columns.Add("Email", 80)
@@ -26,9 +26,12 @@ Public Class GestionAlumnos
     End Sub
 
     Private Sub BtnAnterior_Click(sender As Object, e As EventArgs) Handles BtnAnterior.Click
-        Dim indice = Integer.Parse(TbId.Text) - 2
-        If indice >= 0 Then
-            MostrarItemEnTextBox(indice)
+        If ListViewAlumnos.SelectedItems.Count > 0 Then
+            Dim indice = ListViewAlumnos.SelectedIndices(0) - 1
+            If indice >= 0 Then
+                ListViewAlumnos.Items(indice).EnsureVisible()
+                ListViewAlumnos.Items(indice).Selected = True
+            End If
         End If
     End Sub
 
@@ -44,22 +47,27 @@ Public Class GestionAlumnos
     End Sub
 
     Private Sub BtnPrimero_Click(sender As Object, e As EventArgs) Handles BtnPrimero.Click
-        MostrarItemEnTextBox(0)
+        ListViewAlumnos.Items(0).EnsureVisible()
+        ListViewAlumnos.Items(0).Selected = True
     End Sub
 
     Private Sub BtnFin_Click(sender As Object, e As EventArgs) Handles BtnFin.Click
-        MostrarItemEnTextBox(ListViewAlumnos.Items.Count - 1)
+        ListViewAlumnos.Items(ListViewAlumnos.Items.Count - 1).EnsureVisible()
+        ListViewAlumnos.Items(ListViewAlumnos.Items.Count - 1).Selected = True
     End Sub
 
     Private Sub BtnSiguiente_Click(sender As Object, e As EventArgs) Handles BtnSiguiente.Click
-        Dim indice = Integer.Parse(TbId.Text)
-        If indice <= ListViewAlumnos.Items.Count - 1 Then
-            MostrarItemEnTextBox(indice)
+        If ListViewAlumnos.SelectedItems.Count > 0 Then
+            Dim indice = ListViewAlumnos.SelectedIndices(0) + 1
+            If indice <= ListViewAlumnos.Items.Count - 1 Then
+                ListViewAlumnos.Items(indice).EnsureVisible()
+                ListViewAlumnos.Items(indice).Selected = True
+            End If
         End If
     End Sub
 
     Private Sub BtnAdd_Click(sender As Object, e As EventArgs) Handles BtnAdd.Click
-        Dim id As Integer = TbId.Text
+
         If String.IsNullOrEmpty(TbNombre.Text) Or String.IsNullOrEmpty(TbApellido.Text) Then
             MsgBox("Los campos nombre y apellidos no pueden estar vacíos")
         Else
@@ -82,15 +90,22 @@ Public Class GestionAlumnos
                     For Each TextBox As Windows.Forms.TextBox In Me.Controls.OfType(Of Windows.Forms.TextBox)
                         TextBox.Clear()
                     Next
+                    CambiarAListado()
+                    ListViewAlumnos.Items(ListViewAlumnos.Items.Count - 1).EnsureVisible()
+                    ListViewAlumnos.Items(ListViewAlumnos.Items.Count - 1).Selected = True
                 ElseIf Opcion = 2 Then
+                    Dim id As Integer = Integer.Parse(TbId.Text)
                     ClaseBBDD.Modificar(id, Alumno, ListViewAlumnos)
                     CambiarAListado()
                 ElseIf Opcion = 3 Then
+                    Dim id As Integer = Integer.Parse(TbId.Text)
                     ClaseBBDD.Eliminar(id, ListViewAlumnos)
+                    ListViewAlumnos.Items(ListViewAlumnos.SelectedIndices(0 - 1)).EnsureVisible()
+                    ListViewAlumnos.Items(ListViewAlumnos.SelectedIndices(0 - 1)).Selected = True
                 End If
 
             Else
-                MsgBox("Ocurrio un error con la fecha intentelo con este formato yyyy-mm-dd")
+                MsgBox("Ocurrio un error con la fecha intentelo con este formato 01/01/2000")
             End If
         End If
     End Sub
@@ -119,7 +134,7 @@ Public Class GestionAlumnos
     Private Sub SetOpcionListado()
         Opcion = 0
         ManejarTextBox(True, False)
-        MostrarBotones(False)
+        MostrarBotones(True)
         BtnAdd.Hide()
         ListViewAlumnos.Enabled = True
     End Sub
@@ -157,6 +172,7 @@ Public Class GestionAlumnos
         BtnAdd.Text = "Añadir alumno"
         BtnAdd.Show()
         ListViewAlumnos.Enabled = False
+        ListViewAlumnos.Items(ListViewAlumnos.SelectedIndices(0)).Selected = False
     End Sub
 
     Private Sub SetOpcionEditar()
@@ -196,4 +212,7 @@ Public Class GestionAlumnos
         Application.Exit()
     End Sub
 
+    Private Sub ListadoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ListadoToolStripMenuItem.Click
+        SetOpcionListado()
+    End Sub
 End Class

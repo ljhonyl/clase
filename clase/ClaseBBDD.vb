@@ -1,5 +1,4 @@
 ﻿Imports System.Data.SQLite
-Imports System.Windows
 
 Module ClaseBBDD
     Dim Url As String = "C:Users\diurno\Clase.db"

@@ -178,7 +178,7 @@ Partial Class GestionAlumnos
         ListViewAlumnos.Location = New Point(25, 211)
         ListViewAlumnos.MultiSelect = False
         ListViewAlumnos.Name = "ListViewAlumnos"
-        ListViewAlumnos.Size = New Size(749, 227)
+        ListViewAlumnos.Size = New Size(1057, 349)
         ListViewAlumnos.TabIndex = 13
         ListViewAlumnos.UseCompatibleStateImageBehavior = False
         ' 
@@ -187,7 +187,7 @@ Partial Class GestionAlumnos
         MenuStrip1.Items.AddRange(New ToolStripItem() {ListadoToolStripMenuItem, InsertarToolStripMenuItem, ToolStripMenuItem1, EditarToolStripMenuItem, EliminarToolStripMenuItem})
         MenuStrip1.Location = New Point(0, 0)
         MenuStrip1.Name = "MenuStrip1"
-        MenuStrip1.Size = New Size(800, 24)
+        MenuStrip1.Size = New Size(1111, 24)
         MenuStrip1.TabIndex = 14
         MenuStrip1.Text = "MenuStrip1"
         ' 
@@ -281,7 +281,7 @@ Partial Class GestionAlumnos
         ' 
         TbFechaNacimiento.Location = New Point(379, 115)
         TbFechaNacimiento.Name = "TbFechaNacimiento"
-        TbFechaNacimiento.PlaceholderText = "2000-01-01"
+        TbFechaNacimiento.PlaceholderText = "DD/MM/YYYY"
         TbFechaNacimiento.Size = New Size(100, 23)
         TbFechaNacimiento.TabIndex = 22
         ' 
@@ -298,7 +298,7 @@ Partial Class GestionAlumnos
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
-        ClientSize = New Size(800, 450)
+        ClientSize = New Size(1111, 572)
         Controls.Add(BtnAdd)
         Controls.Add(TbFechaNacimiento)
         Controls.Add(TbNacionalidad)
