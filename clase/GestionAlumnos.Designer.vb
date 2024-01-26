@@ -22,6 +22,8 @@ Partial Class GestionAlumnos
     'No lo modifique con el editor de código.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        components = New ComponentModel.Container()
+        Dim resources As ComponentModel.ComponentResourceManager = New ComponentModel.ComponentResourceManager(GetType(GestionAlumnos))
         LblId = New Label()
         LblNombre = New Label()
         LblApellidos = New Label()
@@ -52,13 +54,20 @@ Partial Class GestionAlumnos
         TbNacionalidad = New TextBox()
         TbFechaNacimiento = New TextBox()
         BtnAdd = New Button()
+        TbBuscarId = New TextBox()
+        BtnBuscar = New Button()
+        LblTitulo = New Label()
+        LblDatos = New Label()
+        ImageList1 = New ImageList(components)
+        Label1 = New Label()
+        Label2 = New Label()
         MenuStrip1.SuspendLayout()
         SuspendLayout()
         ' 
         ' LblId
         ' 
         LblId.AutoSize = True
-        LblId.Location = New Point(65, 45)
+        LblId.Location = New Point(72, 185)
         LblId.Name = "LblId"
         LblId.Size = New Size(17, 15)
         LblId.TabIndex = 0
@@ -67,7 +76,7 @@ Partial Class GestionAlumnos
         ' LblNombre
         ' 
         LblNombre.AutoSize = True
-        LblNombre.Location = New Point(306, 45)
+        LblNombre.Location = New Point(72, 252)
         LblNombre.Name = "LblNombre"
         LblNombre.Size = New Size(51, 15)
         LblNombre.TabIndex = 1
@@ -76,7 +85,7 @@ Partial Class GestionAlumnos
         ' LblApellidos
         ' 
         LblApellidos.AutoSize = True
-        LblApellidos.Location = New Point(567, 45)
+        LblApellidos.Location = New Point(73, 330)
         LblApellidos.Name = "LblApellidos"
         LblApellidos.Size = New Size(56, 15)
         LblApellidos.TabIndex = 2
@@ -85,7 +94,7 @@ Partial Class GestionAlumnos
         ' LblFechaNacimiento
         ' 
         LblFechaNacimiento.AutoSize = True
-        LblFechaNacimiento.Location = New Point(240, 118)
+        LblFechaNacimiento.Location = New Point(73, 636)
         LblFechaNacimiento.Name = "LblFechaNacimiento"
         LblFechaNacimiento.Size = New Size(117, 15)
         LblFechaNacimiento.TabIndex = 3
@@ -94,7 +103,7 @@ Partial Class GestionAlumnos
         ' LblDireccion
         ' 
         LblDireccion.AutoSize = True
-        LblDireccion.Location = New Point(25, 83)
+        LblDireccion.Location = New Point(74, 469)
         LblDireccion.Name = "LblDireccion"
         LblDireccion.Size = New Size(57, 15)
         LblDireccion.TabIndex = 4
@@ -103,7 +112,7 @@ Partial Class GestionAlumnos
         ' LblLocalidad
         ' 
         LblLocalidad.AutoSize = True
-        LblLocalidad.Location = New Point(299, 83)
+        LblLocalidad.Location = New Point(73, 555)
         LblLocalidad.Name = "LblLocalidad"
         LblLocalidad.Size = New Size(58, 15)
         LblLocalidad.TabIndex = 5
@@ -112,7 +121,7 @@ Partial Class GestionAlumnos
         ' LblMovil
         ' 
         LblMovil.AutoSize = True
-        LblMovil.Location = New Point(586, 83)
+        LblMovil.Location = New Point(291, 555)
         LblMovil.Name = "LblMovil"
         LblMovil.Size = New Size(37, 15)
         LblMovil.TabIndex = 6
@@ -121,7 +130,7 @@ Partial Class GestionAlumnos
         ' LblEmail
         ' 
         LblEmail.AutoSize = True
-        LblEmail.Location = New Point(46, 118)
+        LblEmail.Location = New Point(72, 393)
         LblEmail.Name = "LblEmail"
         LblEmail.Size = New Size(36, 15)
         LblEmail.TabIndex = 7
@@ -130,7 +139,7 @@ Partial Class GestionAlumnos
         ' LblNacionalidad
         ' 
         LblNacionalidad.AutoSize = True
-        LblNacionalidad.Location = New Point(546, 118)
+        LblNacionalidad.Location = New Point(292, 636)
         LblNacionalidad.Name = "LblNacionalidad"
         LblNacionalidad.Size = New Size(77, 15)
         LblNacionalidad.TabIndex = 8
@@ -138,7 +147,7 @@ Partial Class GestionAlumnos
         ' 
         ' BtnPrimero
         ' 
-        BtnPrimero.Location = New Point(81, 169)
+        BtnPrimero.Location = New Point(74, 143)
         BtnPrimero.Name = "BtnPrimero"
         BtnPrimero.Size = New Size(75, 23)
         BtnPrimero.TabIndex = 9
@@ -147,7 +156,7 @@ Partial Class GestionAlumnos
         ' 
         ' BtnAnterior
         ' 
-        BtnAnterior.Location = New Point(253, 169)
+        BtnAnterior.Location = New Point(169, 143)
         BtnAnterior.Name = "BtnAnterior"
         BtnAnterior.Size = New Size(75, 23)
         BtnAnterior.TabIndex = 10
@@ -156,7 +165,7 @@ Partial Class GestionAlumnos
         ' 
         ' BtnSiguiente
         ' 
-        BtnSiguiente.Location = New Point(453, 169)
+        BtnSiguiente.Location = New Point(273, 143)
         BtnSiguiente.Name = "BtnSiguiente"
         BtnSiguiente.Size = New Size(75, 23)
         BtnSiguiente.TabIndex = 11
@@ -165,7 +174,7 @@ Partial Class GestionAlumnos
         ' 
         ' BtnFin
         ' 
-        BtnFin.Location = New Point(646, 169)
+        BtnFin.Location = New Point(372, 143)
         BtnFin.Name = "BtnFin"
         BtnFin.Size = New Size(75, 23)
         BtnFin.TabIndex = 12
@@ -175,10 +184,10 @@ Partial Class GestionAlumnos
         ' ListViewAlumnos
         ' 
         ListViewAlumnos.FullRowSelect = True
-        ListViewAlumnos.Location = New Point(25, 211)
+        ListViewAlumnos.Location = New Point(22, 198)
         ListViewAlumnos.MultiSelect = False
         ListViewAlumnos.Name = "ListViewAlumnos"
-        ListViewAlumnos.Size = New Size(1057, 349)
+        ListViewAlumnos.Size = New Size(686, 601)
         ListViewAlumnos.TabIndex = 13
         ListViewAlumnos.UseCompatibleStateImageBehavior = False
         ' 
@@ -187,7 +196,7 @@ Partial Class GestionAlumnos
         MenuStrip1.Items.AddRange(New ToolStripItem() {ListadoToolStripMenuItem, InsertarToolStripMenuItem, ToolStripMenuItem1, EditarToolStripMenuItem, EliminarToolStripMenuItem})
         MenuStrip1.Location = New Point(0, 0)
         MenuStrip1.Name = "MenuStrip1"
-        MenuStrip1.Size = New Size(1111, 24)
+        MenuStrip1.Size = New Size(734, 24)
         MenuStrip1.TabIndex = 14
         MenuStrip1.Text = "MenuStrip1"
         ' 
@@ -222,7 +231,7 @@ Partial Class GestionAlumnos
         ' 
         ' TbId
         ' 
-        TbId.Location = New Point(110, 42)
+        TbId.Location = New Point(72, 203)
         TbId.Name = "TbId"
         TbId.ReadOnly = True
         TbId.Size = New Size(100, 23)
@@ -230,56 +239,56 @@ Partial Class GestionAlumnos
         ' 
         ' TbNombre
         ' 
-        TbNombre.Location = New Point(379, 42)
+        TbNombre.Location = New Point(72, 270)
         TbNombre.Name = "TbNombre"
-        TbNombre.Size = New Size(100, 23)
+        TbNombre.Size = New Size(222, 23)
         TbNombre.TabIndex = 16
         ' 
         ' TbApellido
         ' 
-        TbApellido.Location = New Point(646, 42)
+        TbApellido.Location = New Point(73, 348)
         TbApellido.Name = "TbApellido"
-        TbApellido.Size = New Size(100, 23)
+        TbApellido.Size = New Size(318, 23)
         TbApellido.TabIndex = 17
         ' 
         ' TbDireccion
         ' 
-        TbDireccion.Location = New Point(110, 80)
+        TbDireccion.Location = New Point(74, 487)
         TbDireccion.Name = "TbDireccion"
-        TbDireccion.Size = New Size(100, 23)
+        TbDireccion.Size = New Size(319, 23)
         TbDireccion.TabIndex = 18
         ' 
         ' TbLocalidad
         ' 
-        TbLocalidad.Location = New Point(379, 80)
+        TbLocalidad.Location = New Point(73, 573)
         TbLocalidad.Name = "TbLocalidad"
         TbLocalidad.Size = New Size(100, 23)
         TbLocalidad.TabIndex = 19
         ' 
         ' TbMovil
         ' 
-        TbMovil.Location = New Point(646, 80)
+        TbMovil.Location = New Point(293, 573)
         TbMovil.Name = "TbMovil"
         TbMovil.Size = New Size(100, 23)
         TbMovil.TabIndex = 20
         ' 
         ' TbEmail
         ' 
-        TbEmail.Location = New Point(110, 115)
+        TbEmail.Location = New Point(72, 411)
         TbEmail.Name = "TbEmail"
-        TbEmail.Size = New Size(100, 23)
+        TbEmail.Size = New Size(319, 23)
         TbEmail.TabIndex = 21
         ' 
         ' TbNacionalidad
         ' 
-        TbNacionalidad.Location = New Point(646, 115)
+        TbNacionalidad.Location = New Point(293, 654)
         TbNacionalidad.Name = "TbNacionalidad"
         TbNacionalidad.Size = New Size(100, 23)
         TbNacionalidad.TabIndex = 23
         ' 
         ' TbFechaNacimiento
         ' 
-        TbFechaNacimiento.Location = New Point(379, 115)
+        TbFechaNacimiento.Location = New Point(73, 656)
         TbFechaNacimiento.Name = "TbFechaNacimiento"
         TbFechaNacimiento.PlaceholderText = "DD/MM/YYYY"
         TbFechaNacimiento.Size = New Size(100, 23)
@@ -287,18 +296,88 @@ Partial Class GestionAlumnos
         ' 
         ' BtnAdd
         ' 
-        BtnAdd.Location = New Point(351, 169)
+        BtnAdd.Location = New Point(72, 748)
         BtnAdd.Name = "BtnAdd"
-        BtnAdd.Size = New Size(110, 23)
+        BtnAdd.Size = New Size(321, 23)
         BtnAdd.TabIndex = 24
         BtnAdd.Text = "Añadir Alumno"
         BtnAdd.UseVisualStyleBackColor = True
         ' 
+        ' TbBuscarId
+        ' 
+        TbBuscarId.Location = New Point(510, 143)
+        TbBuscarId.Name = "TbBuscarId"
+        TbBuscarId.PlaceholderText = "ID"
+        TbBuscarId.Size = New Size(100, 23)
+        TbBuscarId.TabIndex = 25
+        ' 
+        ' BtnBuscar
+        ' 
+        BtnBuscar.Location = New Point(633, 143)
+        BtnBuscar.Name = "BtnBuscar"
+        BtnBuscar.Size = New Size(75, 23)
+        BtnBuscar.TabIndex = 26
+        BtnBuscar.Text = "Buscar"
+        BtnBuscar.UseVisualStyleBackColor = True
+        ' 
+        ' LblTitulo
+        ' 
+        LblTitulo.Font = New Font("Segoe UI", 20F, FontStyle.Bold Or FontStyle.Italic, GraphicsUnit.Point)
+        LblTitulo.Location = New Point(273, 47)
+        LblTitulo.Name = "LblTitulo"
+        LblTitulo.Size = New Size(175, 49)
+        LblTitulo.TabIndex = 27
+        LblTitulo.Text = "ALUMNOS"
+        ' 
+        ' LblDatos
+        ' 
+        LblDatos.AutoSize = True
+        LblDatos.BackColor = SystemColors.ScrollBar
+        LblDatos.Font = New Font("Segoe UI", 13F, FontStyle.Bold Or FontStyle.Italic, GraphicsUnit.Point)
+        LblDatos.Location = New Point(72, 175)
+        LblDatos.Name = "LblDatos"
+        LblDatos.Size = New Size(157, 25)
+        LblDatos.TabIndex = 28
+        LblDatos.Text = "Datos Personales"
+        ' 
+        ' ImageList1
+        ' 
+        ImageList1.ColorDepth = ColorDepth.Depth8Bit
+        ImageList1.ImageStream = CType(resources.GetObject("ImageList1.ImageStream"), ImageListStreamer)
+        ImageList1.TransparentColor = Color.Transparent
+        ImageList1.Images.SetKeyName(0, "IMG_20240126_195016-removebg-preview.png")
+        ImageList1.Images.SetKeyName(1, "editar2.png")
+        ImageList1.Images.SetKeyName(2, "eliminar.jpg")
+        ImageList1.Images.SetKeyName(3, "add.png")
+        ' 
+        ' Label1
+        ' 
+        Label1.ImageIndex = 3
+        Label1.ImageList = ImageList1
+        Label1.Location = New Point(476, 300)
+        Label1.Name = "Label1"
+        Label1.Size = New Size(180, 156)
+        Label1.TabIndex = 29
+        ' 
+        ' Label2
+        ' 
+        Label2.Image = CType(resources.GetObject("Label2.Image"), Image)
+        Label2.Location = New Point(476, 523)
+        Label2.Name = "Label2"
+        Label2.Size = New Size(180, 156)
+        Label2.TabIndex = 30
+        ' 
         ' GestionAlumnos
         ' 
-        AutoScaleDimensions = New SizeF(7F, 15F)
+        AutoScaleDimensions = New SizeF(7.0F, 15.0F)
         AutoScaleMode = AutoScaleMode.Font
-        ClientSize = New Size(1111, 572)
+        ClientSize = New Size(734, 819)
+        Controls.Add(Label2)
+        Controls.Add(Label1)
+        Controls.Add(LblDatos)
+        Controls.Add(LblTitulo)
+        Controls.Add(BtnBuscar)
+        Controls.Add(TbBuscarId)
         Controls.Add(BtnAdd)
         Controls.Add(TbFechaNacimiento)
         Controls.Add(TbNacionalidad)
@@ -309,11 +388,9 @@ Partial Class GestionAlumnos
         Controls.Add(TbApellido)
         Controls.Add(TbNombre)
         Controls.Add(TbId)
-        Controls.Add(ListViewAlumnos)
         Controls.Add(BtnFin)
         Controls.Add(BtnSiguiente)
         Controls.Add(BtnAnterior)
-        Controls.Add(BtnPrimero)
         Controls.Add(LblNacionalidad)
         Controls.Add(LblEmail)
         Controls.Add(LblMovil)
@@ -324,6 +401,8 @@ Partial Class GestionAlumnos
         Controls.Add(LblNombre)
         Controls.Add(LblId)
         Controls.Add(MenuStrip1)
+        Controls.Add(ListViewAlumnos)
+        Controls.Add(BtnPrimero)
         MainMenuStrip = MenuStrip1
         Name = "GestionAlumnos"
         Text = "VistaAlumnos"
@@ -363,4 +442,11 @@ Partial Class GestionAlumnos
     Friend WithEvents EditarToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents EliminarToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents BtnAdd As Button
+    Friend WithEvents TbBuscarId As TextBox
+    Friend WithEvents BtnBuscar As Button
+    Friend WithEvents LblTitulo As Label
+    Friend WithEvents LblDatos As Label
+    Friend WithEvents ImageList1 As ImageList
+    Friend WithEvents Label1 As Label
+    Friend WithEvents Label2 As Label
 End Class

@@ -6,22 +6,20 @@ Public Class GestionAlumnos
 
     Private Opcion As Integer
     Private Sub GestionAlumnos_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        For Each TextBox As Windows.Forms.TextBox In Me.Controls.OfType(Of Windows.Forms.TextBox)
-            TextBox.ReadOnly = True
-        Next
+        SetOpcionListado()
         EditarToolStripMenuItem.Enabled = False
         EliminarToolStripMenuItem.Enabled = False
         BtnAdd.Hide()
         ListViewAlumnos.View = View.Details
         ListViewAlumnos.Columns.Add("ID", 50, HorizontalAlignment.Center)
-        ListViewAlumnos.Columns.Add("Nombre", 120, HorizontalAlignment.Center)
-        ListViewAlumnos.Columns.Add("Apellidos", 180, HorizontalAlignment.Center)
-        ListViewAlumnos.Columns.Add("Dirección", 180, HorizontalAlignment.Center)
+        ListViewAlumnos.Columns.Add("Nombre", 130, HorizontalAlignment.Center)
+        ListViewAlumnos.Columns.Add("Apellidos", 220, HorizontalAlignment.Center)
+        ListViewAlumnos.Columns.Add("Dirección", 220, HorizontalAlignment.Center)
         ListViewAlumnos.Columns.Add("Locaidad", 120)
         ListViewAlumnos.Columns.Add("Movil", 100)
-        ListViewAlumnos.Columns.Add("Email", 80)
-        ListViewAlumnos.Columns.Add("Fecha Nacimiento", 120)
-        ListViewAlumnos.Columns.Add("Nacionalidad", 120)
+        ListViewAlumnos.Columns.Add("Email", 220)
+        ListViewAlumnos.Columns.Add("Fecha Nacimiento", 130)
+        ListViewAlumnos.Columns.Add("Nacionalidad", 130)
         ClaseBBDD.ActualizarListado(ListViewAlumnos)
     End Sub
 
@@ -100,8 +98,7 @@ Public Class GestionAlumnos
                 ElseIf Opcion = 3 Then
                     Dim id As Integer = Integer.Parse(TbId.Text)
                     ClaseBBDD.Eliminar(id, ListViewAlumnos)
-                    ListViewAlumnos.Items(ListViewAlumnos.SelectedIndices(0 - 1)).EnsureVisible()
-                    ListViewAlumnos.Items(ListViewAlumnos.SelectedIndices(0 - 1)).Selected = True
+                    CambiarAListado()
                 End If
 
             Else
@@ -133,10 +130,14 @@ Public Class GestionAlumnos
 
     Private Sub SetOpcionListado()
         Opcion = 0
-        ManejarTextBox(True, False)
+        ManejarLabel(False)
+        LblTitulo.Show()
+        ManejarTextBox(True, False, False)
+        TbBuscarId.Show()
+        TbBuscarId.ReadOnly = False
         MostrarBotones(True)
         BtnAdd.Hide()
-        ListViewAlumnos.Enabled = True
+        ListViewAlumnos.Show()
     End Sub
 
     Private Sub MostrarBotones(Mostrable As Boolean)
@@ -149,7 +150,7 @@ Public Class GestionAlumnos
         Next
     End Sub
 
-    Private Sub ManejarTextBox(SoloLectura As Boolean, Limpiable As Boolean)
+    Private Sub ManejarTextBox(SoloLectura As Boolean, Limpiable As Boolean, Visible As Boolean)
         For Each TextBox As Windows.Forms.TextBox In Me.Controls.OfType(Of Windows.Forms.TextBox)
             If SoloLectura Then
                 TextBox.ReadOnly = True
@@ -162,35 +163,59 @@ Public Class GestionAlumnos
                 TextBox.Clear()
             Next
         End If
+        For Each TextBox As Windows.Forms.TextBox In Me.Controls.OfType(Of Windows.Forms.TextBox)
+            If Visible Then
+                TextBox.Show()
+            Else
+                TextBox.Hide()
+            End If
+        Next
+    End Sub
+
+    Private Sub ManejarLabel(Visible As Boolean)
+        For Each Label As Windows.Forms.Label In Me.Controls.OfType(Of Windows.Forms.Label)
+            If Visible Then
+                Label.Show()
+            Else
+                Label.Hide()
+            End If
+        Next
     End Sub
 
     Private Sub SetOpcionInsertar()
         Opcion = 1
-        ManejarTextBox(False, True)
-        TbId.ReadOnly = True
+        ManejarLabel(True)
+        LblId.Hide()
+        ManejarTextBox(False, True, True)
+        TbId.Hide()
+        TbBuscarId.Hide()
         MostrarBotones(False)
-        BtnAdd.Text = "Añadir alumno"
+        BtnAdd.Text = "Añadir"
         BtnAdd.Show()
-        ListViewAlumnos.Enabled = False
-        ListViewAlumnos.Items(ListViewAlumnos.SelectedIndices(0)).Selected = False
+        EditarToolStripMenuItem.Enabled = False
+        EliminarToolStripMenuItem.Enabled = False
+        ListViewAlumnos.Hide()
     End Sub
 
     Private Sub SetOpcionEditar()
         Opcion = 2
-        ManejarTextBox(False, False)
+        ManejarLabel(True)
+        LblDatos.Hide()
+        ManejarTextBox(False, False, True)
         TbId.ReadOnly = True
-        MostrarBotones(False)
+        MostrarBotones(True)
         BtnAdd.Text = "Guardar"
-        BtnAdd.Show()
-        ListViewAlumnos.Enabled = False
+        ListViewAlumnos.Hide()
     End Sub
 
     Private Sub SetOpcionEliminar()
         Opcion = 3
-        ManejarTextBox(True, False)
-        MostrarBotones(False)
-        BtnAdd.Text = "Eliminar alumno"
-        BtnAdd.Show()
+        ManejarLabel(True)
+        LblDatos.Hide()
+        ManejarTextBox(True, False, True)
+        MostrarBotones(True)
+        BtnAdd.Text = "Eliminar"
+        ListViewAlumnos.Hide()
     End Sub
 
 
@@ -214,5 +239,25 @@ Public Class GestionAlumnos
 
     Private Sub ListadoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ListadoToolStripMenuItem.Click
         SetOpcionListado()
+    End Sub
+
+    Private Sub BtnBuscar_Click(sender As Object, e As EventArgs) Handles BtnBuscar.Click
+        If Not String.IsNullOrEmpty(TbBuscarId.Text) Then
+            Dim IdBuscado = TbBuscarId.Text
+            Dim IdEncontrado As Boolean = False
+            For i As Integer = 0 To (ListViewAlumnos.Items.Count - 1)
+                Dim Item As ListViewItem = ListViewAlumnos.Items(i)
+                If IdBuscado.Equals(Item.SubItems(0).Text) Then
+                    ListViewAlumnos.Items(i).EnsureVisible()
+                    ListViewAlumnos.Items(i).Selected = True
+                    MostrarItemEnTextBox(i)
+                    i = ListViewAlumnos.Items.Count
+                    IdEncontrado = True
+                End If
+            Next
+            If Not IdEncontrado Then
+                MessageBox.Show("No se encontro el Id Buscado", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            End If
+        End If
     End Sub
 End Class
