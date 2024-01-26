@@ -6,6 +6,7 @@ Public Class GestionAlumnos
 
     Private Opcion As Integer
     Private Sub GestionAlumnos_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Me.FormBorderStyle = FormBorderStyle.FixedSingle
         SetOpcionListado()
         EditarToolStripMenuItem.Enabled = False
         EliminarToolStripMenuItem.Enabled = False
@@ -96,9 +97,15 @@ Public Class GestionAlumnos
                     ClaseBBDD.Modificar(id, Alumno, ListViewAlumnos)
                     CambiarAListado()
                 ElseIf Opcion = 3 Then
-                    Dim id As Integer = Integer.Parse(TbId.Text)
-                    ClaseBBDD.Eliminar(id, ListViewAlumnos)
-                    CambiarAListado()
+                    Dim Id As Integer = Integer.Parse(TbId.Text)
+                    Dim Result As MsgBoxResult = MsgBox("¿Desea eliminar al alumno? Esta accion no se puede deshacer", MsgBoxStyle.OkCancel Or MsgBoxStyle.Question, "Confirmar")
+
+                    If Result = MsgBoxResult.Ok Then
+                        ClaseBBDD.Eliminar(Id, ListViewAlumnos)
+                        MsgBox("Alumno eliminado correctamente", MsgBoxStyle.OkOnly, "Aviso")
+                        CambiarAListado()
+                    End If
+
                 End If
 
             Else
@@ -128,8 +135,25 @@ Public Class GestionAlumnos
         Next
     End Sub
 
+    Private Sub PintaOpcion()
+        For Each item As ToolStripItem In MenuStrip1.Items
+            item.BackColor = SystemColors.Control
+        Next
+        If Opcion = 0 Then
+            ListadoToolStripMenuItem.BackColor = SystemColors.MenuHighlight
+        ElseIf Opcion = 1 Then
+            InsertarToolStripMenuItem.BackColor = SystemColors.MenuHighlight
+        ElseIf Opcion = 2 Then
+            EditarToolStripMenuItem.BackColor = SystemColors.MenuHighlight
+        ElseIf Opcion = 3 Then
+            EliminarToolStripMenuItem.BackColor = SystemColors.MenuHighlight
+        End If
+
+    End Sub
+
     Private Sub SetOpcionListado()
         Opcion = 0
+        PintaOpcion()
         ManejarLabel(False)
         LblTitulo.Show()
         ManejarTextBox(True, False, False)
@@ -184,8 +208,10 @@ Public Class GestionAlumnos
 
     Private Sub SetOpcionInsertar()
         Opcion = 1
+        PintaOpcion()
         ManejarLabel(True)
         LblId.Hide()
+        LblImagen1.Image = My.Resources.agregar
         ManejarTextBox(False, True, True)
         TbId.Hide()
         TbBuscarId.Hide()
@@ -199,8 +225,10 @@ Public Class GestionAlumnos
 
     Private Sub SetOpcionEditar()
         Opcion = 2
+        PintaOpcion()
         ManejarLabel(True)
         LblDatos.Hide()
+        LblImagen1.Image = My.Resources.editar
         ManejarTextBox(False, False, True)
         TbId.ReadOnly = True
         MostrarBotones(True)
@@ -210,9 +238,12 @@ Public Class GestionAlumnos
 
     Private Sub SetOpcionEliminar()
         Opcion = 3
+        PintaOpcion()
         ManejarLabel(True)
         LblDatos.Hide()
+        LblImagen1.Image = My.Resources.eliminar
         ManejarTextBox(True, False, True)
+        TbBuscarId.ReadOnly = False
         MostrarBotones(True)
         BtnAdd.Text = "Eliminar"
         ListViewAlumnos.Hide()

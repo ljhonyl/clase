@@ -22,8 +22,6 @@ Partial Class GestionAlumnos
     'No lo modifique con el editor de código.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        components = New ComponentModel.Container()
-        Dim resources As ComponentModel.ComponentResourceManager = New ComponentModel.ComponentResourceManager(GetType(GestionAlumnos))
         LblId = New Label()
         LblNombre = New Label()
         LblApellidos = New Label()
@@ -41,7 +39,6 @@ Partial Class GestionAlumnos
         MenuStrip1 = New MenuStrip()
         ListadoToolStripMenuItem = New ToolStripMenuItem()
         InsertarToolStripMenuItem = New ToolStripMenuItem()
-        ToolStripMenuItem1 = New ToolStripMenuItem()
         EditarToolStripMenuItem = New ToolStripMenuItem()
         EliminarToolStripMenuItem = New ToolStripMenuItem()
         TbId = New TextBox()
@@ -58,9 +55,8 @@ Partial Class GestionAlumnos
         BtnBuscar = New Button()
         LblTitulo = New Label()
         LblDatos = New Label()
-        ImageList1 = New ImageList(components)
-        Label1 = New Label()
-        Label2 = New Label()
+        LblImagen1 = New Label()
+        LblImagen2 = New Label()
         MenuStrip1.SuspendLayout()
         SuspendLayout()
         ' 
@@ -193,7 +189,7 @@ Partial Class GestionAlumnos
         ' 
         ' MenuStrip1
         ' 
-        MenuStrip1.Items.AddRange(New ToolStripItem() {ListadoToolStripMenuItem, InsertarToolStripMenuItem, ToolStripMenuItem1, EditarToolStripMenuItem, EliminarToolStripMenuItem})
+        MenuStrip1.Items.AddRange(New ToolStripItem() {ListadoToolStripMenuItem, InsertarToolStripMenuItem, EditarToolStripMenuItem, EliminarToolStripMenuItem})
         MenuStrip1.Location = New Point(0, 0)
         MenuStrip1.Name = "MenuStrip1"
         MenuStrip1.Size = New Size(734, 24)
@@ -211,11 +207,6 @@ Partial Class GestionAlumnos
         InsertarToolStripMenuItem.Name = "InsertarToolStripMenuItem"
         InsertarToolStripMenuItem.Size = New Size(58, 20)
         InsertarToolStripMenuItem.Text = "Insertar"
-        ' 
-        ' ToolStripMenuItem1
-        ' 
-        ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-        ToolStripMenuItem1.Size = New Size(12, 20)
         ' 
         ' EditarToolStripMenuItem
         ' 
@@ -323,7 +314,7 @@ Partial Class GestionAlumnos
         ' LblTitulo
         ' 
         LblTitulo.Font = New Font("Segoe UI", 20F, FontStyle.Bold Or FontStyle.Italic, GraphicsUnit.Point)
-        LblTitulo.Location = New Point(273, 47)
+        LblTitulo.Location = New Point(273, 57)
         LblTitulo.Name = "LblTitulo"
         LblTitulo.Size = New Size(175, 49)
         LblTitulo.TabIndex = 27
@@ -340,40 +331,30 @@ Partial Class GestionAlumnos
         LblDatos.TabIndex = 28
         LblDatos.Text = "Datos Personales"
         ' 
-        ' ImageList1
+        ' LblImagen1
         ' 
-        ImageList1.ColorDepth = ColorDepth.Depth8Bit
-        ImageList1.ImageStream = CType(resources.GetObject("ImageList1.ImageStream"), ImageListStreamer)
-        ImageList1.TransparentColor = Color.Transparent
-        ImageList1.Images.SetKeyName(0, "IMG_20240126_195016-removebg-preview.png")
-        ImageList1.Images.SetKeyName(1, "editar2.png")
-        ImageList1.Images.SetKeyName(2, "eliminar.jpg")
-        ImageList1.Images.SetKeyName(3, "add.png")
+        LblImagen1.BackColor = SystemColors.Control
+        LblImagen1.Location = New Point(463, 278)
+        LblImagen1.Name = "LblImagen1"
+        LblImagen1.Size = New Size(180, 156)
+        LblImagen1.TabIndex = 29
         ' 
-        ' Label1
+        ' LblImagen2
         ' 
-        Label1.ImageIndex = 3
-        Label1.ImageList = ImageList1
-        Label1.Location = New Point(476, 300)
-        Label1.Name = "Label1"
-        Label1.Size = New Size(180, 156)
-        Label1.TabIndex = 29
-        ' 
-        ' Label2
-        ' 
-        Label2.Image = CType(resources.GetObject("Label2.Image"), Image)
-        Label2.Location = New Point(476, 523)
-        Label2.Name = "Label2"
-        Label2.Size = New Size(180, 156)
-        Label2.TabIndex = 30
+        LblImagen2.BackColor = SystemColors.Control
+        LblImagen2.Image = My.Resources.Resources.estudiante
+        LblImagen2.Location = New Point(440, 503)
+        LblImagen2.Name = "LblImagen2"
+        LblImagen2.Size = New Size(216, 222)
+        LblImagen2.TabIndex = 30
         ' 
         ' GestionAlumnos
         ' 
-        AutoScaleDimensions = New SizeF(7.0F, 15.0F)
+        AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         ClientSize = New Size(734, 819)
-        Controls.Add(Label2)
-        Controls.Add(Label1)
+        Controls.Add(LblImagen2)
+        Controls.Add(LblImagen1)
         Controls.Add(LblDatos)
         Controls.Add(LblTitulo)
         Controls.Add(BtnBuscar)
@@ -405,7 +386,8 @@ Partial Class GestionAlumnos
         Controls.Add(BtnPrimero)
         MainMenuStrip = MenuStrip1
         Name = "GestionAlumnos"
-        Text = "VistaAlumnos"
+        StartPosition = FormStartPosition.CenterScreen
+        Text = "Alumnos"
         MenuStrip1.ResumeLayout(False)
         MenuStrip1.PerformLayout()
         ResumeLayout(False)
@@ -438,7 +420,6 @@ Partial Class GestionAlumnos
     Friend WithEvents TbEmail As TextBox
     Friend WithEvents TbNacionalidad As TextBox
     Friend WithEvents TbFechaNacimiento As TextBox
-    Friend WithEvents ToolStripMenuItem1 As ToolStripMenuItem
     Friend WithEvents EditarToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents EliminarToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents BtnAdd As Button
@@ -446,7 +427,6 @@ Partial Class GestionAlumnos
     Friend WithEvents BtnBuscar As Button
     Friend WithEvents LblTitulo As Label
     Friend WithEvents LblDatos As Label
-    Friend WithEvents ImageList1 As ImageList
-    Friend WithEvents Label1 As Label
-    Friend WithEvents Label2 As Label
+    Friend WithEvents LblImagen1 As Label
+    Friend WithEvents LblImagen2 As Label
 End Class
