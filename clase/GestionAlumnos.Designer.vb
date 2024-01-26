@@ -146,7 +146,7 @@ Partial Class GestionAlumnos
         BtnPrimero.Location = New Point(74, 143)
         BtnPrimero.Name = "BtnPrimero"
         BtnPrimero.Size = New Size(75, 23)
-        BtnPrimero.TabIndex = 9
+        BtnPrimero.TabIndex = 1
         BtnPrimero.Text = "Ir al inicio"
         BtnPrimero.UseVisualStyleBackColor = True
         ' 
@@ -155,7 +155,7 @@ Partial Class GestionAlumnos
         BtnAnterior.Location = New Point(169, 143)
         BtnAnterior.Name = "BtnAnterior"
         BtnAnterior.Size = New Size(75, 23)
-        BtnAnterior.TabIndex = 10
+        BtnAnterior.TabIndex = 2
         BtnAnterior.Text = "Anterior"
         BtnAnterior.UseVisualStyleBackColor = True
         ' 
@@ -164,7 +164,7 @@ Partial Class GestionAlumnos
         BtnSiguiente.Location = New Point(273, 143)
         BtnSiguiente.Name = "BtnSiguiente"
         BtnSiguiente.Size = New Size(75, 23)
-        BtnSiguiente.TabIndex = 11
+        BtnSiguiente.TabIndex = 3
         BtnSiguiente.Text = "Siguiente"
         BtnSiguiente.UseVisualStyleBackColor = True
         ' 
@@ -173,7 +173,7 @@ Partial Class GestionAlumnos
         BtnFin.Location = New Point(372, 143)
         BtnFin.Name = "BtnFin"
         BtnFin.Size = New Size(75, 23)
-        BtnFin.TabIndex = 12
+        BtnFin.TabIndex = 4
         BtnFin.Text = "Ir al final"
         BtnFin.UseVisualStyleBackColor = True
         ' 
@@ -184,7 +184,7 @@ Partial Class GestionAlumnos
         ListViewAlumnos.MultiSelect = False
         ListViewAlumnos.Name = "ListViewAlumnos"
         ListViewAlumnos.Size = New Size(686, 601)
-        ListViewAlumnos.TabIndex = 13
+        ListViewAlumnos.TabIndex = 7
         ListViewAlumnos.UseCompatibleStateImageBehavior = False
         ' 
         ' MenuStrip1
@@ -226,56 +226,57 @@ Partial Class GestionAlumnos
         TbId.Name = "TbId"
         TbId.ReadOnly = True
         TbId.Size = New Size(100, 23)
-        TbId.TabIndex = 15
+        TbId.TabIndex = 0
+        TbId.TabStop = False
         ' 
         ' TbNombre
         ' 
         TbNombre.Location = New Point(72, 270)
         TbNombre.Name = "TbNombre"
         TbNombre.Size = New Size(222, 23)
-        TbNombre.TabIndex = 16
+        TbNombre.TabIndex = 8
         ' 
         ' TbApellido
         ' 
-        TbApellido.Location = New Point(73, 348)
+        TbApellido.Location = New Point(74, 348)
         TbApellido.Name = "TbApellido"
         TbApellido.Size = New Size(318, 23)
-        TbApellido.TabIndex = 17
+        TbApellido.TabIndex = 9
         ' 
         ' TbDireccion
         ' 
         TbDireccion.Location = New Point(74, 487)
         TbDireccion.Name = "TbDireccion"
         TbDireccion.Size = New Size(319, 23)
-        TbDireccion.TabIndex = 18
+        TbDireccion.TabIndex = 11
         ' 
         ' TbLocalidad
         ' 
         TbLocalidad.Location = New Point(73, 573)
         TbLocalidad.Name = "TbLocalidad"
         TbLocalidad.Size = New Size(100, 23)
-        TbLocalidad.TabIndex = 19
+        TbLocalidad.TabIndex = 12
         ' 
         ' TbMovil
         ' 
         TbMovil.Location = New Point(293, 573)
         TbMovil.Name = "TbMovil"
         TbMovil.Size = New Size(100, 23)
-        TbMovil.TabIndex = 20
+        TbMovil.TabIndex = 13
         ' 
         ' TbEmail
         ' 
         TbEmail.Location = New Point(72, 411)
         TbEmail.Name = "TbEmail"
         TbEmail.Size = New Size(319, 23)
-        TbEmail.TabIndex = 21
+        TbEmail.TabIndex = 10
         ' 
         ' TbNacionalidad
         ' 
         TbNacionalidad.Location = New Point(293, 654)
         TbNacionalidad.Name = "TbNacionalidad"
         TbNacionalidad.Size = New Size(100, 23)
-        TbNacionalidad.TabIndex = 23
+        TbNacionalidad.TabIndex = 15
         ' 
         ' TbFechaNacimiento
         ' 
@@ -283,14 +284,14 @@ Partial Class GestionAlumnos
         TbFechaNacimiento.Name = "TbFechaNacimiento"
         TbFechaNacimiento.PlaceholderText = "DD/MM/YYYY"
         TbFechaNacimiento.Size = New Size(100, 23)
-        TbFechaNacimiento.TabIndex = 22
+        TbFechaNacimiento.TabIndex = 14
         ' 
         ' BtnAdd
         ' 
         BtnAdd.Location = New Point(72, 748)
         BtnAdd.Name = "BtnAdd"
         BtnAdd.Size = New Size(321, 23)
-        BtnAdd.TabIndex = 24
+        BtnAdd.TabIndex = 16
         BtnAdd.Text = "Añadir Alumno"
         BtnAdd.UseVisualStyleBackColor = True
         ' 
@@ -300,14 +301,14 @@ Partial Class GestionAlumnos
         TbBuscarId.Name = "TbBuscarId"
         TbBuscarId.PlaceholderText = "ID"
         TbBuscarId.Size = New Size(100, 23)
-        TbBuscarId.TabIndex = 25
+        TbBuscarId.TabIndex = 5
         ' 
         ' BtnBuscar
         ' 
         BtnBuscar.Location = New Point(633, 143)
         BtnBuscar.Name = "BtnBuscar"
         BtnBuscar.Size = New Size(75, 23)
-        BtnBuscar.TabIndex = 26
+        BtnBuscar.TabIndex = 6
         BtnBuscar.Text = "Buscar"
         BtnBuscar.UseVisualStyleBackColor = True
         ' 

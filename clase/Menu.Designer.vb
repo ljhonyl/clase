@@ -37,7 +37,7 @@ Partial Class Menu
         BtnAlumnos.Location = New Point(553, 75)
         BtnAlumnos.Name = "BtnAlumnos"
         BtnAlumnos.Size = New Size(235, 31)
-        BtnAlumnos.TabIndex = 0
+        BtnAlumnos.TabIndex = 1
         BtnAlumnos.Text = "Gestión Alumnos"
         BtnAlumnos.UseVisualStyleBackColor = True
         ' 
@@ -48,7 +48,7 @@ Partial Class Menu
         BtnPruebas.Location = New Point(553, 147)
         BtnPruebas.Name = "BtnPruebas"
         BtnPruebas.Size = New Size(235, 31)
-        BtnPruebas.TabIndex = 1
+        BtnPruebas.TabIndex = 2
         BtnPruebas.Text = "Gestión Asignaturas"
         BtnPruebas.UseVisualStyleBackColor = True
         ' 
@@ -59,7 +59,7 @@ Partial Class Menu
         Button1.Location = New Point(553, 215)
         Button1.Name = "Button1"
         Button1.Size = New Size(235, 31)
-        Button1.TabIndex = 2
+        Button1.TabIndex = 3
         Button1.Text = "Gestión Cursa"
         Button1.UseVisualStyleBackColor = True
         ' 
@@ -70,7 +70,7 @@ Partial Class Menu
         Button2.Location = New Point(553, 283)
         Button2.Name = "Button2"
         Button2.Size = New Size(235, 31)
-        Button2.TabIndex = 3
+        Button2.TabIndex = 4
         Button2.Text = "Gestión Profesores"
         Button2.UseVisualStyleBackColor = True
         ' 
@@ -79,7 +79,7 @@ Partial Class Menu
         BtnSalir.Location = New Point(630, 352)
         BtnSalir.Name = "BtnSalir"
         BtnSalir.Size = New Size(75, 23)
-        BtnSalir.TabIndex = 4
+        BtnSalir.TabIndex = 5
         BtnSalir.Text = "Salir"
         BtnSalir.UseVisualStyleBackColor = True
         ' 
