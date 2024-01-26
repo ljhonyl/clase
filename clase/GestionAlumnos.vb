@@ -8,9 +8,12 @@ Public Class GestionAlumnos
     Private Sub GestionAlumnos_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.FormBorderStyle = FormBorderStyle.FixedSingle
         SetOpcionListado()
+
+        'Se desactiva el poder seleccionar el editar y eliminar hasta no seleccionar algo en el listView
         EditarToolStripMenuItem.Enabled = False
         EliminarToolStripMenuItem.Enabled = False
         BtnAdd.Hide()
+
         ListViewAlumnos.View = View.Details
         ListViewAlumnos.Columns.Add("ID", 50, HorizontalAlignment.Center)
         ListViewAlumnos.Columns.Add("Nombre", 130, HorizontalAlignment.Center)
@@ -24,8 +27,14 @@ Public Class GestionAlumnos
         ClaseBBDD.ActualizarListado(ListViewAlumnos)
     End Sub
 
+    '''<summary>
+    '''Metodo que nos permite avanzar un item hacia atrás simulando click en dicho item
+    '''</summary>
     Private Sub BtnAnterior_Click(sender As Object, e As EventArgs) Handles BtnAnterior.Click
         If ListViewAlumnos.SelectedItems.Count > 0 Then
+            '''<summary>
+            '''Al item que seleccionamos se le resta uno para tener el indice del anterior
+            '''</summary>
             Dim indice = ListViewAlumnos.SelectedIndices(0) - 1
             If indice >= 0 Then
                 ListViewAlumnos.Items(indice).EnsureVisible()
@@ -65,6 +74,13 @@ Public Class GestionAlumnos
         End If
     End Sub
 
+    ''' <summary>
+    ''' Método que gestiona las acciones al realizar en el caso de querer insertar,
+    ''' editar y eliminar de acuerdo a la la variable Opcion que nos indica en que 
+    ''' opcion estamos y guía el bloque condicional if
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
     Private Sub BtnAdd_Click(sender As Object, e As EventArgs) Handles BtnAdd.Click
 
         If String.IsNullOrEmpty(TbNombre.Text) Or String.IsNullOrEmpty(TbApellido.Text) Then
@@ -74,38 +90,14 @@ Public Class GestionAlumnos
             If DateTime.TryParseExact(TbFechaNacimiento.Text, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, Fecha) Then
                 Dim FechaFormateada As String = Fecha.ToString("yyyy-MM-dd")
 
-                Dim Alumno As New ModuloAlumno.Alumno
-                Alumno.Nombre = TbNombre.Text
-                Alumno.Apellidos = TbApellido.Text
-                Alumno.Direccion = TbDireccion.Text
-                Alumno.Localidad = TbLocalidad.Text
-                Alumno.Movil = TbMovil.Text
-                Alumno.Email = TbEmail.Text
-                Alumno.FechaNacimiento = FechaFormateada
-                Alumno.Nacionalidad = TbNacionalidad.Text
+                Dim Alumno = CrearAlumno(FechaFormateada)
 
                 If Opcion = 1 Then
-                    ClaseBBDD.Insertar(Alumno, ListViewAlumnos)
-                    For Each TextBox As Windows.Forms.TextBox In Me.Controls.OfType(Of Windows.Forms.TextBox)
-                        TextBox.Clear()
-                    Next
-                    CambiarAListado()
-                    ListViewAlumnos.Items(ListViewAlumnos.Items.Count - 1).EnsureVisible()
-                    ListViewAlumnos.Items(ListViewAlumnos.Items.Count - 1).Selected = True
+                    Insertar(Alumno)
                 ElseIf Opcion = 2 Then
-                    Dim id As Integer = Integer.Parse(TbId.Text)
-                    ClaseBBDD.Modificar(id, Alumno, ListViewAlumnos)
-                    CambiarAListado()
+                    modificar(Alumno)
                 ElseIf Opcion = 3 Then
-                    Dim Id As Integer = Integer.Parse(TbId.Text)
-                    Dim Result As MsgBoxResult = MsgBox("¿Desea eliminar al alumno? Esta accion no se puede deshacer", MsgBoxStyle.OkCancel Or MsgBoxStyle.Question, "Confirmar")
-
-                    If Result = MsgBoxResult.Ok Then
-                        ClaseBBDD.Eliminar(Id, ListViewAlumnos)
-                        MsgBox("Alumno eliminado correctamente", MsgBoxStyle.OkOnly, "Aviso")
-                        CambiarAListado()
-                    End If
-
+                    Eliminar()
                 End If
 
             Else
@@ -114,6 +106,9 @@ Public Class GestionAlumnos
         End If
     End Sub
 
+    ''' <summary>
+    ''' Método que recorre el menu y establece las condionces de cada opción
+    ''' </summary>
     Private Sub MenuStrip1_ItemClicked(sender As Object, e As ToolStripItemClickedEventArgs) Handles MenuStrip1.ItemClicked
         If e.ClickedItem.Text = "Listado" Then
             SetOpcionListado()
@@ -126,6 +121,9 @@ Public Class GestionAlumnos
         End If
     End Sub
 
+    ''' <summary>
+    ''' Metodo que simula clik en la opcion listado
+    ''' </summary>
     Private Sub CambiarAListado()
         For Each item As ToolStripItem In MenuStrip1.Items
             If item.Text = "Listado" Then
@@ -135,6 +133,10 @@ Public Class GestionAlumnos
         Next
     End Sub
 
+    ''' <summary>
+    ''' Método que quita el color y posteriormente pinta en forma de opcion que tiene
+    ''' el foco de acuerdo a la opcion que nos encontremos
+    ''' </summary>
     Private Sub PintaOpcion()
         For Each item As ToolStripItem In MenuStrip1.Items
             item.BackColor = SystemColors.Control
@@ -150,7 +152,10 @@ Public Class GestionAlumnos
         End If
 
     End Sub
-
+    ''' <summary>
+    ''' Método que establece los controles a mostras de acuerdo a la opcion 
+    ''' donde nos encontremos
+    ''' </summary>
     Private Sub SetOpcionListado()
         Opcion = 0
         PintaOpcion()
@@ -164,6 +169,11 @@ Public Class GestionAlumnos
         ListViewAlumnos.Show()
     End Sub
 
+    ''' <summary>
+    ''' Método que muestra o no los botenes para cumplir con las necesiades de la opcion
+    ''' requerida
+    ''' </summary>
+    ''' <param name="Mostrable">Valor que nos permite controlar cuando mostrar</param>
     Private Sub MostrarBotones(Mostrable As Boolean)
         For Each Button As Windows.Forms.Button In Me.Controls.OfType(Of Windows.Forms.Button)
             If (Mostrable) Then
@@ -174,6 +184,13 @@ Public Class GestionAlumnos
         Next
     End Sub
 
+    ''' <summary>
+    ''' Método que nos permite controlar las cajas de texto para cumplir con las necesidades 
+    ''' de la opcion requerida
+    ''' </summary>
+    ''' <param name="SoloLectura">Controla la lectura</param>
+    ''' <param name="Limpiable">Controla el vaciar las cajas de texto</param>
+    ''' <param name="Visible">controla el mostrar o bo las cjas de texto</param>
     Private Sub ManejarTextBox(SoloLectura As Boolean, Limpiable As Boolean, Visible As Boolean)
         For Each TextBox As Windows.Forms.TextBox In Me.Controls.OfType(Of Windows.Forms.TextBox)
             If SoloLectura Then
@@ -196,6 +213,7 @@ Public Class GestionAlumnos
         Next
     End Sub
 
+    'Mismo funcionalidad que un método similar
     Private Sub ManejarLabel(Visible As Boolean)
         For Each Label As Windows.Forms.Label In Me.Controls.OfType(Of Windows.Forms.Label)
             If Visible Then
@@ -206,6 +224,7 @@ Public Class GestionAlumnos
         Next
     End Sub
 
+    '---------Mismas funcionalidades que un método similar---------
     Private Sub SetOpcionInsertar()
         Opcion = 1
         PintaOpcion()
@@ -248,9 +267,13 @@ Public Class GestionAlumnos
         BtnAdd.Text = "Eliminar"
         ListViewAlumnos.Hide()
     End Sub
+    '---------Fin de métodos similares---------
 
-
-
+    ''' <summary>
+    ''' Método extrae la infromación de cada elemnto del listView y los muestra donde
+    ''' son necesarios
+    ''' </summary>
+    ''' <param name="indice">Indice del item a volcar su información</param>
     Private Sub MostrarItemEnTextBox(indice As Integer)
         Dim item = ListViewAlumnos.Items(indice)
         TbId.Text = item.SubItems(0).Text
@@ -266,10 +289,6 @@ Public Class GestionAlumnos
 
     Private Sub GestionAlumnos_Closing(sender As Object, e As CancelEventArgs) Handles MyBase.Closing
         Application.Exit()
-    End Sub
-
-    Private Sub ListadoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ListadoToolStripMenuItem.Click
-        SetOpcionListado()
     End Sub
 
     Private Sub BtnBuscar_Click(sender As Object, e As EventArgs) Handles BtnBuscar.Click
@@ -291,4 +310,56 @@ Public Class GestionAlumnos
             End If
         End If
     End Sub
+
+    Private Sub Insertar(Alumno As ModuloAlumno.Alumno)
+        ClaseBBDD.Insertar(Alumno, ListViewAlumnos)
+        For Each TextBox As Windows.Forms.TextBox In Me.Controls.OfType(Of Windows.Forms.TextBox)
+            TextBox.Clear()
+        Next
+        CambiarAListado()
+        ListViewAlumnos.Items(ListViewAlumnos.Items.Count - 1).EnsureVisible()
+        ListViewAlumnos.Items(ListViewAlumnos.Items.Count - 1).Selected = True
+    End Sub
+
+    Private Sub modificar(Alumno As Alumno)
+        Dim Indice = ListViewAlumnos.SelectedIndices(0)
+        Dim Id As Integer = Integer.Parse(TbId.Text)
+        ClaseBBDD.Modificar(Id, Alumno, ListViewAlumnos)
+        ListViewAlumnos.Items(Indice).EnsureVisible()
+        ListViewAlumnos.Items(Indice).Selected = True
+
+        MsgBox("Alumno modificado correctamente", MsgBoxStyle.OkOnly, "Aviso")
+    End Sub
+
+    Private Sub Eliminar()
+        Dim Id As Integer = Integer.Parse(TbId.Text)
+        Dim Result As MsgBoxResult = MsgBox("¿Desea eliminar al alumno? Esta accion no se puede deshacer", MsgBoxStyle.OkCancel Or MsgBoxStyle.Question, "Confirmar")
+
+        If Result = MsgBoxResult.Ok Then
+            ClaseBBDD.Eliminar(Id, ListViewAlumnos)
+            MsgBox("Alumno eliminado correctamente", MsgBoxStyle.OkOnly, "Aviso")
+            CambiarAListado()
+        End If
+    End Sub
+
+    ''' <summary>
+    ''' Método que genera la estructura alumno necesaria para nuestro modelo de negocios
+    ''' </summary>
+    ''' <param name="FechaNacimeinto">
+    ''' Fecha a la que se le da formato para no generar errores en la base de datos
+    ''' </param>
+    ''' <returns></returns>
+    Private Function CrearAlumno(FechaNacimeinto As String) As ModuloAlumno.Alumno
+        Dim Alumno As New ModuloAlumno.Alumno
+        Alumno.Nombre = TbNombre.Text
+        Alumno.Apellidos = TbApellido.Text
+        Alumno.Direccion = TbDireccion.Text
+        Alumno.Localidad = TbLocalidad.Text
+        Alumno.Movil = TbMovil.Text
+        Alumno.Email = TbEmail.Text
+        Alumno.FechaNacimiento = FechaNacimeinto
+        Alumno.Nacionalidad = TbNacionalidad.Text
+
+        Return Alumno
+    End Function
 End Class
