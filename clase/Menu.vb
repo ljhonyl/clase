@@ -7,7 +7,8 @@ Public Class Menu
     End Sub
 
     Private Sub BtnPruebas_Click(sender As Object, e As EventArgs) Handles BtnPruebas.Click
-
+        Me.Hide()
+        GestionAsignaturas.Show()
     End Sub
 
     Private Sub BtnSalir_Click(sender As Object, e As EventArgs) Handles BtnSalir.Click
@@ -25,7 +26,7 @@ Public Class Menu
         boton.Region = New Region(path)
         boton.FlatStyle = FlatStyle.Flat
         boton.FlatAppearance.BorderSize = 0
-        boton.BackColor = Color.FromArgb(173, 216, 230) ' Color de fondo normal (azul claro)
+        boton.BackColor = Color.FromArgb(173, 216, 230)
         boton.FlatAppearance.MouseOverBackColor = Color.FromArgb(135, 206, 250)
     End Sub
 End Class

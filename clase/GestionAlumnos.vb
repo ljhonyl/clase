@@ -24,7 +24,7 @@ Public Class GestionAlumnos
         ListViewAlumnos.Columns.Add("Email", 220)
         ListViewAlumnos.Columns.Add("Fecha Nacimiento", 130)
         ListViewAlumnos.Columns.Add("Nacionalidad", 130)
-        ClaseBBDD.ActualizarListado(ListViewAlumnos)
+        AlumnoADO.ActualizarListado(ListViewAlumnos)
     End Sub
 
     '''<summary>
@@ -312,7 +312,7 @@ Public Class GestionAlumnos
     End Sub
 
     Private Sub Insertar(Alumno As ModuloAlumno.Alumno)
-        ClaseBBDD.Insertar(Alumno, ListViewAlumnos)
+        AlumnoADO.Insertar(Alumno, ListViewAlumnos)
         For Each TextBox As Windows.Forms.TextBox In Me.Controls.OfType(Of Windows.Forms.TextBox)
             TextBox.Clear()
         Next
@@ -324,7 +324,7 @@ Public Class GestionAlumnos
     Private Sub modificar(Alumno As Alumno)
         Dim Indice = ListViewAlumnos.SelectedIndices(0)
         Dim Id As Integer = Integer.Parse(TbId.Text)
-        ClaseBBDD.Modificar(Id, Alumno, ListViewAlumnos)
+        AlumnoADO.Modificar(Id, Alumno, ListViewAlumnos)
         ListViewAlumnos.Items(Indice).EnsureVisible()
         ListViewAlumnos.Items(Indice).Selected = True
 
@@ -336,7 +336,7 @@ Public Class GestionAlumnos
         Dim Result As MsgBoxResult = MsgBox("¿Desea eliminar al alumno? Esta accion no se puede deshacer", MsgBoxStyle.OkCancel Or MsgBoxStyle.Question, "Confirmar")
 
         If Result = MsgBoxResult.Ok Then
-            ClaseBBDD.Eliminar(Id, ListViewAlumnos)
+            AlumnoADO.Eliminar(Id, ListViewAlumnos)
             MsgBox("Alumno eliminado correctamente", MsgBoxStyle.OkOnly, "Aviso")
             CambiarAListado()
         End If

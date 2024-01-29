@@ -1,6 +1,6 @@
 ﻿Imports System.Data.SQLite
 
-Module ClaseBBDD
+Module AlumnoADO
     Dim Url As String = "C:Users\diurno\Clase.db"
     Public AdaptadorDatosAlum As SQLiteDataAdapter
     Public DatosConjuntoAlum As DataSet
@@ -110,12 +110,10 @@ Module ClaseBBDD
         DatosConjuntoAlum.Tables(0).Rows(0).Item(6) = Alumno.Email
         DatosConjuntoAlum.Tables(0).Rows(0).Item(7) = Alumno.FechaNacimiento
         DatosConjuntoAlum.Tables(0).Rows(0).Item(8) = Alumno.Nacionalidad
-        DatosConjuntoAlum.Tables(0).Rows(0).EndEdit
+        DatosConjuntoAlum.Tables(0).Rows(0).EndEdit()
 
         Comando.ExecuteNonQuery()
 
         ActualizarListado(ListView)
     End Sub
-
-
 End Module
