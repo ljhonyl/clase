@@ -14,8 +14,4 @@ Public Class GestionAsignaturas
     Private Sub GestionAsignaturas_Closing(sender As Object, e As CancelEventArgs) Handles MyBase.Closing
         Application.Exit()
     End Sub
-
-    Private Sub ToolStripComboBox1_Click(sender As Object, e As EventArgs) Handles ToolStripComboBox1.Click
-
-    End Sub
 End Class
