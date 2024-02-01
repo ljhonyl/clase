@@ -44,7 +44,7 @@ Module AsignaturaADO
     End Sub
 
     Sub Insertar(Asignatura As Asignatura, ListView As Windows.Forms.ListView)
-        Dim Query As String = "INSERT INTO Asignaturas (Nombre, Aula, Profesor) values (@Nom, @Aul, @Pro);"
+        Dim Query As String = "INSERT INTO Asignaturas (Nombre, Aula, Profesor) VALUES (@Nom, @Aul, @Pro);"
         Dim Comando As New SQLiteCommand(Query, ConectarBD())
         AdaptadorDatos.InsertCommand = Comando
 
@@ -77,7 +77,7 @@ Module AsignaturaADO
     End Sub
 
     Sub Modificar(Id As Integer, Asignatura As ModuloAsignatura.Asignatura, ListView As Windows.Forms.ListView)
-        Dim Query As String = "UPDATE Alumnos SET Nombre=@Nom, Aula=@Aul, Profesor=@Pro) WHERE Id=@Id;"
+        Dim Query As String = "UPDATE Asignaturas SET Nombre=@Nom, Aula=@Aul, Profesor=@Pro WHERE Id=@Id;"
         Dim Comando = New SQLiteCommand(Query, ConectarBD)
         AdaptadorDatos.UpdateCommand = Comando
 

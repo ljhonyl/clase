@@ -23,143 +23,148 @@ Partial Class GestionAsignaturas
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         ListViewAsignaturas = New ListView()
-        TextBox1 = New TextBox()
-        TextBox2 = New TextBox()
-        TextBox3 = New TextBox()
-        TextBox4 = New TextBox()
-        Label1 = New Label()
-        Label2 = New Label()
-        Label3 = New Label()
-        Label4 = New Label()
-        Button1 = New Button()
-        Button2 = New Button()
-        Button3 = New Button()
-        Button4 = New Button()
-        Button5 = New Button()
+        TbId = New TextBox()
+        TbAsignatura = New TextBox()
+        TbAula = New TextBox()
+        TbProfesor = New TextBox()
+        LblId = New Label()
+        LblAsignatura = New Label()
+        LblAula = New Label()
+        LblProfesor = New Label()
+        BtnPrimero = New Button()
+        BtnAnterior = New Button()
+        BtnSiguiente = New Button()
+        BtnFin = New Button()
+        BtnAdd = New Button()
         MenuStrip1 = New MenuStrip()
         ListadoToolStripMenuItem = New ToolStripMenuItem()
         InsertarToolStripMenuItem = New ToolStripMenuItem()
         EditarToolStripMenuItem = New ToolStripMenuItem()
         EliminarToolStripMenuItem = New ToolStripMenuItem()
+        Label5 = New Label()
+        TbBuscarId = New TextBox()
+        BtnBuscar = New Button()
         MenuStrip1.SuspendLayout()
         SuspendLayout()
         ' 
         ' ListViewAsignaturas
         ' 
+        ListViewAsignaturas.FullRowSelect = True
         ListViewAsignaturas.Location = New Point(26, 283)
+        ListViewAsignaturas.MultiSelect = False
         ListViewAsignaturas.Name = "ListViewAsignaturas"
         ListViewAsignaturas.Size = New Size(680, 510)
         ListViewAsignaturas.TabIndex = 0
         ListViewAsignaturas.UseCompatibleStateImageBehavior = False
         ' 
-        ' TextBox1
+        ' TbId
         ' 
-        TextBox1.Location = New Point(129, 86)
-        TextBox1.Name = "TextBox1"
-        TextBox1.Size = New Size(100, 23)
-        TextBox1.TabIndex = 5
+        TbId.Location = New Point(129, 86)
+        TbId.Name = "TbId"
+        TbId.Size = New Size(100, 23)
+        TbId.TabIndex = 5
         ' 
-        ' TextBox2
+        ' TbAsignatura
         ' 
-        TextBox2.Location = New Point(459, 86)
-        TextBox2.Name = "TextBox2"
-        TextBox2.Size = New Size(196, 23)
-        TextBox2.TabIndex = 6
+        TbAsignatura.Location = New Point(459, 86)
+        TbAsignatura.Name = "TbAsignatura"
+        TbAsignatura.Size = New Size(196, 23)
+        TbAsignatura.TabIndex = 6
         ' 
-        ' TextBox3
+        ' TbAula
         ' 
-        TextBox3.Location = New Point(129, 142)
-        TextBox3.Name = "TextBox3"
-        TextBox3.Size = New Size(153, 23)
-        TextBox3.TabIndex = 7
+        TbAula.Location = New Point(129, 142)
+        TbAula.Name = "TbAula"
+        TbAula.Size = New Size(153, 23)
+        TbAula.TabIndex = 7
         ' 
-        ' TextBox4
+        ' TbProfesor
         ' 
-        TextBox4.Location = New Point(459, 145)
-        TextBox4.Name = "TextBox4"
-        TextBox4.Size = New Size(196, 23)
-        TextBox4.TabIndex = 8
+        TbProfesor.Location = New Point(459, 145)
+        TbProfesor.Name = "TbProfesor"
+        TbProfesor.Size = New Size(196, 23)
+        TbProfesor.TabIndex = 8
         ' 
-        ' Label1
+        ' LblId
         ' 
-        Label1.AutoSize = True
-        Label1.Location = New Point(106, 89)
-        Label1.Name = "Label1"
-        Label1.Size = New Size(17, 15)
-        Label1.TabIndex = 9
-        Label1.Text = "Id"
+        LblId.AutoSize = True
+        LblId.Location = New Point(106, 89)
+        LblId.Name = "LblId"
+        LblId.Size = New Size(17, 15)
+        LblId.TabIndex = 9
+        LblId.Text = "Id"
         ' 
-        ' Label2
+        ' LblAsignatura
         ' 
-        Label2.AutoSize = True
-        Label2.Location = New Point(389, 89)
-        Label2.Name = "Label2"
-        Label2.Size = New Size(64, 15)
-        Label2.TabIndex = 10
-        Label2.Text = "Asignatura"
+        LblAsignatura.AutoSize = True
+        LblAsignatura.Location = New Point(389, 89)
+        LblAsignatura.Name = "LblAsignatura"
+        LblAsignatura.Size = New Size(64, 15)
+        LblAsignatura.TabIndex = 10
+        LblAsignatura.Text = "Asignatura"
         ' 
-        ' Label3
+        ' LblAula
         ' 
-        Label3.AutoSize = True
-        Label3.Location = New Point(92, 145)
-        Label3.Name = "Label3"
-        Label3.Size = New Size(31, 15)
-        Label3.TabIndex = 11
-        Label3.Text = "Aula"
+        LblAula.AutoSize = True
+        LblAula.Location = New Point(92, 145)
+        LblAula.Name = "LblAula"
+        LblAula.Size = New Size(31, 15)
+        LblAula.TabIndex = 11
+        LblAula.Text = "Aula"
         ' 
-        ' Label4
+        ' LblProfesor
         ' 
-        Label4.AutoSize = True
-        Label4.Location = New Point(402, 148)
-        Label4.Name = "Label4"
-        Label4.Size = New Size(51, 15)
-        Label4.TabIndex = 12
-        Label4.Text = "Profesor"
+        LblProfesor.AutoSize = True
+        LblProfesor.Location = New Point(402, 148)
+        LblProfesor.Name = "LblProfesor"
+        LblProfesor.Size = New Size(51, 15)
+        LblProfesor.TabIndex = 12
+        LblProfesor.Text = "Profesor"
         ' 
-        ' Button1
+        ' BtnPrimero
         ' 
-        Button1.Location = New Point(172, 235)
-        Button1.Name = "Button1"
-        Button1.Size = New Size(75, 23)
-        Button1.TabIndex = 13
-        Button1.Text = "Button1"
-        Button1.UseVisualStyleBackColor = True
+        BtnPrimero.Location = New Point(29, 241)
+        BtnPrimero.Name = "BtnPrimero"
+        BtnPrimero.Size = New Size(75, 23)
+        BtnPrimero.TabIndex = 13
+        BtnPrimero.Text = "Button1"
+        BtnPrimero.UseVisualStyleBackColor = True
         ' 
-        ' Button2
+        ' BtnAnterior
         ' 
-        Button2.Location = New Point(272, 235)
-        Button2.Name = "Button2"
-        Button2.Size = New Size(75, 23)
-        Button2.TabIndex = 14
-        Button2.Text = "Button2"
-        Button2.UseVisualStyleBackColor = True
+        BtnAnterior.Location = New Point(129, 241)
+        BtnAnterior.Name = "BtnAnterior"
+        BtnAnterior.Size = New Size(75, 23)
+        BtnAnterior.TabIndex = 14
+        BtnAnterior.Text = "Button2"
+        BtnAnterior.UseVisualStyleBackColor = True
         ' 
-        ' Button3
+        ' BtnSiguiente
         ' 
-        Button3.Location = New Point(378, 235)
-        Button3.Name = "Button3"
-        Button3.Size = New Size(75, 23)
-        Button3.TabIndex = 15
-        Button3.Text = "Button3"
-        Button3.UseVisualStyleBackColor = True
+        BtnSiguiente.Location = New Point(235, 241)
+        BtnSiguiente.Name = "BtnSiguiente"
+        BtnSiguiente.Size = New Size(75, 23)
+        BtnSiguiente.TabIndex = 15
+        BtnSiguiente.Text = "Button3"
+        BtnSiguiente.UseVisualStyleBackColor = True
         ' 
-        ' Button4
+        ' BtnFin
         ' 
-        Button4.Location = New Point(478, 235)
-        Button4.Name = "Button4"
-        Button4.Size = New Size(75, 23)
-        Button4.TabIndex = 16
-        Button4.Text = "Button4"
-        Button4.UseVisualStyleBackColor = True
+        BtnFin.Location = New Point(335, 241)
+        BtnFin.Name = "BtnFin"
+        BtnFin.Size = New Size(75, 23)
+        BtnFin.TabIndex = 16
+        BtnFin.Text = "Button4"
+        BtnFin.UseVisualStyleBackColor = True
         ' 
-        ' Button5
+        ' BtnAdd
         ' 
-        Button5.Location = New Point(580, 195)
-        Button5.Name = "Button5"
-        Button5.Size = New Size(75, 23)
-        Button5.TabIndex = 17
-        Button5.Text = "Button5"
-        Button5.UseVisualStyleBackColor = True
+        BtnAdd.Location = New Point(580, 195)
+        BtnAdd.Name = "BtnAdd"
+        BtnAdd.Size = New Size(75, 23)
+        BtnAdd.TabIndex = 17
+        BtnAdd.Text = "Button5"
+        BtnAdd.UseVisualStyleBackColor = True
         ' 
         ' MenuStrip1
         ' 
@@ -194,24 +199,53 @@ Partial Class GestionAsignaturas
         EliminarToolStripMenuItem.Size = New Size(62, 20)
         EliminarToolStripMenuItem.Text = "Eliminar"
         ' 
+        ' Label5
+        ' 
+        Label5.AutoSize = True
+        Label5.Font = New Font("Segoe UI", 20F, FontStyle.Bold Or FontStyle.Italic, GraphicsUnit.Point)
+        Label5.Location = New Point(272, 24)
+        Label5.Name = "Label5"
+        Label5.Size = New Size(170, 37)
+        Label5.TabIndex = 19
+        Label5.Text = "Asignaturas"
+        ' 
+        ' TbBuscarId
+        ' 
+        TbBuscarId.Location = New Point(475, 243)
+        TbBuscarId.Name = "TbBuscarId"
+        TbBuscarId.Size = New Size(100, 23)
+        TbBuscarId.TabIndex = 20
+        ' 
+        ' BtnBuscar
+        ' 
+        BtnBuscar.Location = New Point(581, 243)
+        BtnBuscar.Name = "BtnBuscar"
+        BtnBuscar.Size = New Size(75, 23)
+        BtnBuscar.TabIndex = 21
+        BtnBuscar.Text = "Button1"
+        BtnBuscar.UseVisualStyleBackColor = True
+        ' 
         ' GestionAsignaturas
         ' 
-        AutoScaleDimensions = New SizeF(7.0F, 15.0F)
+        AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         ClientSize = New Size(734, 819)
-        Controls.Add(Button5)
-        Controls.Add(Button4)
-        Controls.Add(Button3)
-        Controls.Add(Button2)
-        Controls.Add(Button1)
-        Controls.Add(Label4)
-        Controls.Add(Label3)
-        Controls.Add(Label2)
-        Controls.Add(Label1)
-        Controls.Add(TextBox4)
-        Controls.Add(TextBox3)
-        Controls.Add(TextBox2)
-        Controls.Add(TextBox1)
+        Controls.Add(BtnBuscar)
+        Controls.Add(TbBuscarId)
+        Controls.Add(Label5)
+        Controls.Add(BtnAdd)
+        Controls.Add(BtnFin)
+        Controls.Add(BtnSiguiente)
+        Controls.Add(BtnAnterior)
+        Controls.Add(BtnPrimero)
+        Controls.Add(LblProfesor)
+        Controls.Add(LblAula)
+        Controls.Add(LblAsignatura)
+        Controls.Add(LblId)
+        Controls.Add(TbProfesor)
+        Controls.Add(TbAula)
+        Controls.Add(TbAsignatura)
+        Controls.Add(TbId)
         Controls.Add(ListViewAsignaturas)
         Controls.Add(MenuStrip1)
         MainMenuStrip = MenuStrip1
@@ -224,22 +258,25 @@ Partial Class GestionAsignaturas
     End Sub
 
     Friend WithEvents ListViewAsignaturas As ListView
-    Friend WithEvents TextBox1 As TextBox
-    Friend WithEvents TextBox2 As TextBox
-    Friend WithEvents TextBox3 As TextBox
-    Friend WithEvents TextBox4 As TextBox
-    Friend WithEvents Label1 As Label
-    Friend WithEvents Label2 As Label
-    Friend WithEvents Label3 As Label
-    Friend WithEvents Label4 As Label
-    Friend WithEvents Button1 As Button
-    Friend WithEvents Button2 As Button
-    Friend WithEvents Button3 As Button
-    Friend WithEvents Button4 As Button
-    Friend WithEvents Button5 As Button
+    Friend WithEvents TbId As TextBox
+    Friend WithEvents TbAsignatura As TextBox
+    Friend WithEvents TbAula As TextBox
+    Friend WithEvents TbProfesor As TextBox
+    Friend WithEvents LblId As Label
+    Friend WithEvents LblAsignatura As Label
+    Friend WithEvents LblAula As Label
+    Friend WithEvents LblProfesor As Label
+    Friend WithEvents BtnPrimero As Button
+    Friend WithEvents BtnAnterior As Button
+    Friend WithEvents BtnSiguiente As Button
+    Friend WithEvents BtnFin As Button
+    Friend WithEvents BtnAdd As Button
     Friend WithEvents MenuStrip1 As MenuStrip
     Friend WithEvents ListadoToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents InsertarToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents EditarToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents EliminarToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents Label5 As Label
+    Friend WithEvents TbBuscarId As TextBox
+    Friend WithEvents BtnBuscar As Button
 End Class
