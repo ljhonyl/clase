@@ -7,7 +7,8 @@ Public Class Menu
     End Sub
 
     Private Sub BtnPruebas_Click(sender As Object, e As EventArgs) Handles BtnPruebas.Click
-
+        Me.Hide()
+        GestionAsignaturas.Show()
     End Sub
 
     Private Sub BtnSalir_Click(sender As Object, e As EventArgs) Handles BtnSalir.Click
@@ -32,5 +33,10 @@ Public Class Menu
         Boton.FlatAppearance.BorderSize = 0
         Boton.BackColor = Color.FromArgb(173, 216, 230) ' Color de fondo normal (azul claro)
         Boton.FlatAppearance.MouseOverBackColor = Color.FromArgb(135, 206, 250)
+    End Sub
+
+    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
+        Me.Hide()
+        GestionProfesores.Show()
     End Sub
 End Class
