@@ -19,13 +19,18 @@ Public Class Menu
             RedondearBoton(Button)
         Next
     End Sub
-    Private Sub RedondearBoton(boton As Button)
+
+    ''' <summary>
+    ''' Método que crea una elipse de acuerdo a las dimensiones del botón
+    ''' </summary>
+    ''' <param name="Boton">Botón que establece el tamaño de la elipse</param>
+    Private Sub RedondearBoton(Boton As Button)
         Dim path As New GraphicsPath()
-        path.AddEllipse(0, 0, boton.Width, boton.Height)
-        boton.Region = New Region(path)
-        boton.FlatStyle = FlatStyle.Flat
-        boton.FlatAppearance.BorderSize = 0
-        boton.BackColor = Color.FromArgb(173, 216, 230) ' Color de fondo normal (azul claro)
-        boton.FlatAppearance.MouseOverBackColor = Color.FromArgb(135, 206, 250)
+        path.AddEllipse(0, 0, Boton.Width, Boton.Height)
+        Boton.Region = New Region(path)
+        Boton.FlatStyle = FlatStyle.Flat
+        Boton.FlatAppearance.BorderSize = 0
+        Boton.BackColor = Color.FromArgb(173, 216, 230) ' Color de fondo normal (azul claro)
+        Boton.FlatAppearance.MouseOverBackColor = Color.FromArgb(135, 206, 250)
     End Sub
 End Class

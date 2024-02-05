@@ -232,6 +232,7 @@ Partial Class GestionAlumnos
         ' TbNombre
         ' 
         TbNombre.Location = New Point(72, 270)
+        TbNombre.MaxLength = 25
         TbNombre.Name = "TbNombre"
         TbNombre.Size = New Size(222, 23)
         TbNombre.TabIndex = 8
@@ -239,6 +240,7 @@ Partial Class GestionAlumnos
         ' TbApellido
         ' 
         TbApellido.Location = New Point(74, 348)
+        TbApellido.MaxLength = 35
         TbApellido.Name = "TbApellido"
         TbApellido.Size = New Size(318, 23)
         TbApellido.TabIndex = 9
@@ -246,6 +248,7 @@ Partial Class GestionAlumnos
         ' TbDireccion
         ' 
         TbDireccion.Location = New Point(74, 487)
+        TbDireccion.MaxLength = 40
         TbDireccion.Name = "TbDireccion"
         TbDireccion.Size = New Size(319, 23)
         TbDireccion.TabIndex = 11
@@ -253,6 +256,7 @@ Partial Class GestionAlumnos
         ' TbLocalidad
         ' 
         TbLocalidad.Location = New Point(73, 573)
+        TbLocalidad.MaxLength = 12
         TbLocalidad.Name = "TbLocalidad"
         TbLocalidad.Size = New Size(100, 23)
         TbLocalidad.TabIndex = 12
@@ -260,6 +264,7 @@ Partial Class GestionAlumnos
         ' TbMovil
         ' 
         TbMovil.Location = New Point(293, 573)
+        TbMovil.MaxLength = 9
         TbMovil.Name = "TbMovil"
         TbMovil.Size = New Size(100, 23)
         TbMovil.TabIndex = 13
@@ -267,6 +272,7 @@ Partial Class GestionAlumnos
         ' TbEmail
         ' 
         TbEmail.Location = New Point(72, 411)
+        TbEmail.MaxLength = 35
         TbEmail.Name = "TbEmail"
         TbEmail.Size = New Size(319, 23)
         TbEmail.TabIndex = 10
@@ -274,6 +280,7 @@ Partial Class GestionAlumnos
         ' TbNacionalidad
         ' 
         TbNacionalidad.Location = New Point(293, 654)
+        TbNacionalidad.MaxLength = 15
         TbNacionalidad.Name = "TbNacionalidad"
         TbNacionalidad.Size = New Size(100, 23)
         TbNacionalidad.TabIndex = 15
@@ -281,6 +288,7 @@ Partial Class GestionAlumnos
         ' TbFechaNacimiento
         ' 
         TbFechaNacimiento.Location = New Point(73, 656)
+        TbFechaNacimiento.MaxLength = 10
         TbFechaNacimiento.Name = "TbFechaNacimiento"
         TbFechaNacimiento.PlaceholderText = "DD/MM/YYYY"
         TbFechaNacimiento.Size = New Size(100, 23)
@@ -298,6 +306,7 @@ Partial Class GestionAlumnos
         ' TbBuscarId
         ' 
         TbBuscarId.Location = New Point(510, 143)
+        TbBuscarId.MaxLength = 3
         TbBuscarId.Name = "TbBuscarId"
         TbBuscarId.PlaceholderText = "ID"
         TbBuscarId.Size = New Size(100, 23)
@@ -314,7 +323,7 @@ Partial Class GestionAlumnos
         ' 
         ' LblTitulo
         ' 
-        LblTitulo.Font = New Font("Segoe UI", 20F, FontStyle.Bold Or FontStyle.Italic, GraphicsUnit.Point)
+        LblTitulo.Font = New Font("Segoe UI", 20.0F, FontStyle.Bold Or FontStyle.Italic, GraphicsUnit.Point)
         LblTitulo.Location = New Point(273, 57)
         LblTitulo.Name = "LblTitulo"
         LblTitulo.Size = New Size(175, 49)
@@ -325,7 +334,7 @@ Partial Class GestionAlumnos
         ' 
         LblDatos.AutoSize = True
         LblDatos.BackColor = SystemColors.ScrollBar
-        LblDatos.Font = New Font("Segoe UI", 13F, FontStyle.Bold Or FontStyle.Italic, GraphicsUnit.Point)
+        LblDatos.Font = New Font("Segoe UI", 13.0F, FontStyle.Bold Or FontStyle.Italic, GraphicsUnit.Point)
         LblDatos.Location = New Point(72, 175)
         LblDatos.Name = "LblDatos"
         LblDatos.Size = New Size(157, 25)
@@ -351,7 +360,7 @@ Partial Class GestionAlumnos
         ' 
         ' GestionAlumnos
         ' 
-        AutoScaleDimensions = New SizeF(7F, 15F)
+        AutoScaleDimensions = New SizeF(7.0F, 15.0F)
         AutoScaleMode = AutoScaleMode.Font
         ClientSize = New Size(734, 819)
         Controls.Add(LblImagen2)

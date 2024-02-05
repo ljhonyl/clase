@@ -8,10 +8,6 @@ Public Class GestionAlumnos
     Private Sub GestionAlumnos_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.FormBorderStyle = FormBorderStyle.FixedSingle
         SetOpcionListado()
-
-        'Se desactiva el poder seleccionar el editar y eliminar hasta no seleccionar algo en el listView
-        EditarToolStripMenuItem.Enabled = False
-        EliminarToolStripMenuItem.Enabled = False
         BtnAdd.Hide()
 
         ListViewAlumnos.View = View.Details
@@ -45,9 +41,6 @@ Public Class GestionAlumnos
 
     Private Sub ListViewAlumnos_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ListViewAlumnos.SelectedIndexChanged
         If ListViewAlumnos.SelectedItems.Count > 0 Then
-            'Activamos las opciones editar y eliminar del menú
-            EditarToolStripMenuItem.Enabled = True
-            EliminarToolStripMenuItem.Enabled = True
             Dim Indice As Integer = ListViewAlumnos.SelectedIndices(0)
             MostrarItemEnTextBox(Indice)
         End If
@@ -237,8 +230,6 @@ Public Class GestionAlumnos
         MostrarBotones(False)
         BtnAdd.Text = "Añadir"
         BtnAdd.Show()
-        EditarToolStripMenuItem.Enabled = False
-        EliminarToolStripMenuItem.Enabled = False
         ListViewAlumnos.Hide()
     End Sub
 
@@ -322,13 +313,18 @@ Public Class GestionAlumnos
     End Sub
 
     Private Sub modificar(Alumno As Alumno)
-        Dim Indice = ListViewAlumnos.SelectedIndices(0)
-        Dim Id As Integer = Integer.Parse(TbId.Text)
-        ClaseBBDD.Modificar(Id, Alumno, ListViewAlumnos)
-        ListViewAlumnos.Items(Indice).EnsureVisible()
-        ListViewAlumnos.Items(Indice).Selected = True
+        If Not String.IsNullOrEmpty(TbId.Text) Then
+            Dim Indice = ListViewAlumnos.SelectedIndices(0)
+            Dim Id As Integer = Integer.Parse(TbId.Text)
+            ClaseBBDD.Modificar(Id, Alumno, ListViewAlumnos)
+            ListViewAlumnos.Items(Indice).EnsureVisible()
+            ListViewAlumnos.Items(Indice).Selected = True
 
-        MsgBox("Alumno modificado correctamente", MsgBoxStyle.OkOnly, "Aviso")
+            MsgBox("Alumno modificado correctamente", MsgBoxStyle.OkOnly, "Aviso")
+        Else
+            MsgBox("No ha seleccionado un alumno")
+        End If
+
     End Sub
 
     Private Sub Eliminar()
