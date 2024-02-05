@@ -29,4 +29,9 @@ Public Class Menu
         boton.BackColor = Color.FromArgb(173, 216, 230)
         boton.FlatAppearance.MouseOverBackColor = Color.FromArgb(135, 206, 250)
     End Sub
+
+    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
+        Me.Hide()
+        GestionProfesores.Show()
+    End Sub
 End Class

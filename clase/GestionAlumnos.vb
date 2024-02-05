@@ -101,7 +101,7 @@ Public Class GestionAlumnos
                 End If
 
             Else
-                MsgBox("Ocurrio un error con la fecha intentelo con este formato 01/01/2000")
+                MsgBox("Ocurrio un error con la fecha, inténtelo con este formato 01/01/2000")
             End If
         End If
     End Sub
@@ -333,7 +333,7 @@ Public Class GestionAlumnos
 
     Private Sub Eliminar()
         Dim Id As Integer = Integer.Parse(TbId.Text)
-        Dim Result As MsgBoxResult = MsgBox("¿Desea eliminar al alumno? Esta accion no se puede deshacer", MsgBoxStyle.OkCancel Or MsgBoxStyle.Question, "Confirmar")
+        Dim Result As MsgBoxResult = MsgBox("¿Desea eliminar el alumno? Esta accion no se puede deshacer", MsgBoxStyle.OkCancel Or MsgBoxStyle.Question, "Confirmar")
 
         If Result = MsgBoxResult.Ok Then
             AlumnoADO.Eliminar(Id, ListViewAlumnos)

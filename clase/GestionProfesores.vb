@@ -1,7 +1,7 @@
 ﻿Imports System.ComponentModel
 
-Public Class GestionAsignaturas
-
+Public Class GestionProfesores
+    'Atributo que ayudará el moverse por las distintas opciones
     Private Opcion = -1
     ''' <summary>
     ''' Se establecen las propiedades del listView y se carga la información de la base de datos
@@ -9,18 +9,18 @@ Public Class GestionAsignaturas
     ''' </summary>
     ''' <param name="sender"></param>
     ''' <param name="e"></param>
-    Private Sub GestionAsignaturas_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        ListViewAsignaturas.View = View.Details
-        ListViewAsignaturas.Columns.Add("ID", 50, HorizontalAlignment.Center)
-        ListViewAsignaturas.Columns.Add("Nombre", 130, HorizontalAlignment.Center)
-        ListViewAsignaturas.Columns.Add("Aula", 220, HorizontalAlignment.Center)
-        ListViewAsignaturas.Columns.Add("Profesor", 220, HorizontalAlignment.Center)
+    Private Sub GestionProfesores_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        ListViewProfesores.View = View.Details
+        ListViewProfesores.Columns.Add("ID", 50, HorizontalAlignment.Center)
+        ListViewProfesores.Columns.Add("Nombre", 130, HorizontalAlignment.Center)
+        ListViewProfesores.Columns.Add("Aula", 220, HorizontalAlignment.Center)
+        ListViewProfesores.Columns.Add("Profesor", 220, HorizontalAlignment.Center)
         SetOpcionListado()
 
-        AsignaturaADO.ActualizarListado(ListViewAsignaturas)
+        ProfesorADO.ActualizarListado(ListViewProfesores)
     End Sub
 
-    Private Sub GestionAsignaturas_Closing(sender As Object, e As CancelEventArgs) Handles MyBase.Closing
+    Private Sub GestionProfesores_Closing(sender As Object, e As CancelEventArgs) Handles MyBase.Closing
         Application.Exit()
     End Sub
 
@@ -125,111 +125,110 @@ Public Class GestionAsignaturas
         End If
     End Sub
 
-    Private Sub ListViewAsignaturas_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ListViewAsignaturas.SelectedIndexChanged
-        If ListViewAsignaturas.SelectedItems.Count > 0 Then
+    Private Sub ListViewProfesores_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ListViewProfesores.SelectedIndexChanged
+        If ListViewProfesores.SelectedItems.Count > 0 Then
             'Activamos las opciones editar y eliminar del menú
             EditarToolStripMenuItem.Enabled = True
             EliminarToolStripMenuItem.Enabled = True
-            Dim Indice As Integer = ListViewAsignaturas.SelectedIndices(0)
+            Dim Indice As Integer = ListViewProfesores.SelectedIndices(0)
             MostrarItemEnTextBox(Indice)
         End If
 
     End Sub
 
     Private Sub MostrarItemEnTextBox(indice As Integer)
-        Dim item = ListViewAsignaturas.Items(indice)
+        Dim item = ListViewProfesores.Items(indice)
         TbId.Text = item.SubItems(0).Text
-        TbAsignatura.Text = item.SubItems(1).Text
-        TbAula.Text = item.SubItems(2).Text
-        TbProfesor.Text = item.SubItems(3).Text
+        TbNombre.Text = item.SubItems(1).Text
+        TbApellidos.Text = item.SubItems(2).Text
+        TbDepartamento.Text = item.SubItems(3).Text
     End Sub
 
     Private Sub BtnAnterior_Click(sender As Object, e As EventArgs) Handles BtnAnterior.Click
-        If ListViewAsignaturas.SelectedItems.Count > 0 Then
+        If ListViewProfesores.SelectedItems.Count > 0 Then
             '''<summary>
             '''Al item que seleccionamos se le resta uno para tener el indice del anterior
             '''</summary>
-            Dim indice = ListViewAsignaturas.SelectedIndices(0) - 1
+            Dim indice = ListViewProfesores.SelectedIndices(0) - 1
             If indice >= 0 Then
-                ListViewAsignaturas.Items(indice).EnsureVisible()
-                ListViewAsignaturas.Items(indice).Selected = True
+                ListViewProfesores.Items(indice).EnsureVisible()
+                ListViewProfesores.Items(indice).Selected = True
             End If
         End If
     End Sub
 
     Private Sub BtnPrimero_Click(sender As Object, e As EventArgs) Handles BtnPrimero.Click
-        ListViewAsignaturas.Items(0).EnsureVisible()
-        ListViewAsignaturas.Items(0).Selected = True
+        ListViewProfesores.Items(0).EnsureVisible()
+        ListViewProfesores.Items(0).Selected = True
     End Sub
 
     Private Sub BtnFin_Click(sender As Object, e As EventArgs) Handles BtnFin.Click
-        ListViewAsignaturas.Items(ListViewAsignaturas.Items.Count - 1).EnsureVisible()
-        ListViewAsignaturas.Items(ListViewAsignaturas.Items.Count - 1).Selected = True
+        ListViewProfesores.Items(ListViewProfesores.Items.Count - 1).EnsureVisible()
+        ListViewProfesores.Items(ListViewProfesores.Items.Count - 1).Selected = True
     End Sub
 
     Private Sub BtnSiguiente_Click(sender As Object, e As EventArgs) Handles BtnSiguiente.Click
-        If ListViewAsignaturas.SelectedItems.Count > 0 Then
-            Dim indice = ListViewAsignaturas.SelectedIndices(0) + 1
-            If indice <= ListViewAsignaturas.Items.Count - 1 Then
-                ListViewAsignaturas.Items(indice).EnsureVisible()
-                ListViewAsignaturas.Items(indice).Selected = True
+        If ListViewProfesores.SelectedItems.Count > 0 Then
+            Dim indice = ListViewProfesores.SelectedIndices(0) + 1
+            If indice <= ListViewProfesores.Items.Count - 1 Then
+                ListViewProfesores.Items(indice).EnsureVisible()
+                ListViewProfesores.Items(indice).Selected = True
             End If
         End If
     End Sub
 
     Private Sub BtnAdd_Click(sender As Object, e As EventArgs) Handles BtnAdd.Click
 
-        If String.IsNullOrEmpty(TbAsignatura.Text) Then
+        If String.IsNullOrEmpty(TbNombre.Text) Or String.IsNullOrEmpty(TbApellidos.Text) Then
             MsgBox("El campo asignatura no puede estar vacío")
         Else
-            Dim Asignatura = CrearAsignatura()
-
+            Dim Profesor = CrearProfesor()
             If Opcion = 1 Then
-                Insertar(Asignatura)
+                Insertar(Profesor)
             ElseIf Opcion = 2 Then
-                Modificar(Asignatura)
+                modificar(Profesor)
             ElseIf Opcion = 3 Then
                 Eliminar()
             End If
         End If
     End Sub
 
-    Private Function CrearAsignatura() As ModuloAsignatura.Asignatura
-        Dim Asignatura As New ModuloAsignatura.Asignatura
-        Asignatura.Nombre = TbAsignatura.Text
-        Asignatura.Aula = TbAula.Text
-        Asignatura.Profesor = TbProfesor.Text
+    Private Function CrearProfesor() As ModuloProfesor.Profesor
+        Dim Profesor As New ModuloProfesor.Profesor
+        Profesor.Nombre = TbNombre.Text
+        Profesor.Apellidos = TbApellidos.Text
+        Profesor.Departamento = TbDepartamento.Text
 
-        Return Asignatura
+        Return Profesor
     End Function
 
-    Private Sub Insertar(Asignatura As ModuloAsignatura.Asignatura)
-        AsignaturaADO.Insertar(Asignatura, ListViewAsignaturas)
+    Private Sub Insertar(Profesor As ModuloProfesor.Profesor)
+        ProfesorADO.Insertar(Profesor, ListViewProfesores)
         For Each TextBox As Windows.Forms.TextBox In Me.Controls.OfType(Of Windows.Forms.TextBox)
             TextBox.Clear()
         Next
         CambiarAListado()
-        ListViewAsignaturas.Items(ListViewAsignaturas.Items.Count - 1).EnsureVisible()
-        ListViewAsignaturas.Items(ListViewAsignaturas.Items.Count - 1).Selected = True
+        ListViewProfesores.Items(ListViewProfesores.Items.Count - 1).EnsureVisible()
+        ListViewProfesores.Items(ListViewProfesores.Items.Count - 1).Selected = True
     End Sub
 
-    Private Sub modificar(Asignatura As ModuloAsignatura.Asignatura)
-        Dim Indice = ListViewAsignaturas.SelectedIndices(0)
+    Private Sub modificar(Profesor As ModuloProfesor.Profesor)
+        Dim Indice = ListViewProfesores.SelectedIndices(0)
         Dim Id As Integer = Integer.Parse(TbId.Text)
-        AsignaturaADO.Modificar(Id, Asignatura, ListViewAsignaturas)
-        ListViewAsignaturas.Items(Indice).EnsureVisible()
-        ListViewAsignaturas.Items(Indice).Selected = True
+        ProfesorADO.Modificar(Id, Profesor, ListViewProfesores)
+        ListViewProfesores.Items(Indice).EnsureVisible()
+        ListViewProfesores.Items(Indice).Selected = True
 
-        MsgBox("Asignatura modificada correctamente", MsgBoxStyle.OkOnly, "Aviso")
+        MsgBox("Profesor modificado correctamente", MsgBoxStyle.OkOnly, "Aviso")
     End Sub
 
     Private Sub Eliminar()
         Dim Id As Integer = Integer.Parse(TbId.Text)
-        Dim Result As MsgBoxResult = MsgBox("¿Desea eliminar la asignatura? Esta accion no se puede deshacer", MsgBoxStyle.OkCancel Or MsgBoxStyle.Question, "Confirmar")
+        Dim Result As MsgBoxResult = MsgBox("¿Desea eliminar el Profesor? Esta accion no se puede deshacer", MsgBoxStyle.OkCancel Or MsgBoxStyle.Question, "Confirmar")
 
         If Result = MsgBoxResult.Ok Then
-            AsignaturaADO.Eliminar(Id, ListViewAsignaturas)
-            MsgBox("Asignatura eliminada correctamente", MsgBoxStyle.OkOnly, "Aviso")
+            ProfesorADO.Eliminar(Id, ListViewProfesores)
+            MsgBox("Profesor eliminado correctamente", MsgBoxStyle.OkOnly, "Aviso")
             CambiarAListado()
         End If
     End Sub
@@ -247,13 +246,13 @@ Public Class GestionAsignaturas
         If Not String.IsNullOrEmpty(TbBuscarId.Text) Then
             Dim IdBuscado = TbBuscarId.Text
             Dim IdEncontrado As Boolean = False
-            For i As Integer = 0 To (ListViewAsignaturas.Items.Count - 1)
-                Dim Item As ListViewItem = ListViewAsignaturas.Items(i)
+            For i As Integer = 0 To (ListViewProfesores.Items.Count - 1)
+                Dim Item As ListViewItem = ListViewProfesores.Items(i)
                 If IdBuscado.Equals(Item.SubItems(0).Text) Then
-                    ListViewAsignaturas.Items(i).EnsureVisible()
-                    ListViewAsignaturas.Items(i).Selected = True
+                    ListViewProfesores.Items(i).EnsureVisible()
+                    ListViewProfesores.Items(i).Selected = True
                     MostrarItemEnTextBox(i)
-                    i = ListViewAsignaturas.Items.Count
+                    i = ListViewProfesores.Items.Count
                     IdEncontrado = True
                 End If
             Next

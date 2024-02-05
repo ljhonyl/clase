@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-Partial Class GestionAsignaturas
+Partial Class GestionProfesores
     Inherits System.Windows.Forms.Form
 
     'Form reemplaza a Dispose para limpiar la lista de componentes.
@@ -20,17 +20,17 @@ Partial Class GestionAsignaturas
     'NOTA: el Diseñador de Windows Forms necesita el siguiente procedimiento
     'Se puede modificar usando el Diseñador de Windows Forms.  
     'No lo modifique con el editor de código.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        ListViewAsignaturas = New ListView()
+        ListViewProfesores = New ListView()
         TbId = New TextBox()
-        TbAsignatura = New TextBox()
-        TbAula = New TextBox()
-        TbProfesor = New TextBox()
+        TbNombre = New TextBox()
+        TbApellidos = New TextBox()
+        TbDepartamento = New TextBox()
         LblId = New Label()
-        LblAsignatura = New Label()
-        LblAula = New Label()
-        LblProfesor = New Label()
+        LblNombre = New Label()
+        LblApellidos = New Label()
+        LblDepartamento = New Label()
         BtnPrimero = New Button()
         BtnAnterior = New Button()
         BtnSiguiente = New Button()
@@ -41,21 +41,21 @@ Partial Class GestionAsignaturas
         InsertarToolStripMenuItem = New ToolStripMenuItem()
         EditarToolStripMenuItem = New ToolStripMenuItem()
         EliminarToolStripMenuItem = New ToolStripMenuItem()
-        Label5 = New Label()
+        LblTitulo = New Label()
         TbBuscarId = New TextBox()
         BtnBuscar = New Button()
         MenuStrip1.SuspendLayout()
         SuspendLayout()
         ' 
-        ' ListViewAsignaturas
+        ' ListViewProfesores
         ' 
-        ListViewAsignaturas.FullRowSelect = True
-        ListViewAsignaturas.Location = New Point(26, 283)
-        ListViewAsignaturas.MultiSelect = False
-        ListViewAsignaturas.Name = "ListViewAsignaturas"
-        ListViewAsignaturas.Size = New Size(680, 510)
-        ListViewAsignaturas.TabIndex = 12
-        ListViewAsignaturas.UseCompatibleStateImageBehavior = False
+        ListViewProfesores.FullRowSelect = True
+        ListViewProfesores.Location = New Point(26, 283)
+        ListViewProfesores.MultiSelect = False
+        ListViewProfesores.Name = "ListViewProfesores"
+        ListViewProfesores.Size = New Size(680, 510)
+        ListViewProfesores.TabIndex = 12
+        ListViewProfesores.UseCompatibleStateImageBehavior = False
         ' 
         ' TbId
         ' 
@@ -64,26 +64,26 @@ Partial Class GestionAsignaturas
         TbId.Size = New Size(100, 23)
         TbId.TabIndex = 1
         ' 
-        ' TbAsignatura
+        ' TbNombre
         ' 
-        TbAsignatura.Location = New Point(459, 86)
-        TbAsignatura.Name = "TbAsignatura"
-        TbAsignatura.Size = New Size(196, 23)
-        TbAsignatura.TabIndex = 2
+        TbNombre.Location = New Point(459, 86)
+        TbNombre.Name = "TbNombre"
+        TbNombre.Size = New Size(196, 23)
+        TbNombre.TabIndex = 2
         ' 
-        ' TbAula
+        ' TbApellidos
         ' 
-        TbAula.Location = New Point(129, 142)
-        TbAula.Name = "TbAula"
-        TbAula.Size = New Size(153, 23)
-        TbAula.TabIndex = 3
+        TbApellidos.Location = New Point(129, 142)
+        TbApellidos.Name = "TbApellidos"
+        TbApellidos.Size = New Size(220, 23)
+        TbApellidos.TabIndex = 3
         ' 
-        ' TbProfesor
+        ' TbDepartamento
         ' 
-        TbProfesor.Location = New Point(459, 145)
-        TbProfesor.Name = "TbProfesor"
-        TbProfesor.Size = New Size(196, 23)
-        TbProfesor.TabIndex = 4
+        TbDepartamento.Location = New Point(459, 145)
+        TbDepartamento.Name = "TbDepartamento"
+        TbDepartamento.Size = New Size(196, 23)
+        TbDepartamento.TabIndex = 4
         ' 
         ' LblId
         ' 
@@ -94,32 +94,32 @@ Partial Class GestionAsignaturas
         LblId.TabIndex = 9
         LblId.Text = "Id"
         ' 
-        ' LblAsignatura
+        ' LblNombre
         ' 
-        LblAsignatura.AutoSize = True
-        LblAsignatura.Location = New Point(389, 89)
-        LblAsignatura.Name = "LblAsignatura"
-        LblAsignatura.Size = New Size(64, 15)
-        LblAsignatura.TabIndex = 10
-        LblAsignatura.Text = "Asignatura"
+        LblNombre.AutoSize = True
+        LblNombre.Location = New Point(402, 89)
+        LblNombre.Name = "LblNombre"
+        LblNombre.Size = New Size(51, 15)
+        LblNombre.TabIndex = 10
+        LblNombre.Text = "Nombre"
         ' 
-        ' LblAula
+        ' LblApellidos
         ' 
-        LblAula.AutoSize = True
-        LblAula.Location = New Point(92, 145)
-        LblAula.Name = "LblAula"
-        LblAula.Size = New Size(31, 15)
-        LblAula.TabIndex = 11
-        LblAula.Text = "Aula"
+        LblApellidos.AutoSize = True
+        LblApellidos.Location = New Point(67, 148)
+        LblApellidos.Name = "LblApellidos"
+        LblApellidos.Size = New Size(56, 15)
+        LblApellidos.TabIndex = 11
+        LblApellidos.Text = "Apellidos"
         ' 
-        ' LblProfesor
+        ' LblDepartamento
         ' 
-        LblProfesor.AutoSize = True
-        LblProfesor.Location = New Point(402, 148)
-        LblProfesor.Name = "LblProfesor"
-        LblProfesor.Size = New Size(51, 15)
-        LblProfesor.TabIndex = 12
-        LblProfesor.Text = "Profesor"
+        LblDepartamento.AutoSize = True
+        LblDepartamento.Location = New Point(370, 148)
+        LblDepartamento.Name = "LblDepartamento"
+        LblDepartamento.Size = New Size(83, 15)
+        LblDepartamento.TabIndex = 12
+        LblDepartamento.Text = "Departamento"
         ' 
         ' BtnPrimero
         ' 
@@ -199,15 +199,15 @@ Partial Class GestionAsignaturas
         EliminarToolStripMenuItem.Size = New Size(62, 20)
         EliminarToolStripMenuItem.Text = "Eliminar"
         ' 
-        ' Label5
+        ' LblTitulo
         ' 
-        Label5.AutoSize = True
-        Label5.Font = New Font("Segoe UI", 20F, FontStyle.Bold Or FontStyle.Italic, GraphicsUnit.Point)
-        Label5.Location = New Point(272, 24)
-        Label5.Name = "Label5"
-        Label5.Size = New Size(170, 37)
-        Label5.TabIndex = 19
-        Label5.Text = "Asignaturas"
+        LblTitulo.AutoSize = True
+        LblTitulo.Font = New Font("Segoe UI", 20F, FontStyle.Bold Or FontStyle.Italic, GraphicsUnit.Point)
+        LblTitulo.Location = New Point(272, 24)
+        LblTitulo.Name = "LblTitulo"
+        LblTitulo.Size = New Size(150, 37)
+        LblTitulo.TabIndex = 19
+        LblTitulo.Text = "Profesores"
         ' 
         ' TbBuscarId
         ' 
@@ -225,48 +225,48 @@ Partial Class GestionAsignaturas
         BtnBuscar.TabIndex = 11
         BtnBuscar.UseVisualStyleBackColor = True
         ' 
-        ' GestionAsignaturas
+        ' GestionProfesores
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         ClientSize = New Size(734, 819)
         Controls.Add(BtnBuscar)
         Controls.Add(TbBuscarId)
-        Controls.Add(Label5)
+        Controls.Add(LblTitulo)
         Controls.Add(BtnAdd)
         Controls.Add(BtnFin)
         Controls.Add(BtnSiguiente)
         Controls.Add(BtnAnterior)
         Controls.Add(BtnPrimero)
-        Controls.Add(LblProfesor)
-        Controls.Add(LblAula)
-        Controls.Add(LblAsignatura)
+        Controls.Add(LblDepartamento)
+        Controls.Add(LblApellidos)
+        Controls.Add(LblNombre)
         Controls.Add(LblId)
-        Controls.Add(TbProfesor)
-        Controls.Add(TbAula)
-        Controls.Add(TbAsignatura)
+        Controls.Add(TbDepartamento)
+        Controls.Add(TbApellidos)
+        Controls.Add(TbNombre)
         Controls.Add(TbId)
-        Controls.Add(ListViewAsignaturas)
+        Controls.Add(ListViewProfesores)
         Controls.Add(MenuStrip1)
         MainMenuStrip = MenuStrip1
-        Name = "GestionAsignaturas"
+        Name = "GestionProfesores"
         StartPosition = FormStartPosition.CenterScreen
-        Text = "GestionAsignaturas"
+        Text = "GestionProfesores"
         MenuStrip1.ResumeLayout(False)
         MenuStrip1.PerformLayout()
         ResumeLayout(False)
         PerformLayout()
     End Sub
 
-    Friend WithEvents ListViewAsignaturas As ListView
+    Friend WithEvents ListViewProfesores As ListView
     Friend WithEvents TbId As TextBox
-    Friend WithEvents TbAsignatura As TextBox
-    Friend WithEvents TbAula As TextBox
-    Friend WithEvents TbProfesor As TextBox
+    Friend WithEvents TbNombre As TextBox
+    Friend WithEvents TbApellidos As TextBox
+    Friend WithEvents TbDepartamento As TextBox
     Friend WithEvents LblId As Label
-    Friend WithEvents LblAsignatura As Label
-    Friend WithEvents LblAula As Label
-    Friend WithEvents LblProfesor As Label
+    Friend WithEvents LblNombre As Label
+    Friend WithEvents LblApellidos As Label
+    Friend WithEvents LblDepartamento As Label
     Friend WithEvents BtnPrimero As Button
     Friend WithEvents BtnAnterior As Button
     Friend WithEvents BtnSiguiente As Button
@@ -277,7 +277,7 @@ Partial Class GestionAsignaturas
     Friend WithEvents InsertarToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents EditarToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents EliminarToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents Label5 As Label
+    Friend WithEvents LblTitulo As Label
     Friend WithEvents TbBuscarId As TextBox
     Friend WithEvents BtnBuscar As Button
 End Class
