@@ -39,4 +39,9 @@ Public Class Menu
         Me.Hide()
         GestionProfesores.Show()
     End Sub
+
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        Me.Hide()
+        GestionNotas.Show()
+    End Sub
 End Class

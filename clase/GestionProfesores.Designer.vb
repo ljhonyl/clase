@@ -41,6 +41,7 @@ Partial Class GestionProfesores
         InsertarToolStripMenuItem = New ToolStripMenuItem()
         EditarToolStripMenuItem = New ToolStripMenuItem()
         EliminarToolStripMenuItem = New ToolStripMenuItem()
+        MenúToolStripMenuItem = New ToolStripMenuItem()
         LblTitulo = New Label()
         TbBuscarId = New TextBox()
         BtnBuscar = New Button()
@@ -168,7 +169,7 @@ Partial Class GestionProfesores
         ' 
         ' MenuStrip1
         ' 
-        MenuStrip1.Items.AddRange(New ToolStripItem() {ListadoToolStripMenuItem, InsertarToolStripMenuItem, EditarToolStripMenuItem, EliminarToolStripMenuItem})
+        MenuStrip1.Items.AddRange(New ToolStripItem() {ListadoToolStripMenuItem, InsertarToolStripMenuItem, EditarToolStripMenuItem, EliminarToolStripMenuItem, MenúToolStripMenuItem})
         MenuStrip1.Location = New Point(0, 0)
         MenuStrip1.Name = "MenuStrip1"
         MenuStrip1.Size = New Size(734, 24)
@@ -198,6 +199,12 @@ Partial Class GestionProfesores
         EliminarToolStripMenuItem.Name = "EliminarToolStripMenuItem"
         EliminarToolStripMenuItem.Size = New Size(62, 20)
         EliminarToolStripMenuItem.Text = "Eliminar"
+        ' 
+        ' MenúToolStripMenuItem
+        ' 
+        MenúToolStripMenuItem.Name = "MenúToolStripMenuItem"
+        MenúToolStripMenuItem.Size = New Size(50, 20)
+        MenúToolStripMenuItem.Text = "Menú"
         ' 
         ' LblTitulo
         ' 
@@ -280,4 +287,5 @@ Partial Class GestionProfesores
     Friend WithEvents LblTitulo As Label
     Friend WithEvents TbBuscarId As TextBox
     Friend WithEvents BtnBuscar As Button
+    Friend WithEvents MenúToolStripMenuItem As ToolStripMenuItem
 End Class

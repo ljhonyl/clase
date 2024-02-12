@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-Partial Class GestionAsignaturas
+Partial Class GestionNotas
     Inherits System.Windows.Forms.Form
 
     'Form reemplaza a Dispose para limpiar la lista de componentes.
@@ -22,15 +22,13 @@ Partial Class GestionAsignaturas
     'No lo modifique con el editor de código.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        ListViewAsignaturas = New ListView()
-        TbId = New TextBox()
-        TbAsignatura = New TextBox()
-        TbAula = New TextBox()
-        TbProfesor = New TextBox()
-        LblId = New Label()
+        ListViewNotas = New ListView()
+        TbEv1 = New TextBox()
+        TbEv2 = New TextBox()
         LblAsignatura = New Label()
-        LblAula = New Label()
-        LblProfesor = New Label()
+        LblAlumno = New Label()
+        LblEv1 = New Label()
+        LblEv2 = New Label()
         BtnPrimero = New Button()
         BtnAnterior = New Button()
         BtnSiguiente = New Button()
@@ -45,87 +43,79 @@ Partial Class GestionAsignaturas
         Label5 = New Label()
         TbBuscarId = New TextBox()
         BtnBuscar = New Button()
+        LblEv3 = New Label()
+        LblNotaFinal = New Label()
+        TbEv3 = New TextBox()
+        TbNotaFinal = New TextBox()
+        CmbAsignaturas = New ComboBox()
+        CmbAlumnos = New ComboBox()
         MenuStrip1.SuspendLayout()
         SuspendLayout()
         ' 
-        ' ListViewAsignaturas
+        ' ListViewNotas
         ' 
-        ListViewAsignaturas.FullRowSelect = True
-        ListViewAsignaturas.Location = New Point(61, 283)
-        ListViewAsignaturas.MultiSelect = False
-        ListViewAsignaturas.Name = "ListViewAsignaturas"
-        ListViewAsignaturas.Size = New Size(594, 510)
-        ListViewAsignaturas.TabIndex = 12
-        ListViewAsignaturas.UseCompatibleStateImageBehavior = False
+        ListViewNotas.FullRowSelect = True
+        ListViewNotas.Location = New Point(61, 163)
+        ListViewNotas.MultiSelect = False
+        ListViewNotas.Name = "ListViewNotas"
+        ListViewNotas.Size = New Size(594, 630)
+        ListViewNotas.TabIndex = 12
+        ListViewNotas.UseCompatibleStateImageBehavior = False
         ' 
-        ' TbId
+        ' TbEv1
         ' 
-        TbId.Location = New Point(129, 86)
-        TbId.Name = "TbId"
-        TbId.Size = New Size(100, 23)
-        TbId.TabIndex = 1
+        TbEv1.Location = New Point(65, 369)
+        TbEv1.Name = "TbEv1"
+        TbEv1.Size = New Size(100, 23)
+        TbEv1.TabIndex = 3
         ' 
-        ' TbAsignatura
+        ' TbEv2
         ' 
-        TbAsignatura.Location = New Point(459, 86)
-        TbAsignatura.Name = "TbAsignatura"
-        TbAsignatura.Size = New Size(196, 23)
-        TbAsignatura.TabIndex = 2
-        ' 
-        ' TbAula
-        ' 
-        TbAula.Location = New Point(129, 142)
-        TbAula.Name = "TbAula"
-        TbAula.Size = New Size(153, 23)
-        TbAula.TabIndex = 3
-        ' 
-        ' TbProfesor
-        ' 
-        TbProfesor.Location = New Point(459, 145)
-        TbProfesor.Name = "TbProfesor"
-        TbProfesor.Size = New Size(196, 23)
-        TbProfesor.TabIndex = 4
-        ' 
-        ' LblId
-        ' 
-        LblId.AutoSize = True
-        LblId.Location = New Point(106, 89)
-        LblId.Name = "LblId"
-        LblId.Size = New Size(17, 15)
-        LblId.TabIndex = 9
-        LblId.Text = "Id"
+        TbEv2.Location = New Point(381, 369)
+        TbEv2.Name = "TbEv2"
+        TbEv2.Size = New Size(100, 23)
+        TbEv2.TabIndex = 4
         ' 
         ' LblAsignatura
         ' 
         LblAsignatura.AutoSize = True
-        LblAsignatura.Location = New Point(389, 89)
+        LblAsignatura.Location = New Point(65, 243)
         LblAsignatura.Name = "LblAsignatura"
         LblAsignatura.Size = New Size(64, 15)
-        LblAsignatura.TabIndex = 10
+        LblAsignatura.TabIndex = 9
         LblAsignatura.Text = "Asignatura"
         ' 
-        ' LblAula
+        ' LblAlumno
         ' 
-        LblAula.AutoSize = True
-        LblAula.Location = New Point(92, 145)
-        LblAula.Name = "LblAula"
-        LblAula.Size = New Size(31, 15)
-        LblAula.TabIndex = 11
-        LblAula.Text = "Aula"
+        LblAlumno.AutoSize = True
+        LblAlumno.Location = New Point(381, 243)
+        LblAlumno.Name = "LblAlumno"
+        LblAlumno.Size = New Size(50, 15)
+        LblAlumno.TabIndex = 10
+        LblAlumno.Text = "Alumno"
         ' 
-        ' LblProfesor
+        ' LblEv1
         ' 
-        LblProfesor.AutoSize = True
-        LblProfesor.Location = New Point(402, 148)
-        LblProfesor.Name = "LblProfesor"
-        LblProfesor.Size = New Size(51, 15)
-        LblProfesor.TabIndex = 12
-        LblProfesor.Text = "Profesor"
+        LblEv1.AutoSize = True
+        LblEv1.Location = New Point(65, 338)
+        LblEv1.Name = "LblEv1"
+        LblEv1.Size = New Size(78, 15)
+        LblEv1.TabIndex = 11
+        LblEv1.Text = "1ª Evaluación"
+        ' 
+        ' LblEv2
+        ' 
+        LblEv2.AutoSize = True
+        LblEv2.Location = New Point(381, 338)
+        LblEv2.Name = "LblEv2"
+        LblEv2.Size = New Size(78, 15)
+        LblEv2.TabIndex = 12
+        LblEv2.Text = "2ª Evaluación"
         ' 
         ' BtnPrimero
         ' 
         BtnPrimero.Image = My.Resources.Resources.primero
-        BtnPrimero.Location = New Point(61, 243)
+        BtnPrimero.Location = New Point(64, 101)
         BtnPrimero.Name = "BtnPrimero"
         BtnPrimero.Size = New Size(75, 23)
         BtnPrimero.TabIndex = 6
@@ -134,7 +124,7 @@ Partial Class GestionAsignaturas
         ' BtnAnterior
         ' 
         BtnAnterior.Image = My.Resources.Resources.anterior
-        BtnAnterior.Location = New Point(161, 243)
+        BtnAnterior.Location = New Point(164, 101)
         BtnAnterior.Name = "BtnAnterior"
         BtnAnterior.Size = New Size(75, 23)
         BtnAnterior.TabIndex = 7
@@ -143,7 +133,7 @@ Partial Class GestionAsignaturas
         ' BtnSiguiente
         ' 
         BtnSiguiente.Image = My.Resources.Resources.siguiente
-        BtnSiguiente.Location = New Point(267, 243)
+        BtnSiguiente.Location = New Point(270, 101)
         BtnSiguiente.Name = "BtnSiguiente"
         BtnSiguiente.Size = New Size(75, 23)
         BtnSiguiente.TabIndex = 8
@@ -152,7 +142,7 @@ Partial Class GestionAsignaturas
         ' BtnFin
         ' 
         BtnFin.Image = My.Resources.Resources.ultimo
-        BtnFin.Location = New Point(367, 243)
+        BtnFin.Location = New Point(370, 101)
         BtnFin.Name = "BtnFin"
         BtnFin.Size = New Size(75, 23)
         BtnFin.TabIndex = 9
@@ -160,9 +150,9 @@ Partial Class GestionAsignaturas
         ' 
         ' BtnAdd
         ' 
-        BtnAdd.Location = New Point(580, 195)
+        BtnAdd.Location = New Point(164, 574)
         BtnAdd.Name = "BtnAdd"
-        BtnAdd.Size = New Size(75, 23)
+        BtnAdd.Size = New Size(253, 23)
         BtnAdd.TabIndex = 5
         BtnAdd.Text = "Button5"
         BtnAdd.UseVisualStyleBackColor = True
@@ -209,7 +199,7 @@ Partial Class GestionAsignaturas
         ' Label5
         ' 
         Label5.AutoSize = True
-        Label5.Font = New Font("Segoe UI", 20.0F, FontStyle.Bold Or FontStyle.Italic, GraphicsUnit.Point)
+        Label5.Font = New Font("Segoe UI", 20F, FontStyle.Bold Or FontStyle.Italic, GraphicsUnit.Point)
         Label5.Location = New Point(272, 24)
         Label5.Name = "Label5"
         Label5.Size = New Size(170, 37)
@@ -218,7 +208,7 @@ Partial Class GestionAsignaturas
         ' 
         ' TbBuscarId
         ' 
-        TbBuscarId.Location = New Point(474, 243)
+        TbBuscarId.Location = New Point(477, 101)
         TbBuscarId.Name = "TbBuscarId"
         TbBuscarId.Size = New Size(100, 23)
         TbBuscarId.TabIndex = 10
@@ -226,17 +216,71 @@ Partial Class GestionAsignaturas
         ' BtnBuscar
         ' 
         BtnBuscar.Image = My.Resources.Resources.buscar
-        BtnBuscar.Location = New Point(580, 243)
+        BtnBuscar.Location = New Point(583, 101)
         BtnBuscar.Name = "BtnBuscar"
         BtnBuscar.Size = New Size(75, 23)
         BtnBuscar.TabIndex = 11
         BtnBuscar.UseVisualStyleBackColor = True
         ' 
-        ' GestionAsignaturas
+        ' LblEv3
+        ' 
+        LblEv3.AutoSize = True
+        LblEv3.Location = New Point(65, 442)
+        LblEv3.Name = "LblEv3"
+        LblEv3.Size = New Size(78, 15)
+        LblEv3.TabIndex = 20
+        LblEv3.Text = "3ª Evaluación"
+        ' 
+        ' LblNotaFinal
+        ' 
+        LblNotaFinal.AutoSize = True
+        LblNotaFinal.Location = New Point(381, 442)
+        LblNotaFinal.Name = "LblNotaFinal"
+        LblNotaFinal.Size = New Size(61, 15)
+        LblNotaFinal.TabIndex = 21
+        LblNotaFinal.Text = "Nota Final"
+        ' 
+        ' TbEv3
+        ' 
+        TbEv3.Location = New Point(65, 477)
+        TbEv3.Name = "TbEv3"
+        TbEv3.Size = New Size(100, 23)
+        TbEv3.TabIndex = 22
+        ' 
+        ' TbNotaFinal
+        ' 
+        TbNotaFinal.Location = New Point(381, 477)
+        TbNotaFinal.Name = "TbNotaFinal"
+        TbNotaFinal.Size = New Size(100, 23)
+        TbNotaFinal.TabIndex = 23
+        ' 
+        ' CmbAsignaturas
+        ' 
+        CmbAsignaturas.FormattingEnabled = True
+        CmbAsignaturas.Location = New Point(65, 272)
+        CmbAsignaturas.Name = "CmbAsignaturas"
+        CmbAsignaturas.Size = New Size(153, 23)
+        CmbAsignaturas.TabIndex = 24
+        ' 
+        ' CmbAlumnos
+        ' 
+        CmbAlumnos.FormattingEnabled = True
+        CmbAlumnos.Location = New Point(381, 272)
+        CmbAlumnos.Name = "CmbAlumnos"
+        CmbAlumnos.Size = New Size(196, 23)
+        CmbAlumnos.TabIndex = 25
+        ' 
+        ' GestionNotas
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         ClientSize = New Size(734, 819)
+        Controls.Add(CmbAlumnos)
+        Controls.Add(CmbAsignaturas)
+        Controls.Add(TbNotaFinal)
+        Controls.Add(TbEv3)
+        Controls.Add(LblNotaFinal)
+        Controls.Add(LblEv3)
         Controls.Add(BtnBuscar)
         Controls.Add(TbBuscarId)
         Controls.Add(Label5)
@@ -245,18 +289,16 @@ Partial Class GestionAsignaturas
         Controls.Add(BtnSiguiente)
         Controls.Add(BtnAnterior)
         Controls.Add(BtnPrimero)
-        Controls.Add(LblProfesor)
-        Controls.Add(LblAula)
+        Controls.Add(LblEv2)
+        Controls.Add(LblEv1)
+        Controls.Add(LblAlumno)
         Controls.Add(LblAsignatura)
-        Controls.Add(LblId)
-        Controls.Add(TbProfesor)
-        Controls.Add(TbAula)
-        Controls.Add(TbAsignatura)
-        Controls.Add(TbId)
-        Controls.Add(ListViewAsignaturas)
+        Controls.Add(TbEv2)
+        Controls.Add(TbEv1)
+        Controls.Add(ListViewNotas)
         Controls.Add(MenuStrip1)
         MainMenuStrip = MenuStrip1
-        Name = "GestionAsignaturas"
+        Name = "GestionNotas"
         StartPosition = FormStartPosition.CenterScreen
         Text = "GestionAsignaturas"
         MenuStrip1.ResumeLayout(False)
@@ -265,15 +307,13 @@ Partial Class GestionAsignaturas
         PerformLayout()
     End Sub
 
-    Friend WithEvents ListViewAsignaturas As ListView
-    Friend WithEvents TbId As TextBox
-    Friend WithEvents TbAsignatura As TextBox
-    Friend WithEvents TbAula As TextBox
-    Friend WithEvents TbProfesor As TextBox
-    Friend WithEvents LblId As Label
+    Friend WithEvents ListViewNotas As ListView
+    Friend WithEvents TbEv1 As TextBox
+    Friend WithEvents TbEv2 As TextBox
     Friend WithEvents LblAsignatura As Label
-    Friend WithEvents LblAula As Label
-    Friend WithEvents LblProfesor As Label
+    Friend WithEvents LblAlumno As Label
+    Friend WithEvents LblEv1 As Label
+    Friend WithEvents LblEv2 As Label
     Friend WithEvents BtnPrimero As Button
     Friend WithEvents BtnAnterior As Button
     Friend WithEvents BtnSiguiente As Button
@@ -288,4 +328,10 @@ Partial Class GestionAsignaturas
     Friend WithEvents TbBuscarId As TextBox
     Friend WithEvents BtnBuscar As Button
     Friend WithEvents MenúToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents LblEv3 As Label
+    Friend WithEvents LblNotaFinal As Label
+    Friend WithEvents TbEv3 As TextBox
+    Friend WithEvents TbNotaFinal As TextBox
+    Friend WithEvents CmbAsignaturas As ComboBox
+    Friend WithEvents CmbAlumnos As ComboBox
 End Class

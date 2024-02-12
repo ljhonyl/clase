@@ -316,7 +316,7 @@ Public Class GestionAlumnos
         If Not String.IsNullOrEmpty(TbId.Text) Then
             Dim Indice = ListViewAlumnos.SelectedIndices(0)
             Dim Id As Integer = Integer.Parse(TbId.Text)
-            ClaseBBDD.Modificar(Id, Alumno, ListViewAlumnos)
+            AlumnoADO.Modificar(Id, Alumno, ListViewAlumnos)
             ListViewAlumnos.Items(Indice).EnsureVisible()
             ListViewAlumnos.Items(Indice).Selected = True
 

@@ -12,9 +12,9 @@ Public Class GestionProfesores
     Private Sub GestionProfesores_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         ListViewProfesores.View = View.Details
         ListViewProfesores.Columns.Add("ID", 50, HorizontalAlignment.Center)
-        ListViewProfesores.Columns.Add("Nombre", 130, HorizontalAlignment.Center)
-        ListViewProfesores.Columns.Add("Aula", 220, HorizontalAlignment.Center)
-        ListViewProfesores.Columns.Add("Profesor", 220, HorizontalAlignment.Center)
+        ListViewProfesores.Columns.Add("Nombre", 190, HorizontalAlignment.Center)
+        ListViewProfesores.Columns.Add("Apellidos", 220, HorizontalAlignment.Center)
+        ListViewProfesores.Columns.Add("Departamento", 215, HorizontalAlignment.Center)
         SetOpcionListado()
 
         ProfesorADO.ActualizarListado(ListViewProfesores)
@@ -259,6 +259,15 @@ Public Class GestionProfesores
             If Not IdEncontrado Then
                 MessageBox.Show("No se encontro el Id Buscado", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             End If
+        End If
+    End Sub
+
+    Private Sub MenúToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles MenúToolStripMenuItem.Click
+        Dim Result As MsgBoxResult = MsgBox("¿Desea volver al menú principal?", MsgBoxStyle.OkCancel Or MsgBoxStyle.Question, "Confirmar")
+
+        If Result = MsgBoxResult.Ok Then
+            Me.Hide()
+            Menu.Show()
         End If
     End Sub
 End Class
