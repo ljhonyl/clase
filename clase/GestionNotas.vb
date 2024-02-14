@@ -1,16 +1,17 @@
 ﻿Imports System.ComponentModel
+Imports System.Windows.Forms.VisualStyles.VisualStyleElement
 
 Public Class GestionNotas
     'Atributo que ayudará el moverse por las distintas opciones
     Private Opcion = -1
     Private Sub GestionNotas_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         ListViewNotas.View = View.Details
-        ListViewNotas.Columns.Add("ID Asignatura", 50, HorizontalAlignment.Center)
-        ListViewNotas.Columns.Add("ID Alumno", 190, HorizontalAlignment.Center)
-        ListViewNotas.Columns.Add("1ª Evaluación", 220, HorizontalAlignment.Center)
-        ListViewNotas.Columns.Add("2ª Evaluación", 215, HorizontalAlignment.Center)
-        ListViewNotas.Columns.Add("3ª Evaluación", 215, HorizontalAlignment.Center)
-        ListViewNotas.Columns.Add("Nota Final", 215, HorizontalAlignment.Center)
+        ListViewNotas.Columns.Add("ID Asignatura", 90, HorizontalAlignment.Center)
+        ListViewNotas.Columns.Add("ID Alumno", 90, HorizontalAlignment.Center)
+        ListViewNotas.Columns.Add("1ª Evaluación", 95, HorizontalAlignment.Center)
+        ListViewNotas.Columns.Add("2ª Evaluación", 95, HorizontalAlignment.Center)
+        ListViewNotas.Columns.Add("3ª Evaluación", 95, HorizontalAlignment.Center)
+        ListViewNotas.Columns.Add("Nota Final", 95, HorizontalAlignment.Center)
         SetOpcionListado()
 
         NotaADO.ActualizarListado(ListViewNotas)
@@ -52,6 +53,7 @@ Public Class GestionNotas
         ListViewNotas.Hide()
         ManejarLabel(True)
         ManejarTextBox(False, True, True)
+        TbNotaFinal.Enabled = False
         ManejarComponentesBuscar(True, False)
         BtnAdd.Text = "Añadir"
         BtnAdd.Show()
@@ -61,7 +63,10 @@ Public Class GestionNotas
         Opcion = 2
         PintaOpcion()
         ListViewNotas.Hide()
+        ManejarLabel(True)
+        LblNotaFinalInfo.Hide()
         ManejarTextBox(False, False, True)
+        TbNotaFinal.Enabled = False
         ManejarComponentesBuscar(False, True)
         BtnAdd.Text = "Guardar"
         BtnAdd.Show()
@@ -71,6 +76,8 @@ Public Class GestionNotas
         Opcion = 3
         PintaOpcion()
         ListViewNotas.Hide()
+        ManejarLabel(True)
+        LblNotaFinalInfo.Hide()
         ManejarTextBox(True, False, True)
         TbBuscarId.ReadOnly = False
         ManejarComponentesBuscar(False, True)
@@ -218,14 +225,18 @@ Public Class GestionNotas
         If CmbAsignaturas.SelectedIndex < 0 Or CmbAlumnos.SelectedIndex < 0 Then
             MsgBox("El campo asignatura no puede estar vacío")
         Else
-            Dim Nota = CrearNota()
-            If Opcion = 1 Then
-                Insertar(Nota)
-            ElseIf Opcion = 2 Then
-                modificar(Nota)
-            ElseIf Opcion = 3 Then
-                Eliminar(Nota)
-            End If
+            Try
+                Dim Nota = CrearNota()
+                If Opcion = 1 Then
+                    Insertar(Nota)
+                ElseIf Opcion = 2 Then
+                    modificar(Nota)
+                ElseIf Opcion = 3 Then
+                    Eliminar(Nota)
+                End If
+            Catch ex As Exception
+                MsgBox("Formato de notas incorrecto")
+            End Try
         End If
     End Sub
 
@@ -233,10 +244,40 @@ Public Class GestionNotas
         Dim Nota As New ModuloNota.Nota
         Nota.Asignatura = Integer.Parse(CmbAsignaturas.Text)
         Nota.Alumno = Integer.Parse(CmbAlumnos.Text)
-        Nota.Evaluacion1 = Double.Parse(TbEv1.Text)
-        Nota.Evaluacion2 = Double.Parse(TbEv2.Text)
-        Nota.Evaluacion3 = Double.Parse(TbEv3.Text)
-        Nota.NotaFinal = Double.Parse(TbNotaFinal.Text)
+        Nota.Evaluacion1 = -1
+        Nota.Evaluacion2 = -1
+        Nota.Evaluacion3 = -1
+        Nota.NotaFinal = -1
+        If Not ComprobarTextBoxVacio(TbEv1) Then
+            Dim valorEv1 As Double
+            If Double.TryParse(TbEv1.Text.Replace(",", ".").Replace(".", ","), valorEv1) Then
+                Nota.Evaluacion1 = valorEv1
+            Else
+                MessageBox.Show("Por favor, introduzca un valor válido para la Evaluación 1.")
+                Return Nota
+            End If
+        End If
+        If Not ComprobarTextBoxVacio(TbEv2) Then
+            Dim valorEv2 As Double
+            If Double.TryParse(TbEv2.Text.Replace(",", ".").Replace(".", ","), valorEv2) Then
+                Nota.Evaluacion2 = valorEv2
+            Else
+                MessageBox.Show("Por favor, introduzca un valor válido para la Evaluación 2.")
+                Return Nota
+            End If
+        End If
+        If Not ComprobarTextBoxVacio(TbEv3) Then
+            Dim valorEv3 As Double
+            If Double.TryParse(TbEv3.Text.Replace(",", ".").Replace(".", ","), valorEv3) Then
+                Nota.Evaluacion3 = valorEv3
+            Else
+                MessageBox.Show("Por favor, introduzca un valor válido para la Evaluación 3.")
+                Return Nota
+            End If
+        End If
+        If Nota.Evaluacion1 <> -1 And Nota.Evaluacion2 <> -1 And Nota.Evaluacion3 <> -1 Then
+            Nota.NotaFinal = CalcularMedia(Nota)
+        End If
 
         Return Nota
     End Function
@@ -266,7 +307,7 @@ Public Class GestionNotas
         If Result = MsgBoxResult.Ok Then
             NotaADO.Eliminar(Nota, ListViewNotas)
             MsgBox("Nota eliminada correctamente", MsgBoxStyle.OkOnly, "Aviso")
-            CambiarAListado()
+            ManejarTextBox(True, True, True)
         End If
     End Sub
 
@@ -285,7 +326,7 @@ Public Class GestionNotas
             Dim IdEncontrado As Boolean = False
             For i As Integer = 0 To (ListViewNotas.Items.Count - 1)
                 Dim Item As ListViewItem = ListViewNotas.Items(i)
-                If IdBuscado.Equals(Item.SubItems(0).Text) Then
+                If IdBuscado.Equals(Item.SubItems(1).Text) Then
                     ListViewNotas.Items(i).EnsureVisible()
                     ListViewNotas.Items(i).Selected = True
                     MostrarItemEnTextBox(i)
@@ -294,7 +335,7 @@ Public Class GestionNotas
                 End If
             Next
             If Not IdEncontrado Then
-                MessageBox.Show("No se encontro el Id Buscado", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                MessageBox.Show("No se encontro el Alumno Buscado", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             End If
         End If
     End Sub
@@ -308,9 +349,10 @@ Public Class GestionNotas
         End If
     End Sub
 
-    Private Function CalcularMedia() As Double
-        Dim Media = (Integer.Parse(TbEv1.Text) + Integer.Parse(TbEv2.Text) + Integer.Parse(TbEv3.Text)) / 3
-        Return Media
+    Private Function CalcularMedia(Nota As ModuloNota.Nota) As Double
+        Dim Media As Double = -1
+        Media = (Nota.Evaluacion1 + Nota.Evaluacion2 + Nota.Evaluacion3) / 3.0
+        Return Math.Round(Media, 2)
     End Function
 
     Private Function ComprobarTextBoxVacio(TextBox As Windows.Forms.TextBox) As Boolean
@@ -320,4 +362,26 @@ Public Class GestionNotas
         End If
         Return Vacio
     End Function
+    Private Sub CmbAsignaturas_TextChanged(sender As Object, e As EventArgs) Handles CmbAsignaturas.TextChanged
+        Dim textoBuscado As String = CmbAsignaturas.Text
+
+        ' Buscar la coincidencia en los elementos del ComboBox
+        Dim indiceCoincidencia As Integer = CmbAsignaturas.FindStringExact(textoBuscado)
+
+        ' Si se encontró una coincidencia, seleccionar ese elemento
+        If indiceCoincidencia <> -1 Then
+            CmbAsignaturas.SelectedIndex = indiceCoincidencia
+        End If
+    End Sub
+    Private Sub CmbAlumnos_TextChanged(sender As Object, e As EventArgs) Handles CmbAlumnos.TextChanged
+        Dim textoBuscado As String = CmbAlumnos.Text
+
+        ' Buscar la coincidencia en los elementos del ComboBox
+        Dim indiceCoincidencia As Integer = CmbAlumnos.FindStringExact(textoBuscado)
+
+        ' Si se encontró una coincidencia, seleccionar ese elemento
+        If indiceCoincidencia <> -1 Then
+            CmbAlumnos.SelectedIndex = indiceCoincidencia
+        End If
+    End Sub
 End Class

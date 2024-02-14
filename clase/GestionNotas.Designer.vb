@@ -49,6 +49,7 @@ Partial Class GestionNotas
         TbNotaFinal = New TextBox()
         CmbAsignaturas = New ComboBox()
         CmbAlumnos = New ComboBox()
+        LblNotaFinalInfo = New Label()
         MenuStrip1.SuspendLayout()
         SuspendLayout()
         ' 
@@ -270,11 +271,21 @@ Partial Class GestionNotas
         CmbAlumnos.Size = New Size(196, 23)
         CmbAlumnos.TabIndex = 25
         ' 
+        ' LblNotaFinalInfo
+        ' 
+        LblNotaFinalInfo.AutoSize = True
+        LblNotaFinalInfo.Location = New Point(457, 442)
+        LblNotaFinalInfo.Name = "LblNotaFinalInfo"
+        LblNotaFinalInfo.Size = New Size(92, 15)
+        LblNotaFinalInfo.TabIndex = 26
+        LblNotaFinalInfo.Text = "(Autoinsertable)"
+        ' 
         ' GestionNotas
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         ClientSize = New Size(734, 819)
+        Controls.Add(LblNotaFinalInfo)
         Controls.Add(CmbAlumnos)
         Controls.Add(CmbAsignaturas)
         Controls.Add(TbNotaFinal)
@@ -334,4 +345,5 @@ Partial Class GestionNotas
     Friend WithEvents TbNotaFinal As TextBox
     Friend WithEvents CmbAsignaturas As ComboBox
     Friend WithEvents CmbAlumnos As ComboBox
+    Friend WithEvents LblNotaFinalInfo As Label
 End Class

@@ -92,10 +92,26 @@ Module NotaADO
 
         Comando.Parameters.AddWithValue("@Asig", Nota.Asignatura)
         Comando.Parameters.AddWithValue("@Alu", Nota.Alumno)
-        Comando.Parameters.AddWithValue("@Ev1", Nota.Evaluacion1)
-        Comando.Parameters.AddWithValue("@Ev2", Nota.Evaluacion2)
-        Comando.Parameters.AddWithValue("@Ev3", Nota.Evaluacion3)
-        Comando.Parameters.AddWithValue("@Fin", Nota.NotaFinal)
+        If (Nota.Evaluacion1 < 0) Then
+            Comando.Parameters.AddWithValue("@Ev1", DBNull.Value)
+        Else
+            Comando.Parameters.AddWithValue("@Ev1", Nota.Evaluacion1)
+        End If
+        If (Nota.Evaluacion2 < 0) Then
+            Comando.Parameters.AddWithValue("@Ev2", DBNull.Value)
+        Else
+            Comando.Parameters.AddWithValue("@Ev2", Nota.Evaluacion2)
+        End If
+        If (Nota.Evaluacion3 < 0) Then
+            Comando.Parameters.AddWithValue("@Ev3", DBNull.Value)
+        Else
+            Comando.Parameters.AddWithValue("@Ev3", Nota.Evaluacion3)
+        End If
+        If (Nota.NotaFinal < 0) Then
+            Comando.Parameters.AddWithValue("@Fin", DBNull.Value)
+        Else
+            Comando.Parameters.AddWithValue("@Fin", Nota.NotaFinal)
+        End If
 
         fila = DatosConjunto.Tables(0).NewRow
         fila.Item(0) = Nota.Asignatura
@@ -126,23 +142,37 @@ Module NotaADO
     End Sub
 
     Sub Modificar(Nota As ModuloNota.Nota, ListView As Windows.Forms.ListView)
-        Dim Query As String = "UPDATE Cursa SET Nota1=@Ev1, Nota2=@Ev2, Nota2=@Ev3, NotaFinal=@Fin WHERE Asignatura=@Asig AND Alumno=@Alu;"
+        Dim Query As String = "UPDATE Cursa SET Nota1=@Ev1, Nota2=@Ev2, Nota3=@Ev3, NotaFinal=@Fin WHERE Asignatura=@Asig AND Alumno=@Alu;"
         Dim Comando = New SQLiteCommand(Query, ConectarBD)
         AdaptadorDatos.UpdateCommand = Comando
 
-
-
-        Comando.Parameters.AddWithValue("@Ev1", Nota.Evaluacion1)
-        Comando.Parameters.AddWithValue("@Ev2", Nota.Evaluacion2)
-        Comando.Parameters.AddWithValue("@Ev3", Nota.Evaluacion3)
-        Comando.Parameters.AddWithValue("@Fin", Nota.NotaFinal)
+        If (Nota.Evaluacion1 < 0) Then
+            Comando.Parameters.AddWithValue("@Ev1", DBNull.Value)
+        Else
+            Comando.Parameters.AddWithValue("@Ev1", Nota.Evaluacion1)
+        End If
+        If (Nota.Evaluacion2 < 0) Then
+            Comando.Parameters.AddWithValue("@Ev2", DBNull.Value)
+        Else
+            Comando.Parameters.AddWithValue("@Ev2", Nota.Evaluacion2)
+        End If
+        If (Nota.Evaluacion3 < 0) Then
+            Comando.Parameters.AddWithValue("@Ev3", DBNull.Value)
+        Else
+            Comando.Parameters.AddWithValue("@Ev3", Nota.Evaluacion3)
+        End If
+        If (Nota.NotaFinal < 0) Then
+            Comando.Parameters.AddWithValue("@Fin", DBNull.Value)
+        Else
+            Comando.Parameters.AddWithValue("@Fin", Nota.NotaFinal)
+        End If
         Comando.Parameters.AddWithValue("@Asig", Nota.Asignatura)
         Comando.Parameters.AddWithValue("@Alu", Nota.Alumno)
         DatosConjunto.Tables(0).Rows(0).BeginEdit()
         DatosConjunto.Tables(0).Rows(0).Item(1) = Nota.Evaluacion1
         DatosConjunto.Tables(0).Rows(0).Item(2) = Nota.Evaluacion2
         DatosConjunto.Tables(0).Rows(0).Item(3) = Nota.Evaluacion3
-        DatosConjunto.Tables(0).Rows(0).Item(3) = Nota.NotaFinal
+        DatosConjunto.Tables(0).Rows(0).Item(4) = Nota.NotaFinal
         DatosConjunto.Tables(0).Rows(0).EndEdit()
 
         Comando.ExecuteNonQuery()
