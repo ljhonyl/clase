@@ -50,6 +50,7 @@ Partial Class GestionNotas
         CmbAsignaturas = New ComboBox()
         CmbAlumnos = New ComboBox()
         LblNotaFinalInfo = New Label()
+        LblImagen1 = New Label()
         MenuStrip1.SuspendLayout()
         SuspendLayout()
         ' 
@@ -60,7 +61,7 @@ Partial Class GestionNotas
         ListViewNotas.MultiSelect = False
         ListViewNotas.Name = "ListViewNotas"
         ListViewNotas.Size = New Size(594, 630)
-        ListViewNotas.TabIndex = 12
+        ListViewNotas.TabIndex = 7
         ListViewNotas.UseCompatibleStateImageBehavior = False
         ' 
         ' TbEv1
@@ -68,14 +69,14 @@ Partial Class GestionNotas
         TbEv1.Location = New Point(65, 369)
         TbEv1.Name = "TbEv1"
         TbEv1.Size = New Size(100, 23)
-        TbEv1.TabIndex = 3
+        TbEv1.TabIndex = 10
         ' 
         ' TbEv2
         ' 
         TbEv2.Location = New Point(381, 369)
         TbEv2.Name = "TbEv2"
         TbEv2.Size = New Size(100, 23)
-        TbEv2.TabIndex = 4
+        TbEv2.TabIndex = 11
         ' 
         ' LblAsignatura
         ' 
@@ -119,7 +120,7 @@ Partial Class GestionNotas
         BtnPrimero.Location = New Point(64, 101)
         BtnPrimero.Name = "BtnPrimero"
         BtnPrimero.Size = New Size(75, 23)
-        BtnPrimero.TabIndex = 6
+        BtnPrimero.TabIndex = 1
         BtnPrimero.UseVisualStyleBackColor = True
         ' 
         ' BtnAnterior
@@ -128,7 +129,7 @@ Partial Class GestionNotas
         BtnAnterior.Location = New Point(164, 101)
         BtnAnterior.Name = "BtnAnterior"
         BtnAnterior.Size = New Size(75, 23)
-        BtnAnterior.TabIndex = 7
+        BtnAnterior.TabIndex = 2
         BtnAnterior.UseVisualStyleBackColor = True
         ' 
         ' BtnSiguiente
@@ -137,7 +138,7 @@ Partial Class GestionNotas
         BtnSiguiente.Location = New Point(270, 101)
         BtnSiguiente.Name = "BtnSiguiente"
         BtnSiguiente.Size = New Size(75, 23)
-        BtnSiguiente.TabIndex = 8
+        BtnSiguiente.TabIndex = 3
         BtnSiguiente.UseVisualStyleBackColor = True
         ' 
         ' BtnFin
@@ -146,15 +147,15 @@ Partial Class GestionNotas
         BtnFin.Location = New Point(370, 101)
         BtnFin.Name = "BtnFin"
         BtnFin.Size = New Size(75, 23)
-        BtnFin.TabIndex = 9
+        BtnFin.TabIndex = 4
         BtnFin.UseVisualStyleBackColor = True
         ' 
         ' BtnAdd
         ' 
-        BtnAdd.Location = New Point(164, 574)
+        BtnAdd.Location = New Point(145, 575)
         BtnAdd.Name = "BtnAdd"
         BtnAdd.Size = New Size(253, 23)
-        BtnAdd.TabIndex = 5
+        BtnAdd.TabIndex = 13
         BtnAdd.Text = "Button5"
         BtnAdd.UseVisualStyleBackColor = True
         ' 
@@ -212,7 +213,7 @@ Partial Class GestionNotas
         TbBuscarId.Location = New Point(477, 101)
         TbBuscarId.Name = "TbBuscarId"
         TbBuscarId.Size = New Size(100, 23)
-        TbBuscarId.TabIndex = 10
+        TbBuscarId.TabIndex = 5
         ' 
         ' BtnBuscar
         ' 
@@ -220,7 +221,7 @@ Partial Class GestionNotas
         BtnBuscar.Location = New Point(583, 101)
         BtnBuscar.Name = "BtnBuscar"
         BtnBuscar.Size = New Size(75, 23)
-        BtnBuscar.TabIndex = 11
+        BtnBuscar.TabIndex = 6
         BtnBuscar.UseVisualStyleBackColor = True
         ' 
         ' LblEv3
@@ -246,30 +247,33 @@ Partial Class GestionNotas
         TbEv3.Location = New Point(65, 477)
         TbEv3.Name = "TbEv3"
         TbEv3.Size = New Size(100, 23)
-        TbEv3.TabIndex = 22
+        TbEv3.TabIndex = 12
         ' 
         ' TbNotaFinal
         ' 
         TbNotaFinal.Location = New Point(381, 477)
         TbNotaFinal.Name = "TbNotaFinal"
         TbNotaFinal.Size = New Size(100, 23)
-        TbNotaFinal.TabIndex = 23
+        TbNotaFinal.TabIndex = 0
+        TbNotaFinal.TabStop = False
         ' 
         ' CmbAsignaturas
         ' 
+        CmbAsignaturas.DropDownStyle = ComboBoxStyle.DropDownList
         CmbAsignaturas.FormattingEnabled = True
         CmbAsignaturas.Location = New Point(65, 272)
         CmbAsignaturas.Name = "CmbAsignaturas"
         CmbAsignaturas.Size = New Size(153, 23)
-        CmbAsignaturas.TabIndex = 24
+        CmbAsignaturas.TabIndex = 8
         ' 
         ' CmbAlumnos
         ' 
+        CmbAlumnos.DropDownStyle = ComboBoxStyle.DropDownList
         CmbAlumnos.FormattingEnabled = True
         CmbAlumnos.Location = New Point(381, 272)
         CmbAlumnos.Name = "CmbAlumnos"
-        CmbAlumnos.Size = New Size(196, 23)
-        CmbAlumnos.TabIndex = 25
+        CmbAlumnos.Size = New Size(154, 23)
+        CmbAlumnos.TabIndex = 9
         ' 
         ' LblNotaFinalInfo
         ' 
@@ -280,11 +284,20 @@ Partial Class GestionNotas
         LblNotaFinalInfo.TabIndex = 26
         LblNotaFinalInfo.Text = "(Autoinsertable)"
         ' 
+        ' LblImagen1
+        ' 
+        LblImagen1.Image = My.Resources.Resources.libros
+        LblImagen1.Location = New Point(508, 525)
+        LblImagen1.Name = "LblImagen1"
+        LblImagen1.Size = New Size(180, 180)
+        LblImagen1.TabIndex = 27
+        ' 
         ' GestionNotas
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         ClientSize = New Size(734, 819)
+        Controls.Add(LblImagen1)
         Controls.Add(LblNotaFinalInfo)
         Controls.Add(CmbAlumnos)
         Controls.Add(CmbAsignaturas)
@@ -306,8 +319,8 @@ Partial Class GestionNotas
         Controls.Add(LblAsignatura)
         Controls.Add(TbEv2)
         Controls.Add(TbEv1)
-        Controls.Add(ListViewNotas)
         Controls.Add(MenuStrip1)
+        Controls.Add(ListViewNotas)
         MainMenuStrip = MenuStrip1
         Name = "GestionNotas"
         StartPosition = FormStartPosition.CenterScreen
@@ -346,4 +359,5 @@ Partial Class GestionNotas
     Friend WithEvents CmbAsignaturas As ComboBox
     Friend WithEvents CmbAlumnos As ComboBox
     Friend WithEvents LblNotaFinalInfo As Label
+    Friend WithEvents LblImagen1 As Label
 End Class

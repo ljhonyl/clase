@@ -24,6 +24,11 @@ Public Class GestionNotas
         Application.Exit()
     End Sub
 
+    ''' <summary>
+    ''' Manejo de menú
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
     Private Sub MenuStrip1_ItemClicked(sender As Object, e As ToolStripItemClickedEventArgs) Handles MenuStrip1.ItemClicked
         If e.ClickedItem.Text = "Listado" Then
             SetOpcionListado()
@@ -36,6 +41,10 @@ Public Class GestionNotas
         End If
     End Sub
 
+    '----------------------------------------------------------------------------------------------
+    ''' <summary>
+    ''' Comportamiento de las distintas opciones de menú
+    ''' </summary>
     Private Sub SetOpcionListado()
         Opcion = 0
         PintaOpcion()
@@ -64,7 +73,6 @@ Public Class GestionNotas
         PintaOpcion()
         ListViewNotas.Hide()
         ManejarLabel(True)
-        LblNotaFinalInfo.Hide()
         ManejarTextBox(False, False, True)
         TbNotaFinal.Enabled = False
         ManejarComponentesBuscar(False, True)
@@ -84,7 +92,11 @@ Public Class GestionNotas
         BtnAdd.Text = "Eliminar"
         BtnAdd.Show()
     End Sub
+    '----------------------------------------------------------------------------------------------
 
+    ''' <summary>
+    ''' Colorea la opción de menú en la que nos encontramos
+    ''' </summary>
     Private Sub PintaOpcion()
         For Each item As ToolStripItem In MenuStrip1.Items
             item.BackColor = SystemColors.Control
@@ -101,6 +113,12 @@ Public Class GestionNotas
 
     End Sub
 
+    ''' <summary>
+    ''' Manejo de los textBox de acuerdo a las necesiades de cada opción de menú
+    ''' </summary>
+    ''' <param name="SoloLectura">Establece si los textBox son de solo lectura</param>
+    ''' <param name="Limpiable">Establece si se vacia el texto de los textBox</param>
+    ''' <param name="Visible">Establece si los textBox son visibles</param>
     Private Sub ManejarTextBox(SoloLectura As Boolean, Limpiable As Boolean, Visible As Boolean)
         For Each TextBox As Windows.Forms.TextBox In Me.Controls.OfType(Of Windows.Forms.TextBox)
             If SoloLectura Then
@@ -133,6 +151,11 @@ Public Class GestionNotas
         Next
     End Sub
 
+    ''' <summary>
+    ''' Maneja los componentes que prmiten la busqueda
+    ''' </summary>
+    ''' <param name="SoloLectura"></param>
+    ''' <param name="Habilitado"></param>
     Private Sub ManejarComponentesBuscar(SoloLectura As Boolean, Habilitado As Boolean)
         If (SoloLectura) Then
             TbBuscarId.ReadOnly = True
@@ -146,6 +169,11 @@ Public Class GestionNotas
             BtnBuscar.Enabled = False
         End If
     End Sub
+
+    ''' <summary>
+    ''' Maneja los botones de acuerdo a las necesidades del menú
+    ''' </summary>
+    ''' <param name="Mostrable">Establece si los botones se muestran o no</param>
     Private Sub MostrarBotones(Mostrable As Boolean)
         For Each Button As Windows.Forms.Button In Me.Controls.OfType(Of Windows.Forms.Button)
             If (Mostrable) Then
@@ -156,6 +184,10 @@ Public Class GestionNotas
         Next
     End Sub
 
+    ''' <summary>
+    ''' Maneja los laabel de acuerdo a las necesidades de la opción de menú
+    ''' </summary>
+    ''' <param name="Visible">Controla si los label se ven o no</param>
     Private Sub ManejarLabel(Visible As Boolean)
         For Each Label As Windows.Forms.Label In Me.Controls.OfType(Of Windows.Forms.Label)
             If Visible Then
@@ -166,6 +198,11 @@ Public Class GestionNotas
         Next
     End Sub
 
+    ''' <summary>
+    ''' Controla la selección de los item del listView
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
     Private Sub ListViewNotas_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ListViewNotas.SelectedIndexChanged
         If ListViewNotas.SelectedItems.Count > 0 Then
             'Activamos las opciones editar y eliminar del menú
@@ -177,6 +214,10 @@ Public Class GestionNotas
 
     End Sub
 
+    ''' <summary>
+    ''' Coje el item seleccionado y lo muestra en los textBox 
+    ''' </summary>
+    ''' <param name="indice"></param>
     Private Sub MostrarItemEnTextBox(indice As Integer)
         Dim item = ListViewNotas.Items(indice)
         CmbAsignaturas.Text = item.SubItems(0).Text
@@ -186,7 +227,12 @@ Public Class GestionNotas
         TbEv3.Text = item.SubItems(4).Text
         TbNotaFinal.Text = item.SubItems(5).Text
     End Sub
-
+    '----------------------------------------------------------------------------------------------
+    ''' <summary>
+    ''' Navegación en el listView
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
     Private Sub BtnAnterior_Click(sender As Object, e As EventArgs) Handles BtnAnterior.Click
         If ListViewNotas.SelectedItems.Count > 0 Then
             '''<summary>
@@ -219,7 +265,13 @@ Public Class GestionNotas
             End If
         End If
     End Sub
+    '----------------------------------------------------------------------------------------------
 
+    ''' <summary>
+    ''' Controla si se inserta, modifica y elimina
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
     Private Sub BtnAdd_Click(sender As Object, e As EventArgs) Handles BtnAdd.Click
 
         If CmbAsignaturas.SelectedIndex < 0 Or CmbAlumnos.SelectedIndex < 0 Then
@@ -240,6 +292,10 @@ Public Class GestionNotas
         End If
     End Sub
 
+    ''' <summary>
+    ''' Crea nuestro modelo de negocio
+    ''' </summary>
+    ''' <returns>Devuelve la nota necesaria para los métodos de editar, insertar y eliminar</returns>
     Private Function CrearNota() As ModuloNota.Nota
         Dim Nota As New ModuloNota.Nota
         Nota.Asignatura = Integer.Parse(CmbAsignaturas.Text)
@@ -282,6 +338,10 @@ Public Class GestionNotas
         Return Nota
     End Function
 
+    ''' <summary>
+    ''' Llama a la base de datos para insertar
+    ''' </summary>
+    ''' <param name="Nota"></param>
     Private Sub Insertar(Nota As ModuloNota.Nota)
         NotaADO.Insertar(Nota, ListViewNotas)
         For Each TextBox As Windows.Forms.TextBox In Me.Controls.OfType(Of Windows.Forms.TextBox)
@@ -292,6 +352,10 @@ Public Class GestionNotas
         ListViewNotas.Items(ListViewNotas.Items.Count - 1).Selected = True
     End Sub
 
+    ''' <summary>
+    ''' Llama a la base de datos para modificar
+    ''' </summary>
+    ''' <param name="Nota"></param>
     Private Sub modificar(Nota As ModuloNota.Nota)
         Dim Indice = ListViewNotas.SelectedIndices(0)
         NotaADO.Modificar(Nota, ListViewNotas)
@@ -301,6 +365,10 @@ Public Class GestionNotas
         MsgBox("Nota modificado correctamente", MsgBoxStyle.OkOnly, "Aviso")
     End Sub
 
+    ''' <summary>
+    ''' Llama a la base de datos para eliminar
+    ''' </summary>
+    ''' <param name="Nota"></param>
     Private Sub Eliminar(Nota As ModuloNota.Nota)
         Dim Result As MsgBoxResult = MsgBox("¿Desea eliminar la nota? Esta accion no se puede deshacer", MsgBoxStyle.OkCancel Or MsgBoxStyle.Question, "Confirmar")
 
@@ -311,6 +379,9 @@ Public Class GestionNotas
         End If
     End Sub
 
+    ''' <summary>
+    ''' Simula el clickar en la opción de menú listado
+    ''' </summary>
     Private Sub CambiarAListado()
         For Each item As ToolStripItem In MenuStrip1.Items
             If item.Text = "Listado" Then
@@ -320,6 +391,11 @@ Public Class GestionNotas
         Next
     End Sub
 
+    ''' <summary>
+    ''' Botón que maneja la busqueda por alumno
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
     Private Sub BtnBuscar_Click(sender As Object, e As EventArgs) Handles BtnBuscar.Click
         If Not String.IsNullOrEmpty(TbBuscarId.Text) Then
             Dim IdBuscado = TbBuscarId.Text
@@ -340,6 +416,11 @@ Public Class GestionNotas
         End If
     End Sub
 
+    ''' <summary>
+    ''' Vuelta al menú principal si aceptamos
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
     Private Sub MenúToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles MenúToolStripMenuItem.Click
         Dim Result As MsgBoxResult = MsgBox("¿Desea volver al menú principal?", MsgBoxStyle.OkCancel Or MsgBoxStyle.Question, "Confirmar")
 
@@ -349,12 +430,22 @@ Public Class GestionNotas
         End If
     End Sub
 
+    ''' <summary>
+    ''' Calcula la media
+    ''' </summary>
+    ''' <param name="Nota">Nota de la que se sacan las tres notas para calcular la media</param>
+    ''' <returns>devuelve la media de las tres notas</returns>
     Private Function CalcularMedia(Nota As ModuloNota.Nota) As Double
         Dim Media As Double = -1
         Media = (Nota.Evaluacion1 + Nota.Evaluacion2 + Nota.Evaluacion3) / 3.0
         Return Math.Round(Media, 2)
     End Function
 
+    ''' <summary>
+    ''' Comprueba si el textBox está vacío
+    ''' </summary>
+    ''' <param name="TextBox">Componente a comprobar</param>
+    ''' <returns>devuelve true si esta vacío false si no</returns>
     Private Function ComprobarTextBoxVacio(TextBox As Windows.Forms.TextBox) As Boolean
         Dim Vacio As Boolean = True
         If Not String.IsNullOrEmpty(TextBox.Text) Then
@@ -362,26 +453,4 @@ Public Class GestionNotas
         End If
         Return Vacio
     End Function
-    Private Sub CmbAsignaturas_TextChanged(sender As Object, e As EventArgs) Handles CmbAsignaturas.TextChanged
-        Dim textoBuscado As String = CmbAsignaturas.Text
-
-        ' Buscar la coincidencia en los elementos del ComboBox
-        Dim indiceCoincidencia As Integer = CmbAsignaturas.FindStringExact(textoBuscado)
-
-        ' Si se encontró una coincidencia, seleccionar ese elemento
-        If indiceCoincidencia <> -1 Then
-            CmbAsignaturas.SelectedIndex = indiceCoincidencia
-        End If
-    End Sub
-    Private Sub CmbAlumnos_TextChanged(sender As Object, e As EventArgs) Handles CmbAlumnos.TextChanged
-        Dim textoBuscado As String = CmbAlumnos.Text
-
-        ' Buscar la coincidencia en los elementos del ComboBox
-        Dim indiceCoincidencia As Integer = CmbAlumnos.FindStringExact(textoBuscado)
-
-        ' Si se encontró una coincidencia, seleccionar ese elemento
-        If indiceCoincidencia <> -1 Then
-            CmbAlumnos.SelectedIndex = indiceCoincidencia
-        End If
-    End Sub
 End Class
