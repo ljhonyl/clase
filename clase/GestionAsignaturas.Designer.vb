@@ -22,6 +22,7 @@ Partial Class GestionAsignaturas
     'No lo modifique con el editor de código.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim resources As ComponentModel.ComponentResourceManager = New ComponentModel.ComponentResourceManager(GetType(GestionAsignaturas))
         ListViewAsignaturas = New ListView()
         TbId = New TextBox()
         TbAsignatura = New TextBox()
@@ -209,7 +210,7 @@ Partial Class GestionAsignaturas
         ' Label5
         ' 
         Label5.AutoSize = True
-        Label5.Font = New Font("Segoe UI", 20.0F, FontStyle.Bold Or FontStyle.Italic, GraphicsUnit.Point)
+        Label5.Font = New Font("Segoe UI", 20F, FontStyle.Bold Or FontStyle.Italic, GraphicsUnit.Point)
         Label5.Location = New Point(272, 24)
         Label5.Name = "Label5"
         Label5.Size = New Size(170, 37)
@@ -255,6 +256,8 @@ Partial Class GestionAsignaturas
         Controls.Add(TbId)
         Controls.Add(ListViewAsignaturas)
         Controls.Add(MenuStrip1)
+        FormBorderStyle = FormBorderStyle.FixedSingle
+        Icon = CType(resources.GetObject("$this.Icon"), Icon)
         MainMenuStrip = MenuStrip1
         Name = "GestionAsignaturas"
         StartPosition = FormStartPosition.CenterScreen

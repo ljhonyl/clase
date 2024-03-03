@@ -22,12 +22,14 @@ Partial Class Menu
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Dim resources As ComponentModel.ComponentResourceManager = New ComponentModel.ComponentResourceManager(GetType(Menu))
         BtnAlumnos = New Button()
         BtnPruebas = New Button()
         Button1 = New Button()
         Button2 = New Button()
         BtnSalir = New Button()
         LblImagen = New Label()
+        BtnAyuda = New Button()
         SuspendLayout()
         ' 
         ' BtnAlumnos
@@ -60,7 +62,7 @@ Partial Class Menu
         Button1.Name = "Button1"
         Button1.Size = New Size(235, 31)
         Button1.TabIndex = 3
-        Button1.Text = "Gestión Cursa"
+        Button1.Text = "Gestión Notas"
         Button1.UseVisualStyleBackColor = True
         ' 
         ' Button2
@@ -76,7 +78,7 @@ Partial Class Menu
         ' 
         ' BtnSalir
         ' 
-        BtnSalir.Location = New Point(630, 352)
+        BtnSalir.Location = New Point(630, 369)
         BtnSalir.Name = "BtnSalir"
         BtnSalir.Size = New Size(75, 23)
         BtnSalir.TabIndex = 5
@@ -91,17 +93,29 @@ Partial Class Menu
         LblImagen.Size = New Size(502, 382)
         LblImagen.TabIndex = 5
         ' 
+        ' BtnAyuda
+        ' 
+        BtnAyuda.Location = New Point(630, 340)
+        BtnAyuda.Name = "BtnAyuda"
+        BtnAyuda.Size = New Size(75, 23)
+        BtnAyuda.TabIndex = 6
+        BtnAyuda.Text = "Ayuda"
+        BtnAyuda.UseVisualStyleBackColor = True
+        ' 
         ' Menu
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         ClientSize = New Size(800, 450)
+        Controls.Add(BtnAyuda)
         Controls.Add(LblImagen)
         Controls.Add(BtnSalir)
         Controls.Add(Button2)
         Controls.Add(Button1)
         Controls.Add(BtnPruebas)
         Controls.Add(BtnAlumnos)
+        FormBorderStyle = FormBorderStyle.FixedSingle
+        Icon = CType(resources.GetObject("$this.Icon"), Icon)
         Name = "Menu"
         StartPosition = FormStartPosition.CenterScreen
         Text = "Menu"
@@ -115,4 +129,5 @@ Partial Class Menu
     Friend WithEvents Button2 As Button
     Friend WithEvents BtnSalir As Button
     Friend WithEvents LblImagen As Label
+    Friend WithEvents BtnAyuda As Button
 End Class

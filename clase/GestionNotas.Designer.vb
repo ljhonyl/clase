@@ -22,6 +22,7 @@ Partial Class GestionNotas
     'No lo modifique con el editor de código.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim resources As ComponentModel.ComponentResourceManager = New ComponentModel.ComponentResourceManager(GetType(GestionNotas))
         ListViewNotas = New ListView()
         TbEv1 = New TextBox()
         TbEv2 = New TextBox()
@@ -321,6 +322,8 @@ Partial Class GestionNotas
         Controls.Add(TbEv1)
         Controls.Add(MenuStrip1)
         Controls.Add(ListViewNotas)
+        FormBorderStyle = FormBorderStyle.FixedSingle
+        Icon = CType(resources.GetObject("$this.Icon"), Icon)
         MainMenuStrip = MenuStrip1
         Name = "GestionNotas"
         StartPosition = FormStartPosition.CenterScreen

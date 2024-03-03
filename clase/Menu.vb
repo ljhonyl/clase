@@ -44,4 +44,13 @@ Public Class Menu
         Me.Hide()
         GestionNotas.Show()
     End Sub
+
+    Private Sub BtnAyuda_Click(sender As Object, e As EventArgs) Handles BtnAyuda.Click
+        Dim rutaPDF As String = "manual.pdf"
+        If System.IO.File.Exists(rutaPDF) Then
+            Process.Start("cmd", "/c start " & rutaPDF)
+        Else
+            MessageBox.Show("El archivo PDF no existe en la ruta especificada.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End If
+    End Sub
 End Class

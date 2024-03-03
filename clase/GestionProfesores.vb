@@ -274,7 +274,7 @@ Public Class GestionProfesores
         End If
     End Sub
 
-    Private Sub GestionProfesores_VisibleChanged(sender As Object, e As EventArgs) Handles Me.VisibleChanged
+    Private Sub GestionProfesores_VisibleChanged(sender As Object, e As EventArgs) Handles MyBase.VisibleChanged
         If Me.Visible Then
             ' Cargar datos nuevamente al hacer el formulario visible
             ProfesorADO.RellenarDatosConjunto()

@@ -22,6 +22,7 @@ Partial Class GestionAlumnos
     'No lo modifique con el editor de código.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Dim resources As ComponentModel.ComponentResourceManager = New ComponentModel.ComponentResourceManager(GetType(GestionAlumnos))
         LblId = New Label()
         LblNombre = New Label()
         LblApellidos = New Label()
@@ -41,6 +42,7 @@ Partial Class GestionAlumnos
         InsertarToolStripMenuItem = New ToolStripMenuItem()
         EditarToolStripMenuItem = New ToolStripMenuItem()
         EliminarToolStripMenuItem = New ToolStripMenuItem()
+        MenúToolStripMenuItem = New ToolStripMenuItem()
         TbId = New TextBox()
         TbNombre = New TextBox()
         TbApellido = New TextBox()
@@ -57,7 +59,6 @@ Partial Class GestionAlumnos
         LblDatos = New Label()
         LblImagen1 = New Label()
         LblImagen2 = New Label()
-        MenúToolStripMenuItem = New ToolStripMenuItem()
         MenuStrip1.SuspendLayout()
         SuspendLayout()
         ' 
@@ -221,6 +222,12 @@ Partial Class GestionAlumnos
         EliminarToolStripMenuItem.Size = New Size(62, 20)
         EliminarToolStripMenuItem.Text = "Eliminar"
         ' 
+        ' MenúToolStripMenuItem
+        ' 
+        MenúToolStripMenuItem.Name = "MenúToolStripMenuItem"
+        MenúToolStripMenuItem.Size = New Size(50, 20)
+        MenúToolStripMenuItem.Text = "Menú"
+        ' 
         ' TbId
         ' 
         TbId.Location = New Point(72, 203)
@@ -359,12 +366,6 @@ Partial Class GestionAlumnos
         LblImagen2.Size = New Size(216, 222)
         LblImagen2.TabIndex = 30
         ' 
-        ' MenúToolStripMenuItem
-        ' 
-        MenúToolStripMenuItem.Name = "MenúToolStripMenuItem"
-        MenúToolStripMenuItem.Size = New Size(50, 20)
-        MenúToolStripMenuItem.Text = "Menú"
-        ' 
         ' GestionAlumnos
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
@@ -401,6 +402,8 @@ Partial Class GestionAlumnos
         Controls.Add(MenuStrip1)
         Controls.Add(ListViewAlumnos)
         Controls.Add(BtnPrimero)
+        FormBorderStyle = FormBorderStyle.FixedSingle
+        Icon = CType(resources.GetObject("$this.Icon"), Icon)
         MainMenuStrip = MenuStrip1
         Name = "GestionAlumnos"
         StartPosition = FormStartPosition.CenterScreen

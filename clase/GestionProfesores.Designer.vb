@@ -22,6 +22,7 @@ Partial Class GestionProfesores
     'No lo modifique con el editor de código.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Dim resources As ComponentModel.ComponentResourceManager = New ComponentModel.ComponentResourceManager(GetType(GestionProfesores))
         ListViewProfesores = New ListView()
         TbId = New TextBox()
         TbNombre = New TextBox()
@@ -255,6 +256,8 @@ Partial Class GestionProfesores
         Controls.Add(TbId)
         Controls.Add(ListViewProfesores)
         Controls.Add(MenuStrip1)
+        FormBorderStyle = FormBorderStyle.FixedSingle
+        Icon = CType(resources.GetObject("$this.Icon"), Icon)
         MainMenuStrip = MenuStrip1
         Name = "GestionProfesores"
         StartPosition = FormStartPosition.CenterScreen
