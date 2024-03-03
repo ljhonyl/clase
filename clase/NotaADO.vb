@@ -19,7 +19,7 @@ Module NotaADO
         Return Conn
     End Function
 
-    Private Sub RellenarDatosConjunto()
+    Public Sub RellenarDatosConjunto()
         Dim Query As String = "Select * From Cursa"
         Dim Conexion = ConectarBD()
         AdaptadorDatos = New SQLiteDataAdapter(Query, Conexion)
@@ -68,20 +68,28 @@ Module NotaADO
     End Sub
 
     Sub ActualizarListado(ListView As Windows.Forms.ListView)
-        RellenarDatosConjunto()
-        Dim ElementoList As ListViewItem
+        ' Limpiar los elementos existentes en el ListView
         ListView.Items.Clear()
 
-        For pos As Integer = 0 To DatosConjunto.Tables(0).Rows.Count - 1
-            ElementoList = ListView.Items.Add(DatosConjunto.Tables(0).Rows(pos).Item(0))
-            For i As Integer = 1 To 5
-                Dim EsNulo As String = DatosConjunto.Tables(0).Rows(pos).Item(i).ToString()
-                If Not String.IsNullOrEmpty(EsNulo) AndAlso Not String.Equals(EsNulo, "null", StringComparison.OrdinalIgnoreCase) Then
-                    ElementoList.SubItems.Add(DatosConjunto.Tables(0).Rows(pos).Item(i))
-                Else
-                    ElementoList.SubItems.Add("")
-                End If
-            Next
+        ' Recorrer las filas del DataSet y agregarlas al ListView
+        For Each fila As DataRow In DatosConjunto.Tables(0).Rows
+            ' Verificar si la fila está marcada como eliminada
+            If fila.RowState <> DataRowState.Deleted Then
+                Dim ElementoList As New ListViewItem(fila.Item(0).ToString()) ' Agregar el primer elemento de la fila (supongo que es el ID)
+
+                ' Agregar los subelementos a la fila del ListView
+                For i As Integer = 1 To 5
+                    Dim valor As String = fila.Item(i).ToString()
+                    If Not String.IsNullOrEmpty(valor) AndAlso Not String.Equals(valor, "null", StringComparison.OrdinalIgnoreCase) Then
+                        ElementoList.SubItems.Add(valor)
+                    Else
+                        ElementoList.SubItems.Add("")
+                    End If
+                Next
+
+                ' Agregar la fila al ListView
+                ListView.Items.Add(ElementoList)
+            End If
         Next
     End Sub
 
@@ -89,55 +97,44 @@ Module NotaADO
         Dim Query As String = "INSERT INTO Cursa (Asignatura, Alumno, Nota1, Nota2, Nota3, NotaFinal) VALUES (@Asig, @Alu, @Ev1, @Ev2, @Ev3, @Fin);"
         Dim Comando As New SQLiteCommand(Query, ConectarBD())
         AdaptadorDatos.InsertCommand = Comando
-
+        ' Agregar parámetros al comando
         Comando.Parameters.AddWithValue("@Asig", Nota.Asignatura)
         Comando.Parameters.AddWithValue("@Alu", Nota.Alumno)
-        If (Nota.Evaluacion1 < 0) Then
-            Comando.Parameters.AddWithValue("@Ev1", DBNull.Value)
-        Else
-            Comando.Parameters.AddWithValue("@Ev1", Nota.Evaluacion1)
-        End If
-        If (Nota.Evaluacion2 < 0) Then
-            Comando.Parameters.AddWithValue("@Ev2", DBNull.Value)
-        Else
-            Comando.Parameters.AddWithValue("@Ev2", Nota.Evaluacion2)
-        End If
-        If (Nota.Evaluacion3 < 0) Then
-            Comando.Parameters.AddWithValue("@Ev3", DBNull.Value)
-        Else
-            Comando.Parameters.AddWithValue("@Ev3", Nota.Evaluacion3)
-        End If
-        If (Nota.NotaFinal < 0) Then
-            Comando.Parameters.AddWithValue("@Fin", DBNull.Value)
-        Else
-            Comando.Parameters.AddWithValue("@Fin", Nota.NotaFinal)
-        End If
+        Comando.Parameters.AddWithValue("@Ev1", If(Nota.Evaluacion1 < 0, DBNull.Value, Nota.Evaluacion1))
+        Comando.Parameters.AddWithValue("@Ev2", If(Nota.Evaluacion2 < 0, DBNull.Value, Nota.Evaluacion2))
+        Comando.Parameters.AddWithValue("@Ev3", If(Nota.Evaluacion3 < 0, DBNull.Value, Nota.Evaluacion3))
+        Comando.Parameters.AddWithValue("@Fin", If(Nota.NotaFinal < 0, DBNull.Value, Nota.NotaFinal))
 
         fila = DatosConjunto.Tables(0).NewRow
         fila.Item(0) = Nota.Asignatura
         fila.Item(1) = Nota.Alumno
-        fila.Item(2) = Nota.Evaluacion1
-        fila.Item(3) = Nota.Evaluacion2
-        fila.Item(4) = Nota.Evaluacion3
-        fila.Item(5) = Nota.NotaFinal
+        fila.Item(2) = If(Nota.Evaluacion1 < 0, DBNull.Value, Nota.Evaluacion1)
+        fila.Item(3) = If(Nota.Evaluacion2 < 0, DBNull.Value, Nota.Evaluacion2)
+        fila.Item(4) = If(Nota.Evaluacion3 < 0, DBNull.Value, Nota.Evaluacion3)
+        fila.Item(5) = If(Nota.NotaFinal < 0, DBNull.Value, Nota.NotaFinal)
         DatosConjunto.Tables(0).Rows.Add(fila)
 
-        Comando.ExecuteNonQuery()
-
+        ActualizarBD()
         ActualizarListado(ListView)
 
     End Sub
 
-    Public Sub Eliminar(Nota As ModuloNota.Nota, Listview As Windows.Forms.ListView)
+    Public Sub Eliminar(Asignatura As Integer, Alumno As Integer, Listview As Windows.Forms.ListView)
         Dim Query As String = "DELETE FROM Cursa WHERE Asignatura=@Asi AND Alumno=@Alum;"
         Dim Comando As New SQLiteCommand(Query, ConectarBD())
         AdaptadorDatos.DeleteCommand = Comando
+        Comando.Parameters.AddWithValue("@Asi", Asignatura)
+        Comando.Parameters.AddWithValue("@Alum", Alumno)
 
-        Comando.Parameters.AddWithValue("@Asi", Nota.Asignatura)
-        Comando.Parameters.AddWithValue("@Alum", Nota.Alumno)
-        DatosConjunto.Tables(0).Rows(0).Delete()
-
-        Comando.ExecuteNonQuery()
+        For Each fila As DataRow In DatosConjunto.Tables(0).Rows
+            If fila.RowState <> DataRowState.Deleted Then
+                If fila("Asignatura").ToString() = Asignatura.ToString() AndAlso fila("Alumno").ToString() = Alumno.ToString() Then
+                    fila.Delete() ' Eliminar la fila
+                    Exit For ' Salir del bucle una vez que se ha eliminado la fila
+                End If
+            End If
+        Next
+        ActualizarBD()
         ActualizarListado(Listview)
     End Sub
 
@@ -146,38 +143,44 @@ Module NotaADO
         Dim Comando = New SQLiteCommand(Query, ConectarBD)
         AdaptadorDatos.UpdateCommand = Comando
 
-        If (Nota.Evaluacion1 < 0) Then
-            Comando.Parameters.AddWithValue("@Ev1", DBNull.Value)
-        Else
-            Comando.Parameters.AddWithValue("@Ev1", Nota.Evaluacion1)
-        End If
-        If (Nota.Evaluacion2 < 0) Then
-            Comando.Parameters.AddWithValue("@Ev2", DBNull.Value)
-        Else
-            Comando.Parameters.AddWithValue("@Ev2", Nota.Evaluacion2)
-        End If
-        If (Nota.Evaluacion3 < 0) Then
-            Comando.Parameters.AddWithValue("@Ev3", DBNull.Value)
-        Else
-            Comando.Parameters.AddWithValue("@Ev3", Nota.Evaluacion3)
-        End If
-        If (Nota.NotaFinal < 0) Then
-            Comando.Parameters.AddWithValue("@Fin", DBNull.Value)
-        Else
-            Comando.Parameters.AddWithValue("@Fin", Nota.NotaFinal)
-        End If
+        ' Agregar parámetros al comando
+        Comando.Parameters.AddWithValue("@Ev1", If(Nota.Evaluacion1 < 0, DBNull.Value, Nota.Evaluacion1))
+        Comando.Parameters.AddWithValue("@Ev2", If(Nota.Evaluacion2 < 0, DBNull.Value, Nota.Evaluacion2))
+        Comando.Parameters.AddWithValue("@Ev3", If(Nota.Evaluacion3 < 0, DBNull.Value, Nota.Evaluacion3))
+        Comando.Parameters.AddWithValue("@Fin", If(Nota.NotaFinal < 0, DBNull.Value, Nota.NotaFinal))
         Comando.Parameters.AddWithValue("@Asig", Nota.Asignatura)
         Comando.Parameters.AddWithValue("@Alu", Nota.Alumno)
-        DatosConjunto.Tables(0).Rows(0).BeginEdit()
-        DatosConjunto.Tables(0).Rows(0).Item(1) = Nota.Evaluacion1
-        DatosConjunto.Tables(0).Rows(0).Item(2) = Nota.Evaluacion2
-        DatosConjunto.Tables(0).Rows(0).Item(3) = Nota.Evaluacion3
-        DatosConjunto.Tables(0).Rows(0).Item(4) = Nota.NotaFinal
-        DatosConjunto.Tables(0).Rows(0).EndEdit()
 
-        Comando.ExecuteNonQuery()
-
+        ' Actualizar el DataSet
+        For Each fila As DataRow In DatosConjunto.Tables(0).Rows
+            If fila("Asignatura").ToString() = Nota.Asignatura.ToString() AndAlso fila("Alumno").ToString() = Nota.Alumno.ToString() Then
+                fila.BeginEdit()
+                fila("Nota1") = If(Nota.Evaluacion1 < 0, DBNull.Value, Nota.Evaluacion1)
+                fila("Nota2") = If(Nota.Evaluacion2 < 0, DBNull.Value, Nota.Evaluacion2)
+                fila("Nota3") = If(Nota.Evaluacion3 < 0, DBNull.Value, Nota.Evaluacion3)
+                fila("NotaFinal") = If(Nota.NotaFinal < 0, DBNull.Value, Nota.NotaFinal)
+                fila.EndEdit()
+                Exit For
+            End If
+        Next
+        ActualizarBD()
         ActualizarListado(ListView)
     End Sub
 
+    Public Sub ActualizarBD()
+        Try
+            If DatosConjunto.HasChanges() Then
+                Dim DatosCambios As DataSet = DatosConjunto.GetChanges()
+                If DatosConjunto.HasErrors() Then
+                    DatosConjunto.RejectChanges()
+                Else
+                    AdaptadorDatos.Update(DatosCambios, "Cursa")
+                    DatosConjunto.AcceptChanges()
+                    RellenarDatosConjunto()
+                End If
+            End If
+        Catch ex As Exception
+            MsgBox("ERROR FATAL, CAMBIOS NO GUARDADOS")
+        End Try
+    End Sub
 End Module

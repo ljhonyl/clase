@@ -17,10 +17,12 @@ Public Class GestionProfesores
         ListViewProfesores.Columns.Add("Departamento", 215, HorizontalAlignment.Center)
         SetOpcionListado()
 
+        ProfesorADO.RellenarDatosConjunto()
         ProfesorADO.ActualizarListado(ListViewProfesores)
     End Sub
 
     Private Sub GestionProfesores_Closing(sender As Object, e As CancelEventArgs) Handles MyBase.Closing
+        ProfesorADO.ActualizarBD()
         Application.Exit()
     End Sub
 
@@ -266,8 +268,17 @@ Public Class GestionProfesores
         Dim Result As MsgBoxResult = MsgBox("¿Desea volver al menú principal?", MsgBoxStyle.OkCancel Or MsgBoxStyle.Question, "Confirmar")
 
         If Result = MsgBoxResult.Ok Then
+            ProfesorADO.ActualizarBD()
             Me.Hide()
             Menu.Show()
+        End If
+    End Sub
+
+    Private Sub GestionProfesores_VisibleChanged(sender As Object, e As EventArgs) Handles Me.VisibleChanged
+        If Me.Visible Then
+            ' Cargar datos nuevamente al hacer el formulario visible
+            ProfesorADO.RellenarDatosConjunto()
+            ProfesorADO.ActualizarListado(ListViewProfesores)
         End If
     End Sub
 End Class

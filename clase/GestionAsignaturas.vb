@@ -17,10 +17,12 @@ Public Class GestionAsignaturas
         ListViewAsignaturas.Columns.Add("Profesor", 100, HorizontalAlignment.Center)
         SetOpcionListado()
 
+        AsignaturaADO.RellenarDatosConjunto()
         AsignaturaADO.ActualizarListado(ListViewAsignaturas)
     End Sub
 
     Private Sub GestionAsignaturas_Closing(sender As Object, e As CancelEventArgs) Handles MyBase.Closing
+        AsignaturaADO.ActualizarBD()
         Application.Exit()
     End Sub
 
@@ -267,8 +269,17 @@ Public Class GestionAsignaturas
         Dim Result As MsgBoxResult = MsgBox("¿Desea volver al menú principal?", MsgBoxStyle.OkCancel Or MsgBoxStyle.Question, "Confirmar")
 
         If Result = MsgBoxResult.Ok Then
+            AsignaturaADO.ActualizarBD()
             Me.Hide()
             Menu.Show()
+        End If
+    End Sub
+
+    Private Sub GestionAsignaturas_VisibleChanged(sender As Object, e As EventArgs) Handles Me.VisibleChanged
+        If Me.Visible Then
+            ' Cargar datos nuevamente al hacer el formulario visible
+            AsignaturaADO.RellenarDatosConjunto()
+            AsignaturaADO.ActualizarListado(ListViewAsignaturas)
         End If
     End Sub
 End Class

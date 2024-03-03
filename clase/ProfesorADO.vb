@@ -6,7 +6,7 @@ Module ProfesorADO
     Private DatosConjunto As DataSet
     Private Fila As DataRow
 
-    Private Function ConectarBD() As SQLiteConnection
+    public Function ConectarBD() As SQLiteConnection
         Dim Conn As New SQLiteConnection("Provider=SQLite;Data Source=Clase.db;Version=3")
         Try
             Conn.Open()
@@ -16,7 +16,7 @@ Module ProfesorADO
         Return Conn
     End Function
 
-    Private Sub RellenarDatosConjunto()
+    Public Sub RellenarDatosConjunto()
         Dim Query As String = "Select * From Profesores"
         Dim Conexion = ConectarBD()
         AdaptadorDatos = New SQLiteDataAdapter(Query, Conexion)
@@ -26,20 +26,30 @@ Module ProfesorADO
     End Sub
 
     Sub ActualizarListado(ListView As Windows.Forms.ListView)
-        RellenarDatosConjunto()
-        Dim ElementoList As ListViewItem
+        ' Limpiar los elementos existentes en el ListView
         ListView.Items.Clear()
 
-        For pos As Integer = 0 To DatosConjunto.Tables(0).Rows.Count - 1
-            ElementoList = ListView.Items.Add(DatosConjunto.Tables(0).Rows(pos).Item(0))
-            For i As Integer = 1 To 3
-                Dim EsNulo As String = DatosConjunto.Tables(0).Rows(pos).Item(i).ToString()
-                If Not String.IsNullOrEmpty(EsNulo) AndAlso Not String.Equals(EsNulo, "null", StringComparison.OrdinalIgnoreCase) Then
-                    ElementoList.SubItems.Add(DatosConjunto.Tables(0).Rows(pos).Item(i))
-                Else
-                    ElementoList.SubItems.Add("")
-                End If
-            Next
+        ' Recorrer las filas del DataSet y agregarlas al ListView
+        For Each fila As DataRow In DatosConjunto.Tables(0).Rows
+            ' Verificar si la fila está marcada como eliminada
+            If fila.RowState <> DataRowState.Deleted Then
+                Dim ElementoList As New ListViewItem(fila.Item(0).ToString()) ' Agregar el primer elemento de la fila (supongo que es el ID)
+
+                ' Agregar los subelementos a la fila del ListView
+
+
+                For i As Integer = 1 To 3
+                    Dim valor As String = fila.Item(i).ToString()
+                    If Not String.IsNullOrEmpty(valor) AndAlso Not String.Equals(valor, "null", StringComparison.OrdinalIgnoreCase) Then
+                        ElementoList.SubItems.Add(valor)
+                    Else
+                        ElementoList.SubItems.Add("")
+                    End If
+                Next
+
+                ' Agregar la fila al ListView
+                ListView.Items.Add(ElementoList)
+            End If
         Next
     End Sub
 
@@ -47,7 +57,6 @@ Module ProfesorADO
         Dim Query As String = "INSERT INTO Profesores (Nombre, Apellidos, Departamento) VALUES (@Nom, @Ape, @Dep);"
         Dim Comando As New SQLiteCommand(Query, ConectarBD())
         AdaptadorDatos.InsertCommand = Comando
-
         Comando.Parameters.AddWithValue("@Nom", Profesor.Nombre)
         Comando.Parameters.AddWithValue("@Ape", Profesor.Apellidos)
         Comando.Parameters.AddWithValue("@Dep", Profesor.Departamento)
@@ -57,22 +66,25 @@ Module ProfesorADO
         Fila.Item(2) = Profesor.Apellidos
         Fila.Item(3) = Profesor.Departamento
         DatosConjunto.Tables(0).Rows.Add(Fila)
-
-        Comando.ExecuteNonQuery()
-
+        ActualizarBD()
         ActualizarListado(ListView)
-
     End Sub
 
     Public Sub Eliminar(Id As Integer, Listview As Windows.Forms.ListView)
         Dim Query As String = "DELETE FROM Profesores WHERE Id=@Id;"
         Dim Comando As New SQLiteCommand(Query, ConectarBD())
         AdaptadorDatos.DeleteCommand = Comando
-
         Comando.Parameters.AddWithValue("@Id", Id)
-        DatosConjunto.Tables(0).Rows(0).Delete()
 
-        Comando.ExecuteNonQuery()
+        For Each fila As DataRow In DatosConjunto.Tables("Profesores").Rows
+            If fila.RowState <> DataRowState.Deleted Then
+                If fila("Id").ToString() = Id Then
+                    fila.Delete() ' Eliminar la fila del DataSet
+                    Exit For ' Salir del bucle una vez que se ha eliminado la fila
+                End If
+            End If
+        Next
+        ActualizarBD()
         ActualizarListado(Listview)
     End Sub
 
@@ -80,20 +92,39 @@ Module ProfesorADO
         Dim Query As String = "UPDATE Profesores SET Nombre=@Nom, Apellidos=@Ape, Departamento=@Dep WHERE Id=@Id;"
         Dim Comando = New SQLiteCommand(Query, ConectarBD)
         AdaptadorDatos.UpdateCommand = Comando
-
-
         Comando.Parameters.AddWithValue("@Nom", Profesor.Nombre)
         Comando.Parameters.AddWithValue("@Ape", Profesor.Apellidos)
         Comando.Parameters.AddWithValue("@Dep", Profesor.Departamento)
         Comando.Parameters.AddWithValue("@Id", Id)
-        DatosConjunto.Tables(0).Rows(0).BeginEdit()
-        DatosConjunto.Tables(0).Rows(0).Item(1) = Profesor.Nombre
-        DatosConjunto.Tables(0).Rows(0).Item(2) = Profesor.Apellidos
-        DatosConjunto.Tables(0).Rows(0).Item(3) = Profesor.Departamento
-        DatosConjunto.Tables(0).Rows(0).EndEdit()
 
-        Comando.ExecuteNonQuery()
-
+        For Each fila As DataRow In DatosConjunto.Tables("Profesores").Rows
+            If fila.RowState <> DataRowState.Deleted Then
+                If fila("Id").ToString() = Id Then
+                    fila("Nombre") = Profesor.Nombre
+                    fila("Apellidos") = Profesor.Apellidos
+                    fila("Departamento") = Profesor.Departamento
+                    Exit For
+                End If
+            End If
+        Next
+        ActualizarBD()
         ActualizarListado(ListView)
+    End Sub
+
+    Public Sub ActualizarBD()
+        Try
+            If DatosConjunto.HasChanges() Then
+                Dim DatosCambios As DataSet = DatosConjunto.GetChanges()
+                If DatosConjunto.HasErrors() Then
+                    DatosConjunto.RejectChanges()
+                Else
+                    AdaptadorDatos.Update(DatosCambios, "Profesores")
+                    DatosConjunto.AcceptChanges()
+                    RellenarDatosConjunto()
+                End If
+            End If
+        Catch ex As Exception
+            MsgBox("ERROR FATAL, CAMBIOS NO GUARDADOS")
+        End Try
     End Sub
 End Module

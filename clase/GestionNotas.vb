@@ -14,6 +14,7 @@ Public Class GestionNotas
         ListViewNotas.Columns.Add("Nota Final", 95, HorizontalAlignment.Center)
         SetOpcionListado()
 
+        NotaADO.RellenarDatosConjunto()
         NotaADO.ActualizarListado(ListViewNotas)
         NotaADO.CargarComboBox(CmbAsignaturas, "Asignaturas")
         NotaADO.CargarComboBox(CmbAlumnos, "Alumnos")
@@ -21,6 +22,7 @@ Public Class GestionNotas
     End Sub
 
     Private Sub GestionNotas_Closing(sender As Object, e As CancelEventArgs) Handles MyBase.Closing
+        NotaADO.ActualizarBD()
         Application.Exit()
     End Sub
 
@@ -278,13 +280,15 @@ Public Class GestionNotas
             MsgBox("El campo asignatura no puede estar vacío")
         Else
             Try
-                Dim Nota = CrearNota()
-                If Opcion = 1 Then
-                    Insertar(Nota)
-                ElseIf Opcion = 2 Then
-                    modificar(Nota)
-                ElseIf Opcion = 3 Then
-                    Eliminar(Nota)
+                If Opcion = 3 Then
+                    Eliminar(CmbAsignaturas.Text.ToString, CmbAlumnos.Text.ToString)
+                Else
+                    Dim Nota = CrearNota()
+                    If Opcion = 1 Then
+                        Insertar(Nota)
+                    ElseIf Opcion = 2 Then
+                        modificar(Nota)
+                    End If
                 End If
             Catch ex As Exception
                 MsgBox("Formato de notas incorrecto")
@@ -369,11 +373,11 @@ Public Class GestionNotas
     ''' Llama a la base de datos para eliminar
     ''' </summary>
     ''' <param name="Nota"></param>
-    Private Sub Eliminar(Nota As ModuloNota.Nota)
+    Private Sub Eliminar(Asignatura As Integer, Alumno As Integer)
         Dim Result As MsgBoxResult = MsgBox("¿Desea eliminar la nota? Esta accion no se puede deshacer", MsgBoxStyle.OkCancel Or MsgBoxStyle.Question, "Confirmar")
 
         If Result = MsgBoxResult.Ok Then
-            NotaADO.Eliminar(Nota, ListViewNotas)
+            NotaADO.Eliminar(Asignatura, Alumno, ListViewNotas)
             MsgBox("Nota eliminada correctamente", MsgBoxStyle.OkOnly, "Aviso")
             ManejarTextBox(True, True, True)
         End If
@@ -425,6 +429,7 @@ Public Class GestionNotas
         Dim Result As MsgBoxResult = MsgBox("¿Desea volver al menú principal?", MsgBoxStyle.OkCancel Or MsgBoxStyle.Question, "Confirmar")
 
         If Result = MsgBoxResult.Ok Then
+            NotaADO.ActualizarBD()
             Me.Hide()
             Menu.Show()
         End If

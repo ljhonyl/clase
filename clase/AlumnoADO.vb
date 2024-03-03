@@ -2,8 +2,8 @@
 
 Module AlumnoADO
     Dim Url As String = "C:Users\diurno\Clase.db"
-    Public AdaptadorDatosAlum As SQLiteDataAdapter
-    Public DatosConjuntoAlum As DataSet
+    Public AdaptadorDatos As SQLiteDataAdapter
+    Public DatosConjunto As DataSet
     Public fila As DataRow
 
     Private Function ConectarBD() As SQLiteConnection
@@ -16,38 +16,52 @@ Module AlumnoADO
         Return Conn
     End Function
 
-    Private Sub RellenarDatosConjuntoAlumnos()
+    Public Sub RellenarDatosConjunto()
         Dim Query As String = "Select * From Alumnos"
         Dim Conexion = ConectarBD()
-        AdaptadorDatosAlum = New SQLiteDataAdapter(Query, Conexion)
-        DatosConjuntoAlum = New DataSet
-        AdaptadorDatosAlum.Fill(DatosConjuntoAlum, "Alumnos")
+        AdaptadorDatos = New SQLiteDataAdapter(Query, Conexion)
+        DatosConjunto = New DataSet
+        AdaptadorDatos.Fill(DatosConjunto, "Alumnos")
+        'ConfigurarAdaptador()
         Conexion.Close()
     End Sub
 
     Sub ActualizarListado(ListView As Windows.Forms.ListView)
-        RellenarDatosConjuntoAlumnos()
-        Dim ElementoList As ListViewItem
+        ' Limpiar los elementos existentes en el ListView
         ListView.Items.Clear()
 
-        For pos As Integer = 0 To DatosConjuntoAlum.Tables(0).Rows.Count - 1
-            ElementoList = ListView.Items.Add(DatosConjuntoAlum.Tables(0).Rows(pos).Item(0))
-            For i As Integer = 1 To 8
-                Dim EsNulo As String = DatosConjuntoAlum.Tables(0).Rows(pos).Item(i).ToString()
-                If Not String.IsNullOrEmpty(EsNulo) AndAlso Not String.Equals(EsNulo, "null", StringComparison.OrdinalIgnoreCase) Then
-                    ElementoList.SubItems.Add(DatosConjuntoAlum.Tables(0).Rows(pos).Item(i))
-                Else
-                    ElementoList.SubItems.Add("")
-                End If
-            Next
+        ' Recorrer las filas del DataSet y agregarlas al ListView
+        For Each fila As DataRow In DatosConjunto.Tables(0).Rows
+            ' Verificar si la fila está marcada como eliminada
+            If fila.RowState <> DataRowState.Deleted Then
+                Dim ElementoList As New ListViewItem(fila.Item(0).ToString()) ' Agregar el primer elemento de la fila (supongo que es el ID)
+
+                ' Agregar los subelementos a la fila del ListView
+
+
+                For i As Integer = 1 To 8
+                    Dim valor As String = fila.Item(i).ToString()
+                    If IsDate(valor) Then
+                        Dim fecha As Date = Convert.ToDateTime(valor)
+                        valor = fecha.ToString("dd/MM/yyyy")
+                    End If
+                    If Not String.IsNullOrEmpty(valor) AndAlso Not String.Equals(valor, "null", StringComparison.OrdinalIgnoreCase) Then
+                        ElementoList.SubItems.Add(valor)
+                    Else
+                        ElementoList.SubItems.Add("")
+                    End If
+                Next
+
+                ' Agregar la fila al ListView
+                ListView.Items.Add(ElementoList)
+            End If
         Next
     End Sub
 
     Sub Insertar(Alumno As Alumno, ListView As Windows.Forms.ListView)
         Dim Query As String = "insert into Alumnos (Nombre, Apellidos, Direccion, Localidad,Movil,Email,FechaNacimiento,Nacionalidad) values (@Nom, @Ape, @Dir, @Loc, @Mov, @Ema, @Fec, @Nac);"
         Dim Comando As New SQLiteCommand(Query, ConectarBD())
-        AdaptadorDatosAlum.InsertCommand = Comando
-
+        AdaptadorDatos.InsertCommand = Comando
         Comando.Parameters.AddWithValue("@Nom", Alumno.Nombre)
         Comando.Parameters.AddWithValue("@Ape", Alumno.Apellidos)
         Comando.Parameters.AddWithValue("@Dir", Alumno.Direccion)
@@ -57,7 +71,7 @@ Module AlumnoADO
         Comando.Parameters.AddWithValue("@Fec", Alumno.FechaNacimiento)
         Comando.Parameters.AddWithValue("@Nac", Alumno.Nacionalidad)
 
-        fila = DatosConjuntoAlum.Tables(0).NewRow
+        fila = DatosConjunto.Tables(0).NewRow
         fila.Item(1) = Alumno.Nombre
         fila.Item(2) = Alumno.Apellidos
         fila.Item(3) = Alumno.Direccion
@@ -66,32 +80,34 @@ Module AlumnoADO
         fila.Item(6) = Alumno.Email
         fila.Item(7) = Alumno.FechaNacimiento
         fila.Item(8) = Alumno.Nacionalidad
-        DatosConjuntoAlum.Tables(0).Rows.Add(fila)
+        DatosConjunto.Tables(0).Rows.Add(fila)
 
-        Comando.ExecuteNonQuery()
-
+        ActualizarBD()
         ActualizarListado(ListView)
-
     End Sub
 
     Public Sub Eliminar(Id As Integer, Listview As Windows.Forms.ListView)
         Dim Query As String = "delete from Alumnos where id=@id;"
         Dim Comando As New SQLiteCommand(Query, ConectarBD())
-        AdaptadorDatosAlum.DeleteCommand = Comando
-
+        AdaptadorDatos.DeleteCommand = Comando
         Comando.Parameters.AddWithValue("@id", Id)
-        DatosConjuntoAlum.Tables(0).Rows(0).Delete()
 
-        Comando.ExecuteNonQuery()
+        For Each fila As DataRow In DatosConjunto.Tables("Alumnos").Rows
+            If fila.RowState <> DataRowState.Deleted Then
+                If fila("Id").ToString() = Id Then
+                    fila.Delete() ' Eliminar la fila del DataSet
+                    Exit For ' Salir del bucle una vez que se ha eliminado la fila
+                End If
+            End If
+        Next
+        ActualizarBD()
         ActualizarListado(Listview)
     End Sub
 
     Sub Modificar(Id As Integer, Alumno As ModuloAlumno.Alumno, ListView As Windows.Forms.ListView)
         Dim Query As String = "update Alumnos set Nombre=@Nom, Apellidos=@Ape, Direccion=@Dir,  Localidad=@Loc, Movil=@Mov, Email=@Ema, FechaNacimiento=@Fec, Nacionalidad=@Nac where Id=@Id;"
         Dim Comando = New SQLiteCommand(Query, ConectarBD)
-        AdaptadorDatosAlum.UpdateCommand = Comando
-
-
+        AdaptadorDatos.UpdateCommand = Comando
         Comando.Parameters.AddWithValue("@Nom", Alumno.Nombre)
         Comando.Parameters.AddWithValue("@Ape", Alumno.Apellidos)
         Comando.Parameters.AddWithValue("@Dir", Alumno.Direccion)
@@ -101,19 +117,45 @@ Module AlumnoADO
         Comando.Parameters.AddWithValue("@Fec", Alumno.FechaNacimiento)
         Comando.Parameters.AddWithValue("@Nac", Alumno.Nacionalidad)
         Comando.Parameters.AddWithValue("@Id", Id)
-        DatosConjuntoAlum.Tables(0).Rows(0).BeginEdit()
-        DatosConjuntoAlum.Tables(0).Rows(0).Item(1) = Alumno.Nombre
-        DatosConjuntoAlum.Tables(0).Rows(0).Item(2) = Alumno.Apellidos
-        DatosConjuntoAlum.Tables(0).Rows(0).Item(3) = Alumno.Direccion
-        DatosConjuntoAlum.Tables(0).Rows(0).Item(4) = Alumno.Localidad
-        DatosConjuntoAlum.Tables(0).Rows(0).Item(5) = Alumno.Movil
-        DatosConjuntoAlum.Tables(0).Rows(0).Item(6) = Alumno.Email
-        DatosConjuntoAlum.Tables(0).Rows(0).Item(7) = Alumno.FechaNacimiento
-        DatosConjuntoAlum.Tables(0).Rows(0).Item(8) = Alumno.Nacionalidad
-        DatosConjuntoAlum.Tables(0).Rows(0).EndEdit()
 
-        Comando.ExecuteNonQuery()
+        For Each fila As DataRow In DatosConjunto.Tables("Alumnos").Rows
+            ' Verificar si la fila no está marcada como eliminada y si coincide con el Id del alumno que deseas editar
+            If fila.RowState <> DataRowState.Deleted Then
+                If fila("Id").ToString() = Id Then
+                    ' Actualizar los valores de la fila con los nuevos datos del alumno
+                    fila("Nombre") = Alumno.Nombre
+                    fila("Apellidos") = Alumno.Apellidos
+                    fila("Direccion") = Alumno.Direccion
+                    fila("Localidad") = Alumno.Localidad
+                    fila("Movil") = Alumno.Movil
+                    fila("Email") = Alumno.Email
+                    fila("FechaNacimiento") = Alumno.FechaNacimiento
+                    fila("Nacionalidad") = Alumno.Nacionalidad
 
+                    ' Salir del bucle una vez que se ha encontrado y editado la fila
+                    Exit For
+                End If
+            End If
+        Next
+        ActualizarBD()
         ActualizarListado(ListView)
     End Sub
+
+    Public Sub ActualizarBD()
+        Try
+            If DatosConjunto.HasChanges() Then
+                Dim DatosCambios As DataSet = DatosConjunto.GetChanges()
+                If DatosConjunto.HasErrors() Then
+                    DatosConjunto.RejectChanges()
+                Else
+                    AdaptadorDatos.Update(DatosCambios, "Alumnos")
+                    DatosConjunto.AcceptChanges()
+                    RellenarDatosConjunto()
+                End If
+            End If
+        Catch ex As Exception
+            MsgBox("ERROR FATAL, CAMBIOS NO GUARDADOS")
+        End Try
+    End Sub
+
 End Module

@@ -57,6 +57,7 @@ Partial Class GestionAlumnos
         LblDatos = New Label()
         LblImagen1 = New Label()
         LblImagen2 = New Label()
+        MenúToolStripMenuItem = New ToolStripMenuItem()
         MenuStrip1.SuspendLayout()
         SuspendLayout()
         ' 
@@ -189,7 +190,7 @@ Partial Class GestionAlumnos
         ' 
         ' MenuStrip1
         ' 
-        MenuStrip1.Items.AddRange(New ToolStripItem() {ListadoToolStripMenuItem, InsertarToolStripMenuItem, EditarToolStripMenuItem, EliminarToolStripMenuItem})
+        MenuStrip1.Items.AddRange(New ToolStripItem() {ListadoToolStripMenuItem, InsertarToolStripMenuItem, EditarToolStripMenuItem, EliminarToolStripMenuItem, MenúToolStripMenuItem})
         MenuStrip1.Location = New Point(0, 0)
         MenuStrip1.Name = "MenuStrip1"
         MenuStrip1.Size = New Size(734, 24)
@@ -323,7 +324,7 @@ Partial Class GestionAlumnos
         ' 
         ' LblTitulo
         ' 
-        LblTitulo.Font = New Font("Segoe UI", 20.0F, FontStyle.Bold Or FontStyle.Italic, GraphicsUnit.Point)
+        LblTitulo.Font = New Font("Segoe UI", 20F, FontStyle.Bold Or FontStyle.Italic, GraphicsUnit.Point)
         LblTitulo.Location = New Point(273, 57)
         LblTitulo.Name = "LblTitulo"
         LblTitulo.Size = New Size(175, 49)
@@ -334,7 +335,7 @@ Partial Class GestionAlumnos
         ' 
         LblDatos.AutoSize = True
         LblDatos.BackColor = SystemColors.ScrollBar
-        LblDatos.Font = New Font("Segoe UI", 13.0F, FontStyle.Bold Or FontStyle.Italic, GraphicsUnit.Point)
+        LblDatos.Font = New Font("Segoe UI", 13F, FontStyle.Bold Or FontStyle.Italic, GraphicsUnit.Point)
         LblDatos.Location = New Point(72, 175)
         LblDatos.Name = "LblDatos"
         LblDatos.Size = New Size(157, 25)
@@ -358,9 +359,15 @@ Partial Class GestionAlumnos
         LblImagen2.Size = New Size(216, 222)
         LblImagen2.TabIndex = 30
         ' 
+        ' MenúToolStripMenuItem
+        ' 
+        MenúToolStripMenuItem.Name = "MenúToolStripMenuItem"
+        MenúToolStripMenuItem.Size = New Size(50, 20)
+        MenúToolStripMenuItem.Text = "Menú"
+        ' 
         ' GestionAlumnos
         ' 
-        AutoScaleDimensions = New SizeF(7.0F, 15.0F)
+        AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         ClientSize = New Size(734, 819)
         Controls.Add(LblImagen2)
@@ -439,4 +446,5 @@ Partial Class GestionAlumnos
     Friend WithEvents LblDatos As Label
     Friend WithEvents LblImagen1 As Label
     Friend WithEvents LblImagen2 As Label
+    Friend WithEvents MenúToolStripMenuItem As ToolStripMenuItem
 End Class

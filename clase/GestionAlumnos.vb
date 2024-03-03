@@ -15,11 +15,13 @@ Public Class GestionAlumnos
         ListViewAlumnos.Columns.Add("Nombre", 130, HorizontalAlignment.Center)
         ListViewAlumnos.Columns.Add("Apellidos", 220, HorizontalAlignment.Center)
         ListViewAlumnos.Columns.Add("Dirección", 220, HorizontalAlignment.Center)
-        ListViewAlumnos.Columns.Add("Locaidad", 120)
-        ListViewAlumnos.Columns.Add("Movil", 100)
-        ListViewAlumnos.Columns.Add("Email", 220)
-        ListViewAlumnos.Columns.Add("Fecha Nacimiento", 130)
-        ListViewAlumnos.Columns.Add("Nacionalidad", 130)
+        ListViewAlumnos.Columns.Add("Localidad", 120, HorizontalAlignment.Center)
+        ListViewAlumnos.Columns.Add("Movil", 100, HorizontalAlignment.Center)
+        ListViewAlumnos.Columns.Add("Email", 220, HorizontalAlignment.Center)
+        ListViewAlumnos.Columns.Add("Fecha Nacimiento", 130, HorizontalAlignment.Center)
+        ListViewAlumnos.Columns.Add("Nacionalidad", 130, HorizontalAlignment.Center)
+
+        AlumnoADO.RellenarDatosConjunto()
         AlumnoADO.ActualizarListado(ListViewAlumnos)
     End Sub
 
@@ -279,6 +281,7 @@ Public Class GestionAlumnos
     End Sub
 
     Private Sub GestionAlumnos_Closing(sender As Object, e As CancelEventArgs) Handles MyBase.Closing
+        AlumnoADO.ActualizarBD()
         Application.Exit()
     End Sub
 
@@ -322,7 +325,7 @@ Public Class GestionAlumnos
 
             MsgBox("Alumno modificado correctamente", MsgBoxStyle.OkOnly, "Aviso")
         Else
-            MsgBox("No ha seleccionado un alumno")
+            MsgBox("No se puede modificar un alumno sin Id")
         End If
 
     End Sub
@@ -358,4 +361,22 @@ Public Class GestionAlumnos
 
         Return Alumno
     End Function
+
+    Private Sub MenúToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles MenúToolStripMenuItem.Click
+        Dim Result As MsgBoxResult = MsgBox("¿Desea volver al menú principal?", MsgBoxStyle.OkCancel Or MsgBoxStyle.Question, "Confirmar")
+
+        If Result = MsgBoxResult.Ok Then
+            AlumnoADO.ActualizarBD()
+            Me.Hide()
+            Menu.Show()
+        End If
+    End Sub
+
+    Private Sub GestionAlumnos_VisibleChanged(sender As Object, e As EventArgs) Handles Me.VisibleChanged
+        If Me.Visible Then
+            ' Cargar datos nuevamente al hacer el formulario visible
+            AlumnoADO.RellenarDatosConjunto()
+            AlumnoADO.ActualizarListado(ListViewAlumnos)
+        End If
+    End Sub
 End Class
